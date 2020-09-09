@@ -1,9 +1,5 @@
-grant all on *.* to 'root'@'%' identified by 'password' with grant option;
-flush privileges;
-create database if not exists forgottenserver;
-create user 'tfsUser'@'%' identified by 'password';
-grant all privileges on forgottenserver.* to 'tfsUser'@'%';
-FLUSH PRIVILEGES;
+create user 'tfsUser'@'localhost' identified by 'password';
+grant all privileges on forgottenserver . * to 'tfsUser'@'localhost';
 
 CREATE TABLE IF NOT EXISTS `accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
