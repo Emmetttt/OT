@@ -344,6 +344,27 @@ CREATE TABLE IF NOT EXISTS `towns` (
 
 INSERT INTO `server_config` (`config`, `value`) VALUES ('db_version', '24'), ('motd_hash', ''), ('motd_num', '0'), ('players_record', '0');
 
+insert into accounts
+values
+(1, 'test', SHA1('test'), 'test', 1, 100, 14, 'test@test.com', 100);
+
+insert into accounts
+values
+(2, 'test2', SHA1('test2'), 'test2', 1, 100, 14, 'test@test.com', 100);
+
+insert into players
+(id, name, account_id, `level`, vocation, health, healthmax, conditions )
+values
+(1, 'emmett', 1, 999, 0, 9999, 9999, '');
+
+insert into players
+(id, name, account_id, `level`, vocation, health, healthmax, conditions )
+values
+(2, 'sean', 2, 999, 0, 9999, 9999, '');
+
+update players
+set group_id = 3;
+
 DROP TRIGGER IF EXISTS `ondelete_players`;
 DROP TRIGGER IF EXISTS `oncreate_guilds`;
 
