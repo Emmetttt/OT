@@ -615,6 +615,7 @@
 
 	<!-- Monks -->
 	<monster name="Dark Monk" file="Monks/dark_monk.xml" />
+	<monster name="Trainer" file="Monks/trainer.xml" />
 	<monster name="Monk" file="Monks/monk.xml" />
 
 	<!-- Mutated -->
