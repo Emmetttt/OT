@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `posz` int(11) NOT NULL DEFAULT '0',
   `conditions` blob NOT NULL,
   `cap` int(11) NOT NULL DEFAULT '400',
-  `sex` int(11) NOT NULL DEFAULT '0',
+  `sex` int(11) NOT NULL DEFAULT '1',
   `lastlogin` bigint(20) unsigned NOT NULL DEFAULT '0',
   `lastip` int(10) unsigned NOT NULL DEFAULT '0',
   `save` tinyint(1) NOT NULL DEFAULT '1',
@@ -344,26 +344,101 @@ CREATE TABLE IF NOT EXISTS `towns` (
 
 INSERT INTO `server_config` (`config`, `value`) VALUES ('db_version', '24'), ('motd_hash', ''), ('motd_num', '0'), ('players_record', '0');
 
+-- CREATE ACCOUNTS
 insert into accounts
 values
-(1, 'test', SHA1('test'), 'test', 1, 100, 14, 'test@test.com', 100);
-
-insert into accounts
-values
-(2, 'test2', SHA1('test2'), 'test2', 1, 100, 14, 'test@test.com', 100);
-
-insert into players
-(id, name, account_id, `level`, vocation, health, healthmax, conditions )
-values
-(1, 'emmett', 1, 999, 0, 9999, 9999, '');
+(1, 'test', SHA1('test'), 'test', 5, 100, 14, 'test@test.com', 100),
+(2, 'test2', SHA1('test2'), 'test2', 5, 100, 14, 'test@test.com', 100),
+(3, '1', SHA1('1'), '1', 1, 100, 14, 'test@test.com', 100),
+(4, '2', SHA1('2'), '2', 1, 100, 14, 'test@test.com', 100);
 
 insert into players
-(id, name, account_id, `level`, vocation, health, healthmax, conditions )
+(id, name, group_id, account_id, `level`, vocation, health, healthmax, mana, manamax, conditions, cap, maglevel, skill_sword, skill_shielding, lookbody, lookfeet, lookhead, looklegs, looktype, lookaddons)
 values
-(2, 'sean', 2, 999, 0, 9999, 9999, '');
+(1, 'emmett', 3, 1, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
+(2, 'sean', 3, 2, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
+(3, 'Knight', 1, 3, 200, 8, 3065, 3065, 1050, 1050, '', 9999, 9, 110, 110, 79, 79, 79, 79, 268, 3),
+(4, 'Sorcerer', 1, 4, 200, 5, 1145, 1145, 5850, 5850, '', 9999, 90, 10, 10, 94, 94, 94, 94, 145, 3);
 
-update players
-set group_id = 3;
+insert into player_items
+values
+-- GOD
+(1, 1, 101, 2471, 1, ''),
+(1, 3, 102, 1987, 1, ''),
+(1, 4, 103, 2466, 1, ''),
+(1, 6, 104, 2390, 1, ''),
+(1, 7, 105, 2470, 1, ''),
+(1, 8, 106, 2646, 1, ''),
+(1, 11, 107, 26052, 1, ''),
+(1, 102, 108, 2382, 1, ''),
+(1, 102, 109, 2674, 1, ''),
+-- KNIGHT gets golden set
+(3, 1, 101, 2471, 1, ''),
+(3, 3, 102, 1987, 1, ''),
+(3, 4, 103, 2466, 1, ''),
+(3, 6, 104, 2390, 1, ''),
+(3, 7, 105, 2470, 1, ''),
+(3, 8, 106, 2646, 1, ''),
+(3, 11, 107, 26052, 1, ''),
+(3, 102, 108, 8473, 100, ''),
+(3, 102, 109, 7620, 100, ''),
+(3, 102, 110, 2293, 100, ''),
+-- SORCERER gets demon set
+(4, 1, 101, 2493, 1, ''),
+(4, 3, 102, 1987, 1, ''),
+(4, 4, 103, 2494, 1, ''),
+(4, 5, 104, 2520, 1, ''),
+(4, 6, 105, 18409, 1, ''),
+(4, 7, 106, 2495, 1, ''),
+(4, 8, 107, 9932, 1, ''),
+(4, 11, 108, 26052, 1, ''),
+(4, 102, 109, 2293, 100, ''),
+(4, 102, 110, 2268, 100, ''),
+(4, 102, 111, 7590, 100, '');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 DROP TRIGGER IF EXISTS `ondelete_players`;
 DROP TRIGGER IF EXISTS `oncreate_guilds`;

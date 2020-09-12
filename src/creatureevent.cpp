@@ -226,9 +226,6 @@ std::string CreatureEvent::getScriptEventName() const
 {
 	//Depending on the type script event name is different
 	switch (type) {
-		case CREATURE_EVENT_LOGIN:
-			return "onLogin";
-
 		case CREATURE_EVENT_LOGOUT:
 			return "onLogout";
 
