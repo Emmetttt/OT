@@ -3210,7 +3210,7 @@ uint64_t Player::getGainedExperience(Creature* attacker) const
 	if (g_config.getBoolean(ConfigManager::EXPERIENCE_FROM_PLAYERS)) {
 		Player* attackerPlayer = attacker->getPlayer();
 		if (attackerPlayer && attackerPlayer != this && skillLoss && std::abs(static_cast<int32_t>(attackerPlayer->getLevel() - level)) <= g_config.getNumber(ConfigManager::EXP_FROM_PLAYERS_LEVEL_RANGE)) {
-			return std::max<uint64_t>(0, std::floor(attackedPlayer->getExperience() * getDamageRatio(attacker) * 0.1));
+			return std::max<uint64_t>(0, std::floor(attackerPlayer->getExperience() * getDamageRatio(attacker) * 0.1));
 		}
 	}
 	return 0;
