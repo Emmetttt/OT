@@ -178,9 +178,9 @@ std::string Player::getDescription(int32_t lookDistance) const
 
 	size_t memberCount = guild->getMemberCount();
 	if (memberCount == 1) {
-		s << ", which has 1 member, " << guild->getMembersOnline().size() << " of them online.";
+		s << ", which has 1 member, " << guild->getMembersOnlineCount() << " of them online.";
 	} else {
-		s << ", which has " << memberCount << " members, " << guild->getMembersOnline().size() << " of them online.";
+		s << ", which has " << memberCount << " members, " << guild->getMembersOnlineCount() << " of them online.";
 	}
 	return s.str();
 }
@@ -1163,18 +1163,24 @@ void Player::onRemoveCreature(Creature* creature, bool isLogout)
 			guild->removeMember(this);
 		}
 
-		IOLoginData::updateOnlineStatus(guid, false);
 
-		bool saved = false;
-		for (uint32_t tries = 0; tries < 3; ++tries) {
-			if (IOLoginData::savePlayer(this)) {
-				saved = true;
-				break;
+		// Explicitly do not save default players
+		if (!isDefaultCharacter()){
+			IOLoginData::updateOnlineStatus(guid, false);
+			bool saved = false;
+			for (uint32_t tries = 0; tries < 3; ++tries) {
+				if (IOLoginData::savePlayer(this)) {
+					saved = true;
+					break;
+				}
+			}
+
+			if (!saved) {
+				std::cout << "Error while saving player: " << getName() << std::endl;
 			}
 		}
-
-		if (!saved) {
-			std::cout << "Error while saving player: " << getName() << std::endl;
+		else {
+			std::cout << "Not saving player: " << getName() << std::endl; 
 		}
 	}
 }
@@ -4448,7 +4454,7 @@ uint16_t Player::getHelpers() const
 
 		helpers = helperSet.size();
 	} else if (guild) {
-		helpers = guild->getMembersOnline().size();
+		helpers = guild->getMembersOnlineCount();
 	} else if (party) {
 		helpers = party->getMemberCount() + party->getInvitationCount() + 1;
 	} else {

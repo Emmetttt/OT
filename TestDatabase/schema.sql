@@ -344,6 +344,25 @@ CREATE TABLE IF NOT EXISTS `towns` (
 
 INSERT INTO `server_config` (`config`, `value`) VALUES ('db_version', '24'), ('motd_hash', ''), ('motd_num', '0'), ('players_record', '0');
 
+DROP TRIGGER IF EXISTS `ondelete_players`;
+DROP TRIGGER IF EXISTS `oncreate_guilds`;
+
+DELIMITER //
+CREATE TRIGGER `ondelete_players` BEFORE DELETE ON `players`
+ FOR EACH ROW BEGIN
+    UPDATE `houses` SET `owner` = 0 WHERE `owner` = OLD.`id`;
+END
+//
+CREATE TRIGGER `oncreate_guilds` AFTER INSERT ON `guilds`
+ FOR EACH ROW BEGIN
+    INSERT INTO `guild_ranks` (`name`, `level`, `guild_id`) VALUES ('the Leader', 3, NEW.`id`);
+    INSERT INTO `guild_ranks` (`name`, `level`, `guild_id`) VALUES ('a Vice-Leader', 2, NEW.`id`);
+    INSERT INTO `guild_ranks` (`name`, `level`, `guild_id`) VALUES ('a Member', 1, NEW.`id`);
+END
+//
+DELIMITER ;
+
+
 -- CREATE ACCOUNTS
 insert into accounts
 values
@@ -351,16 +370,18 @@ values
 (2, 'test2', SHA1('test2'), 'test2', 5, 100, 14, 'test@test.com', 100),
 (3, '1', SHA1('1'), '1', 1, 100, 14, 'test@test.com', 100);
 
+-- CREATE PLAYERS
 insert into players
 (id, name, group_id, account_id, `level`, vocation, health, healthmax, mana, manamax, conditions, cap, maglevel, skill_sword, skill_shielding, skill_dist, lookbody, lookfeet, lookhead, looklegs, looktype, lookaddons)
 values
 (1, 'emmett', 3, 1, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
 (2, 'sean', 3, 2, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
 (3, 'Knight', 1, 3, 200, 8, 3065, 3065, 1050, 1050, '', 9999, 9, 110, 110, 10, 79, 79, 79, 79, 268, 3),
-(4, 'Sorcerer', 1, 3, 200, 5, 1145, 1145, 5850, 5850, '', 9999, 90, 10, 10, 10, 94, 94, 94, 94, 145, 3),
-(5, 'Druid', 1, 3, 200, 6, 1145, 1145, 5850, 5850, '', 9999, 90, 10, 10, 10, 94, 94, 94, 94, 145, 3),
+(4, 'Sorcerer', 1, 3, 200, 5, 1145, 1145, 5850, 5850, '', 9999, 120, 10, 10, 10, 94, 94, 94, 94, 145, 3),
+(5, 'Druid', 1, 3, 200, 6, 1145, 1145, 5850, 5850, '', 9999, 120, 10, 10, 10, 94, 94, 94, 94, 145, 3),
 (6, 'Paladin', 1, 3, 200, 7, 1145, 1145, 5850, 5850, '', 9999, 30, 10, 10, 130, 94, 94, 94, 94, 145, 3);
 
+-- GIVE PLAYERS EQ
 insert into player_items
 values
 -- GOD
@@ -423,21 +444,13 @@ values
 (6, 102, 109, 2273, 100, ''),
 (6, 102, 110, 2268, 100, '');
 
+-- -- CREATE TWO TEAMS
+insert into guilds
+values
+(1, 'White Team', 1, 0, 'Welcome to WHITE TEAM.'),
+(2, 'Black Team', 2, 0, 'Welcome to BLACK TEAM.');
 
-DROP TRIGGER IF EXISTS `ondelete_players`;
-DROP TRIGGER IF EXISTS `oncreate_guilds`;
-
-DELIMITER //
-CREATE TRIGGER `ondelete_players` BEFORE DELETE ON `players`
- FOR EACH ROW BEGIN
-    UPDATE `houses` SET `owner` = 0 WHERE `owner` = OLD.`id`;
-END
-//
-CREATE TRIGGER `oncreate_guilds` AFTER INSERT ON `guilds`
- FOR EACH ROW BEGIN
-    INSERT INTO `guild_ranks` (`name`, `level`, `guild_id`) VALUES ('the Leader', 3, NEW.`id`);
-    INSERT INTO `guild_ranks` (`name`, `level`, `guild_id`) VALUES ('a Vice-Leader', 2, NEW.`id`);
-    INSERT INTO `guild_ranks` (`name`, `level`, `guild_id`) VALUES ('a Member', 1, NEW.`id`);
-END
-//
-DELIMITER ;
+-- -- PUT THEM IN WAR WITH EACHOTHER
+insert into guild_wars
+values
+(1, 1, 2, 'White Team', 'Black Team', 1, 0, 0);

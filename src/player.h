@@ -36,6 +36,7 @@
 #include "groups.h"
 #include "town.h"
 #include "mounts.h"
+#include "string"
 
 class House;
 class NetworkMessage;
@@ -136,6 +137,13 @@ class Player final : public Creature, public Cylinder
 		const std::string& getName() const override {
 			return name;
 		}
+
+		bool isDefaultCharacter()
+		{
+			return getName().compare("Knight") || getName().compare("Sorcerer") || getName().compare("Druid") || getName().compare("Paladin");
+			// return getAccount() == 1;  
+		}
+
 		void setName(std::string name) {
 			this->name = std::move(name);
 		}

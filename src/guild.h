@@ -50,6 +50,9 @@ class Guild
 		const std::list<Player*>& getMembersOnline() const {
 			return membersOnline;
 		}
+		uint32_t getMembersOnlineCount() const {
+			return membersOnline.size();
+		}
 		uint32_t getMemberCount() const {
 			return memberCount;
 		}

@@ -350,10 +350,6 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 	player->healthMax = result->getNumber<int32_t>("healthmax");
 
 	player->defaultOutfit.lookType = result->getNumber<uint16_t>("looktype");
-	player->defaultOutfit.lookHead = result->getNumber<uint16_t>("lookhead");
-	player->defaultOutfit.lookBody = result->getNumber<uint16_t>("lookbody");
-	player->defaultOutfit.lookLegs = result->getNumber<uint16_t>("looklegs");
-	player->defaultOutfit.lookFeet = result->getNumber<uint16_t>("lookfeet");
 	player->defaultOutfit.lookAddons = result->getNumber<uint16_t>("lookaddons");
 	player->currentOutfit = player->defaultOutfit;
 	player->direction = static_cast<Direction> (result->getNumber<uint16_t>("direction"));
@@ -457,6 +453,50 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 			if ((result = db.storeQuery(query.str()))) {
 				guild->setMemberCount(result->getNumber<uint32_t>("members"));
 			}
+		}
+	}
+	else {
+		uint32_t guildId1 = 1;
+		Guild* guild1 = g_game.getGuild(guildId1);
+		if (!guild1) {
+			guild1 = IOGuild::loadGuild(guildId1);
+			if (guild1) {
+				g_game.addGuild(guild1);
+			} else {
+				std::cout << "[Warning - IOLoginData::loadPlayer] " << player->name << " has Guild ID " << guildId1 << " which doesn't exist" << std::endl;
+			}
+		}
+		
+		uint32_t guildId2 = 2;
+		Guild* guild2 = g_game.getGuild(guildId2);
+		if (!guild2) {
+			guild2 = IOGuild::loadGuild(guildId2);
+			if (guild2) {
+				g_game.addGuild(guild2);
+			} else {
+				std::cout << "[Warning - IOLoginData::loadPlayer] " << player->name << " has Guild ID " << guildId2 << " which doesn't exist" << std::endl;
+			}
+		}
+
+		if (guild1->getMembersOnlineCount() > guild2->getMembersOnlineCount()) {
+			player->guild = guild2;
+			player->guildRank = guild2->getRankByName("a Member");
+			guild2->addMember(player);
+			IOGuild::getWarList(guildId2, player->guildWarVector);
+			player->currentOutfit.lookHead = 114;
+			player->currentOutfit.lookBody = 114;
+			player->currentOutfit.lookLegs = 114;
+			player->currentOutfit.lookFeet = 114;
+		}
+		else {
+			player->guild = guild1;
+			player->guildRank = guild1->getRankByName("a Member");
+			guild1->addMember(player);
+			IOGuild::getWarList(guildId1, player->guildWarVector);
+			player->currentOutfit.lookHead = 0;
+			player->currentOutfit.lookBody = 0;
+			player->currentOutfit.lookLegs = 0;
+			player->currentOutfit.lookFeet = 0;
 		}
 	}
 
