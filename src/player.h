@@ -675,6 +675,12 @@ class Player final : public Creature, public Cylinder
 
 		LightInfo getCreatureLight() const override;
 
+		int32_t getStreak() const {
+			return streak;
+		}
+		void addStreak(){
+			streak++;
+		}
 		Skulls_t getSkull() const override;
 		Skulls_t getSkullClient(const Creature* creature) const override;
 		int64_t getSkullTicks() const { return skullTicks; }
@@ -1257,6 +1263,7 @@ class Player final : public Creature, public Cylinder
 		Town* town = nullptr;
 		Vocation* vocation = nullptr;
 
+		uint32_t streak = 0;
 		uint32_t inventoryWeight = 0;
 		uint32_t capacity = 40000;
 		uint32_t damageImmunities = 0;

@@ -19,9 +19,6 @@ combat:setArea(area)
 local burstarrow = Weapon(WEAPON_AMMO)
 
 burstarrow.onUseWeapon = function(player, variant)
-	if player:getSkull() == SKULL_BLACK then
-		return false
-	end
 
 	return combat:execute(player, variant)
 end

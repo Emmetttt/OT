@@ -56,6 +56,18 @@ class Guild
 		uint32_t getMemberCount() const {
 			return memberCount;
 		}
+		uint32_t getKills() const {
+			return kills;
+		}
+		uint32_t getDeaths() const {
+			return deaths;
+		}
+		void addKill() {
+			kills++;
+		}
+		void addDeath() {
+			deaths++;
+		}
 		void setMemberCount(uint32_t count) {
 			memberCount = count;
 		}
@@ -82,6 +94,8 @@ class Guild
 		std::string motd;
 		uint32_t id;
 		uint32_t memberCount = 0;
+		uint32_t kills = 0;
+		uint32_t deaths = 0;
 };
 
 #endif

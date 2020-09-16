@@ -33,6 +33,7 @@ function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, m
 				end
 			end
 		end
+		-- ALSO drop atleast one good item
 	end
 
 	if not player:getSlotItem(CONST_SLOT_BACKPACK) then

@@ -277,10 +277,6 @@ bool Combat::isProtected(const Player* attacker, const Player* target)
 		return true;
 	}
 
-	if (attacker->getSkull() == SKULL_BLACK && attacker->getSkullClient(target) == SKULL_NONE) {
-		return true;
-	}
-
 	return false;
 }
 
@@ -753,11 +749,6 @@ void Combat::doTargetCombat(Creature* caster, Creature* target, CombatDamage& da
 	if (casterPlayer) {
 		if (damage.primary.value < 0 || damage.secondary.value < 0) {
 			Player* targetPlayer = target ? target->getPlayer() : nullptr;
-			if (targetPlayer && targetPlayer->getSkull() != SKULL_BLACK) {
-				damage.primary.value /= 2;
-				damage.secondary.value /= 2;
-			}
-
 			Combat::checkCriticalHit(casterPlayer, damage);
 			Combat::checkLeech(casterPlayer, damage);
 		}
@@ -886,10 +877,10 @@ void Combat::doAreaCombat(Creature* caster, const Position& position, const Area
 					bool playerCombatReduced = false;
 					if ((damageCopy.primary.value < 0 || damageCopy.secondary.value < 0) && caster) {
 						Player* targetPlayer = creature->getPlayer();
-						if (targetPlayer && caster->getPlayer() && targetPlayer->getSkull() != SKULL_BLACK) {
-							damageCopy.primary.value /= 2;
-							damageCopy.secondary.value /= 2;
-							playerCombatReduced = true;
+						if (targetPlayer && caster->getPlayer()) {
+								damageCopy.primary.value /= 2;
+								damageCopy.secondary.value /= 2;
+								playerCombatReduced = true;
 						}
 					}
 
