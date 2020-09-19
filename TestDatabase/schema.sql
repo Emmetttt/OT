@@ -372,14 +372,14 @@ values
 
 -- CREATE PLAYERS
 insert into players
-(id, name, group_id, account_id, `level`, vocation, health, healthmax, mana, manamax, conditions, cap, maglevel, skill_sword, skill_shielding, skill_dist, lookbody, lookfeet, lookhead, looklegs, looktype, lookaddons)
+(id, name, group_id, account_id, `level`, vocation, health, healthmax, mana, manamax, conditions, cap, maglevel, skill_club, skill_axe, skill_sword, skill_shielding, skill_dist, lookbody, lookfeet, lookhead, looklegs, looktype, lookaddons)
 values
-(1, 'emmett', 3, 1, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
-(2, 'sean', 3, 2, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
-(3, 'Knight', 1, 3, 200, 8, 3065, 3065, 1050, 1050, '', 9999, 9, 110, 110, 10, 79, 79, 79, 79, 268, 3),
-(4, 'Sorcerer', 1, 3, 200, 5, 1145, 1145, 5850, 5850, '', 9999, 120, 10, 10, 10, 94, 94, 94, 94, 145, 3),
-(5, 'Druid', 1, 3, 200, 6, 1145, 1145, 5850, 5850, '', 9999, 120, 10, 10, 10, 94, 94, 94, 94, 145, 3),
-(6, 'Paladin', 1, 3, 200, 7, 1145, 1145, 5850, 5850, '', 9999, 30, 10, 10, 130, 94, 94, 94, 94, 145, 3);
+(1, 'emmett', 3, 1, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
+(2, 'sean', 3, 2, 999, 5, 9999, 9999, 9999, 9999, '', 9999, 999, 999, 999, 999, 999, 999, 87, 87, 39, 0, 75, 3),
+(3, 'Knight', 1, 3, 200, 8, 3065, 3065, 1050, 1050, '', 9999, 9, 110, 110, 110, 110, 10, 79, 79, 79, 79, 268, 3),
+(4, 'Sorcerer', 1, 3, 200, 5, 1145, 1145, 5850, 5850, '', 9999, 120, 10, 10, 10, 10, 10, 94, 94, 94, 94, 145, 3),
+(5, 'Druid', 1, 3, 200, 6, 1145, 1145, 5850, 5850, '', 9999, 120, 10, 10, 10, 10, 10, 94, 94, 94, 94, 145, 3),
+(6, 'Paladin', 1, 3, 200, 7, 1145, 1145, 5850, 5850, '', 9999, 30, 10, 10, 10, 10, 130, 94, 94, 94, 94, 145, 3);
 
 -- GIVE PLAYERS EQ
 insert into player_items
