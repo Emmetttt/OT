@@ -68,6 +68,10 @@ class Guild
 		void addDeath() {
 			deaths++;
 		}
+		void resetStats() {
+			kills = 0;
+			deaths = 0;
+		}
 		void setMemberCount(uint32_t count) {
 			memberCount = count;
 		}

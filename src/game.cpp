@@ -126,6 +126,21 @@ void Game::setGameState(GameState_t newState)
 			loadPlayersRecord();
 
 			g_globalEvents->startup();
+			setGameMode(GAME_MODE_TDM);
+			setGameState(GAME_STATE_GAMEMODE_START); // Start the game mode
+			break;
+		}
+
+		case GAME_STATE_GAMEMODE_START: {
+			initialiseGameMode();
+			setGameState(GAME_STATE_NORMAL);
+			break;
+		}
+
+		case GAME_STATE_GAMEMODE_END: {
+			endGameMode();
+			setGameMode(GAME_MODE_TDM);
+			setGameState(GAME_STATE_GAMEMODE_START);
 			break;
 		}
 
@@ -169,6 +184,63 @@ void Game::setGameState(GameState_t newState)
 
 		default:
 			break;
+	}
+}
+
+void Game::initialiseGameMode(){
+	// Hard coded to white and black team for now
+	setGuildWarStatsToZero(1);
+	setGuildWarStatsToZero(2);
+	// When we have more game modes, switch on GetGameMode
+}
+
+void Game::setGuildWarStatsToZero(uint32_t id){
+	Guild* guild = getGuild(id);
+	if (!guild) {
+		guild = IOGuild::loadGuild(id);
+		if (guild) {
+			g_game.addGuild(guild);
+		} else {
+			std::cout << "Guild ID " << id << " doesn't exist" << std::endl;
+		}
+	}
+	guild->resetStats();
+}
+
+void Game::endGameMode(){
+	// TODO: persist highest kill streak, person with most kills, all on winning team
+	// Mass kill everyone
+	auto it = players.begin();
+	while (it != players.end()) {
+		Player* player = it->second;
+		Guild* guild = player->getGuild();
+		if (guild){
+			std::string result = "You ";
+			if (guild->getKills() > guild->getDeaths()){
+				result += "won";	
+			}
+			else{
+				result += "lost";
+			}
+
+			player->sendChannelMessage(
+				"TDM",
+				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!", 
+				TALKTYPE_CHANNEL_R1,
+				CHANNEL_PRIVATE
+			);
+		}
+		++it;
+	}
+}
+
+void Game::checkGameState(){
+	uint32_t killLimit = g_config.getNumber(ConfigManager::TDM_KILLS_TO_WIN);
+	if (getGuild(1)->getKills() >= killLimit){
+		setGameState(GAME_STATE_GAMEMODE_END);
+	}
+	if (getGuild(2)->getKills() >= killLimit){
+		setGameState(GAME_STATE_GAMEMODE_END);
 	}
 }
 
@@ -3701,6 +3773,7 @@ void Game::checkCreatures(size_t index)
 		}
 	}
 
+	checkGameState();
 	cleanup();
 }
 

@@ -77,6 +77,7 @@ class ConfigManager
 			MYSQL_SOCK,
 			DEFAULT_PRIORITY,
 			MAP_AUTHOR,
+			DEFAULT_GAME_MODE,
 
 			LAST_STRING_CONFIG /* this must be the last one */
 		};
@@ -115,6 +116,7 @@ class ConfigManager
 			MAX_PACKETS_PER_SECOND,
 			SERVER_SAVE_NOTIFY_DURATION,
 			YELL_MINIMUM_LEVEL,
+			TDM_KILLS_TO_WIN,
 
 			LAST_INTEGER_CONFIG /* this must be the last one */
 		};

@@ -61,6 +61,12 @@ enum GameState_t {
 	GAME_STATE_SHUTDOWN,
 	GAME_STATE_CLOSING,
 	GAME_STATE_MAINTAIN,
+	GAME_STATE_GAMEMODE_START,
+	GAME_STATE_GAMEMODE_END,
+};
+
+enum GameMode_t {
+	GAME_MODE_TDM
 };
 
 enum LightState_t {
@@ -430,6 +436,17 @@ class Game
 		void setGameState(GameState_t newState);
 		void saveGameState();
 
+		GameMode_t getGameMode(){
+			return gameMode;
+		}
+		void setGameMode(GameMode_t newMode){
+			gameMode = newMode;
+		}
+		void initialiseGameMode();
+		void endGameMode();
+		void checkGameState();
+		void setGuildWarStatsToZero(uint32_t id);
+
 		//Events
 		void checkCreatureWalk(uint32_t creatureId);
 		void updateCreatureWalk(uint32_t creatureId);
@@ -530,6 +547,7 @@ class Game
 		void checkDecay();
 		void internalDecayItem(Item* item);
 
+		GameMode_t gameMode = GAME_MODE_TDM;
 		std::unordered_map<uint32_t, Player*> players;
 		std::unordered_map<std::string, Player*> mappedPlayerNames;
 		std::unordered_map<uint32_t, Player*> mappedPlayerGuids;

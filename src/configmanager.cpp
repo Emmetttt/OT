@@ -159,6 +159,9 @@ bool ConfigManager::load()
 	string[MOTD] = getGlobalString(L, "motd", "");
 	string[WORLD_TYPE] = getGlobalString(L, "worldType", "pvp");
 
+	string[DEFAULT_GAME_MODE] = getGlobalString(L, "defaultGameMode", "tdm");
+	integer[TDM_KILLS_TO_WIN] = getGlobalNumber(L, "tdmKillsToWin", 20);
+
 	integer[MAX_PLAYERS] = getGlobalNumber(L, "maxPlayers");
 	integer[PZ_LOCKED] = getGlobalNumber(L, "pzLocked", 60000);
 	integer[DEFAULT_DESPAWNRANGE] = getGlobalNumber(L, "deSpawnRange", 2);

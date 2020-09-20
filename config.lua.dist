@@ -16,6 +16,10 @@ stairJumpExhaustion = 2000
 experienceByKillingPlayers = true
 expFromPlayersLevelRange = 999
 
+-- Game mode settings
+defaultGameMode = "tdm"
+tdmKillsToWin = 3
+
 -- Connection Config
 -- NOTE: maxPlayers set to 0 means no limit
 ip = "127.0.0.1"
