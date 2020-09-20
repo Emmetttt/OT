@@ -65,6 +65,13 @@ enum GameState_t {
 	GAME_STATE_GAMEMODE_END,
 };
 
+enum CurrentMap_t {
+	CURRENT_MAP_VENORE,
+	CURRENT_MAP_THAIS,
+	CURRENT_MAP_EDRON,
+	CURRENT_MAP_FIBULA
+};
+
 enum GameMode_t {
 	GAME_MODE_TDM
 };
@@ -442,6 +449,13 @@ class Game
 		void setGameMode(GameMode_t newMode){
 			gameMode = newMode;
 		}
+		CurrentMap_t getCurrentMap(){
+			return currentMap;
+		}
+		Town* getCurrentTown(uint32_t guildId);
+		void setCurrentMap(CurrentMap_t newMap){
+			currentMap = newMap;
+		}
 		void initialiseGameMode();
 		void endGameMode();
 		void checkGameState();
@@ -548,6 +562,7 @@ class Game
 		void internalDecayItem(Item* item);
 
 		GameMode_t gameMode = GAME_MODE_TDM;
+		CurrentMap_t currentMap = CURRENT_MAP_THAIS;
 		std::unordered_map<uint32_t, Player*> players;
 		std::unordered_map<std::string, Player*> mappedPlayerNames;
 		std::unordered_map<uint32_t, Player*> mappedPlayerGuids;

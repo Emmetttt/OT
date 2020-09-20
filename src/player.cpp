@@ -3449,6 +3449,17 @@ void Player::onIdleStatus()
 
 void Player::onPlacedCreature()
 {
+	std::ostringstream ss1;
+	ss1 << "Current Game Mode: " << static_cast<std::underlying_type<GameMode_t>::type>(g_game.getGameMode()) << ".";
+	sendTextMessage(MESSAGE_STATUS_CONSOLE_RED, ss1.str());
+
+	Guild* guild = getGuild();
+	if (guild){
+		std::ostringstream ss2;
+		ss2 << "Current Score: " << guild->getKills() << ":" << guild->getDeaths() << " (Target: " << std::to_string(g_config.getNumber(ConfigManager::TDM_KILLS_TO_WIN)) << ").";
+		sendTextMessage(MESSAGE_STATUS_CONSOLE_RED, ss2.str());
+	}
+
 	//scripting event - onLogin
 	if (!g_creatureEvents->playerLogin(this)) {
 		kickPlayer(true);

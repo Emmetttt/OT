@@ -369,29 +369,11 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 		}
 	}
 
-	player->loginPosition.x = result->getNumber<uint16_t>("posx");
-	player->loginPosition.y = result->getNumber<uint16_t>("posy");
-	player->loginPosition.z = result->getNumber<uint16_t>("posz");
-
 	player->lastLoginSaved = result->getNumber<time_t>("lastlogin");
 	player->lastLogout = result->getNumber<time_t>("lastlogout");
 
 	player->offlineTrainingTime = result->getNumber<int32_t>("offlinetraining_time") * 1000;
 	player->offlineTrainingSkill = result->getNumber<int32_t>("offlinetraining_skill");
-
-	Town* town = g_game.map.towns.getTown(result->getNumber<uint32_t>("town_id"));
-	if (!town) {
-		std::cout << "[Error - IOLoginData::loadPlayer] " << player->name << " has Town ID " << result->getNumber<uint32_t>("town_id") << " which doesn't exist" << std::endl;
-		return false;
-	}
-
-	player->town = town;
-
-	const Position& loginPos = player->loginPosition;
-	if (loginPos.x == 0 && loginPos.y == 0 && loginPos.z == 0) {
-		player->loginPosition = player->getTemplePosition();
-	}
-
 	player->staminaMinutes = result->getNumber<uint16_t>("stamina");
 
 	static const std::string skillNames[] = {"skill_fist", "skill_club", "skill_sword", "skill_axe", "skill_dist", "skill_shielding", "skill_fishing"};
@@ -487,6 +469,9 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 			player->currentOutfit.lookBody = 114;
 			player->currentOutfit.lookLegs = 114;
 			player->currentOutfit.lookFeet = 114;
+			Town* town = g_game.getCurrentTown(guildId2);
+			player->town = town;
+			player->loginPosition = player->getTemplePosition();
 		}
 		else {
 			player->guild = guild1;
@@ -497,6 +482,9 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 			player->currentOutfit.lookBody = 0;
 			player->currentOutfit.lookLegs = 0;
 			player->currentOutfit.lookFeet = 0;
+			Town* town = g_game.getCurrentTown(guildId1);
+			player->town = town;
+			player->loginPosition = player->getTemplePosition();
 		}
 	}
 

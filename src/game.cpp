@@ -188,6 +188,40 @@ void Game::setGameState(GameState_t newState)
 }
 
 void Game::initialiseGameMode(){
+	int32_t randMap = normal_random(0, 3);
+	switch (randMap){
+		case 0:
+			std::cout << "THAIS" << std::endl;
+			setCurrentMap(CURRENT_MAP_THAIS);
+			break;
+		case 1:
+			std::cout << "EDRON" << std::endl;
+			setCurrentMap(CURRENT_MAP_EDRON);
+			break;
+		case 2:
+			std::cout << "VENORE" << std::endl;
+			setCurrentMap(CURRENT_MAP_VENORE);
+			break;
+		case 3:
+			std::cout << "FIBULA" << std::endl;
+			setCurrentMap(CURRENT_MAP_FIBULA);
+			break;
+	}
+
+	auto it = players.begin();
+	while (it != players.end()) {
+		Player* player = it->second;
+		Guild* guild = player->getGuild();
+
+		if (guild) {
+			internalTeleport(player, getCurrentTown(guild->getId())->getTemplePosition(), true);
+		}
+		else {
+			internalTeleport(player, getCurrentTown(1)->getTemplePosition(), true);
+		}
+		++it;
+	}
+
 	// Hard coded to white and black team for now
 	setGuildWarStatsToZero(1);
 	setGuildWarStatsToZero(2);
@@ -223,15 +257,43 @@ void Game::endGameMode(){
 				result += "lost";
 			}
 
-			player->sendChannelMessage(
-				"TDM",
-				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!", 
-				TALKTYPE_CHANNEL_R1,
-				CHANNEL_PRIVATE
+			player->sendTextMessage(
+				MESSAGE_STATUS_CONSOLE_RED,
+				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!"
 			);
 		}
 		++it;
 	}
+}
+
+Town* Game::getCurrentTown(uint32_t guildId) {
+	std::ostringstream ss;
+	switch (g_game.getCurrentMap()) {
+		case CURRENT_MAP_EDRON:
+			ss << "Edron";
+			break;
+		case CURRENT_MAP_THAIS:
+			ss << "Thais";
+			break;
+		case CURRENT_MAP_VENORE:
+			ss << "Venore";
+			break;
+		case CURRENT_MAP_FIBULA:
+			ss << "Fibula";
+			break;
+		default:
+			ss << "Edron";
+			break;
+	}
+	if (guildId % 2 == 0) {
+		ss << "WhiteTeam";
+	}
+	else {
+		ss << "BlackTeam";
+	}
+	std::cout << ss.str() << std::endl;
+
+	return map.towns.getTown(ss.str());
 }
 
 void Game::checkGameState(){
