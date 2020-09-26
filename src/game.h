@@ -511,7 +511,7 @@ class Game
 		void addMonster(Monster* monster);
 		void removeMonster(Monster* monster);
 
-		Guild* getGuild(uint32_t id) const;
+		Guild* getGuild(uint32_t id);
 		void addGuild(Guild* guild);
 		void removeGuild(uint32_t guildId);
 		void decreaseBrowseFieldRef(const Position& pos);

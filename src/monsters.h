@@ -158,6 +158,7 @@ class MonsterType
 		bool canWalkOnEnergy = true;
 		bool canWalkOnFire = true;
 		bool canWalkOnPoison = true;
+		bool isAi = false;
 
 		MonstersEvent_t eventType = MONSTERS_EVENT_NONE;
 	};

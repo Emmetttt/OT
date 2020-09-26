@@ -4397,10 +4397,6 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, CombatDamage& 
 
 	int32_t manaChange = damage.primary.value + damage.secondary.value;
 	if (manaChange > 0) {
-		if (attacker) {
-			const Player* attackerPlayer = attacker->getPlayer();
-		}
-
 		if (damage.origin != ORIGIN_NONE) {
 			const auto& events = target->getCreatureEvents(CREATURE_EVENT_MANACHANGE);
 			if (!events.empty()) {
@@ -5768,11 +5764,18 @@ void Game::removeMonster(Monster* monster)
 	monsters.erase(monster->getID());
 }
 
-Guild* Game::getGuild(uint32_t id) const
+Guild* Game::getGuild(uint32_t id)
 {
 	auto it = guilds.find(id);
 	if (it == guilds.end()) {
-		return nullptr;
+		Guild* guild = IOGuild::loadGuild(id);
+		if (guild) {
+			addGuild(guild);
+			return guild;
+		} else {
+			std::cout << "[Warning - Game::getGuild] id " << id << " doesn't exist" << std::endl;
+			return nullptr;
+		}
 	}
 	return it->second;
 }

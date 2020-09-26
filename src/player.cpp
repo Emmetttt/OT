@@ -1902,177 +1902,43 @@ void Player::death(Creature* lastHitCreature)
 	if (playerGuild){
 		playerGuild->addDeath();
 	}
-
-	if (skillLoss) {
-		uint8_t unfairFightReduction = 100;
-		bool lastHitPlayer = Player::lastHitIsPlayer(lastHitCreature);
-
-		if (lastHitPlayer) {
-			uint32_t sumLevels = 0;
-			uint32_t inFightTicks = g_config.getNumber(ConfigManager::PZ_LOCKED);
-			for (const auto& it : damageMap) {
-				CountBlock_t cb = it.second;
-				if ((OTSYS_TIME() - cb.ticks) <= inFightTicks) {
-					Player* damageDealer = g_game.getPlayerByID(it.first);
-					if (damageDealer) {
-						sumLevels += damageDealer->getLevel();
-					}
-				}
-			}
-
-			Guild* guild = lastHitCreature->getPlayer()->getGuild();
-			if (guild && playerGuild && guild->getId() != playerGuild->getId()){
-				guild->addKill();
-			}
-		}
-
-		//Magic level loss
-		uint64_t sumMana = 0;
-		uint64_t lostMana = 0;
-
-		//sum up all the mana
-		for (uint32_t i = 1; i <= magLevel; ++i) {
-			sumMana += vocation->getReqMana(i);
-		}
-
-		sumMana += manaSpent;
-
-		double deathLossPercent = getLostPercent() * (unfairFightReduction / 100.);
-
-		lostMana = static_cast<uint64_t>(sumMana * deathLossPercent);
-
-		while (lostMana > manaSpent && magLevel > 0) {
-			lostMana -= manaSpent;
-			manaSpent = vocation->getReqMana(magLevel);
-			magLevel--;
-		}
-
-		manaSpent -= lostMana;
-
-		uint64_t nextReqMana = vocation->getReqMana(magLevel + 1);
-		if (nextReqMana > vocation->getReqMana(magLevel)) {
-			magLevelPercent = Player::getPercentLevel(manaSpent, nextReqMana);
-		} else {
-			magLevelPercent = 0;
-		}
-
-		//Skill loss
-		for (uint8_t i = SKILL_FIRST; i <= SKILL_LAST; ++i) { //for each skill
-			uint64_t sumSkillTries = 0;
-			for (uint16_t c = 11; c <= skills[i].level; ++c) { //sum up all required tries for all skill levels
-				sumSkillTries += vocation->getReqSkillTries(i, c);
-			}
-
-			sumSkillTries += skills[i].tries;
-
-			uint32_t lostSkillTries = static_cast<uint32_t>(sumSkillTries * deathLossPercent);
-			while (lostSkillTries > skills[i].tries) {
-				lostSkillTries -= skills[i].tries;
-
-				if (skills[i].level <= 10) {
-					skills[i].level = 10;
-					skills[i].tries = 0;
-					lostSkillTries = 0;
-					break;
-				}
-
-				skills[i].tries = vocation->getReqSkillTries(i, skills[i].level);
-				skills[i].level--;
-			}
-
-			skills[i].tries = std::max<int32_t>(0, skills[i].tries - lostSkillTries);
-			skills[i].percent = Player::getPercentLevel(skills[i].tries, vocation->getReqSkillTries(i, skills[i].level));
-		}
-
-		//Level loss
-		uint64_t expLoss = static_cast<uint64_t>(experience * deathLossPercent);
-		g_events->eventPlayerOnLoseExperience(this, expLoss);
-
-		if (expLoss != 0) {
-			uint32_t oldLevel = level;
-
-			if (vocation->getId() == VOCATION_NONE || level > 7) {
-				experience -= expLoss;
-			}
-
-			while (level > 1 && experience < Player::getExpForLevel(level)) {
-				--level;
-				healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
-				manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain());
-				capacity = std::max<int32_t>(0, capacity - vocation->getCapGain());
-			}
-
-			if (oldLevel != level) {
-				std::ostringstream ss;
-				ss << "You were downgraded from Level " << oldLevel << " to Level " << level << '.';
-				sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-			}
-
-			uint64_t currLevelExp = Player::getExpForLevel(level);
-			uint64_t nextLevelExp = Player::getExpForLevel(level + 1);
-			if (nextLevelExp > currLevelExp) {
-				levelPercent = Player::getPercentLevel(experience - currLevelExp, nextLevelExp - currLevelExp);
-			} else {
-				levelPercent = 0;
-			}
-		}
-
-		std::bitset<6> bitset(blessings);
-		if (bitset[5]) {
-			if (lastHitPlayer) {
-				bitset.reset(5);
-				blessings = bitset.to_ulong();
-			} else {
-				blessings = 32;
-			}
-		} else {
-			blessings = 0;
-		}
-
-		sendStats();
-		sendSkills();
-		sendReLoginWindow(unfairFightReduction);
-
-		health = healthMax;
-		mana = manaMax;
-
-		auto it = conditions.begin(), end = conditions.end();
-		while (it != end) {
-			Condition* condition = *it;
-			if (condition->isPersistent()) {
-				it = conditions.erase(it);
-
-				condition->endCondition(this);
-				onEndCondition(condition->getType());
-				delete condition;
-			} else {
-				++it;
-			}
-		}
-	} else {
-		setSkillLoss(true);
-
-		auto it = conditions.begin(), end = conditions.end();
-		while (it != end) {
-			Condition* condition = *it;
-			if (condition->isPersistent()) {
-				it = conditions.erase(it);
-
-				condition->endCondition(this);
-				onEndCondition(condition->getType());
-				delete condition;
-			} else {
-				++it;
-			}
-		}
-
-		health = healthMax;
-		g_game.internalTeleport(this, getTemplePosition(), true);
-		g_game.addCreatureHealth(this);
-		onThink(EVENT_CREATURE_THINK_INTERVAL);
-		onIdleStatus();
-		sendStats();
+	Guild* guild = lastHitCreature->getPlayer()->getGuild();
+	if (guild && playerGuild && guild->getId() != playerGuild->getId()){
+		guild->addKill();
 	}
+
+	sendToGameTypeDefaultLocation();
+}
+
+void Player::sendToGameTypeDefaultLocation()
+{
+	auto it = conditions.begin(), end = conditions.end();
+	while (it != end) {
+		Condition* condition = *it;
+		if (condition->isPersistent()) {
+			it = conditions.erase(it);
+
+			condition->endCondition(this);
+			onEndCondition(condition->getType());
+			delete condition;
+		} else {
+			++it;
+		}
+	}
+	Guild* guild = getGuild();
+	if (guild) {
+		g_game.internalTeleport(this, g_game.getCurrentTown(guild->getId())->getTemplePosition(), true);
+	}
+	else {
+		g_game.internalTeleport(this, g_game.getCurrentTown(1)->getTemplePosition(), true);
+	}
+
+	health = healthMax;
+	mana = manaMax;
+	g_game.addCreatureHealth(this);
+	onThink(EVENT_CREATURE_THINK_INTERVAL);
+	onIdleStatus();
+	sendStats();
 }
 
 bool Player::dropCorpse(Creature* lastHitCreature, Creature* mostDamageCreature, bool lastHitUnjustified, bool mostDamageUnjustified)

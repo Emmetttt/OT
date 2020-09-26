@@ -400,15 +400,6 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 		player->guildNick = result->getString("nick");
 
 		Guild* guild = g_game.getGuild(guildId);
-		if (!guild) {
-			guild = IOGuild::loadGuild(guildId);
-			if (guild) {
-				g_game.addGuild(guild);
-			} else {
-				std::cout << "[Warning - IOLoginData::loadPlayer] " << player->name << " has Guild ID " << guildId << " which doesn't exist" << std::endl;
-			}
-		}
-
 		if (guild) {
 			player->guild = guild;
 			GuildRank_ptr rank = guild->getRankById(playerRankId);
@@ -439,27 +430,9 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 	}
 	else {
 		uint32_t guildId1 = 1;
-		Guild* guild1 = g_game.getGuild(guildId1);
-		if (!guild1) {
-			guild1 = IOGuild::loadGuild(guildId1);
-			if (guild1) {
-				g_game.addGuild(guild1);
-			} else {
-				std::cout << "[Warning - IOLoginData::loadPlayer] " << player->name << " has Guild ID " << guildId1 << " which doesn't exist" << std::endl;
-			}
-		}
-		
+		Guild* guild1 = g_game.getGuild(guildId1);		
 		uint32_t guildId2 = 2;
 		Guild* guild2 = g_game.getGuild(guildId2);
-		if (!guild2) {
-			guild2 = IOGuild::loadGuild(guildId2);
-			if (guild2) {
-				g_game.addGuild(guild2);
-			} else {
-				std::cout << "[Warning - IOLoginData::loadPlayer] " << player->name << " has Guild ID " << guildId2 << " which doesn't exist" << std::endl;
-			}
-		}
-
 		if (guild1->getMembersOnlineCount() > guild2->getMembersOnlineCount()) {
 			player->guild = guild2;
 			player->guildRank = guild2->getRankByName("a Member");

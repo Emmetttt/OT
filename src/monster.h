@@ -209,6 +209,7 @@ class Monster final : public Creature
 		bool randomStepping = false;
 		bool ignoreFieldDamage = false;
 
+		void loadAi();
 		void onCreatureEnter(Creature* creature);
 		void onCreatureLeave(Creature* creature);
 		void onCreatureFound(Creature* creature, bool pushFront = false);

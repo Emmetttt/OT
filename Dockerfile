@@ -18,7 +18,7 @@ COPY cmake /usr/src/forgottenserver/cmake/
 COPY src /usr/src/forgottenserver/src/
 COPY CMakeLists.txt /usr/src/forgottenserver/
 WORKDIR /usr/src/forgottenserver/build
-RUN cmake .. && make
+RUN cmake .. && make -j5
 
 FROM alpine:edge
 # crypto++-dev is in edge/testing

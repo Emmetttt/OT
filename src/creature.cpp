@@ -675,10 +675,6 @@ void Creature::onDeath()
 	if (master) {
 		setMaster(nullptr);
 	}
-
-	if (droppedCorpse) {
-		g_game.removeCreature(this, false);
-	}
 }
 
 bool Creature::dropCorpse(Creature* lastHitCreature, Creature* mostDamageCreature, bool lastHitUnjustified, bool mostDamageUnjustified)

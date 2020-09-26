@@ -62,12 +62,21 @@ Monster::Monster(MonsterType* mType) :
 			std::cout << "[Warning - Monster::Monster] Unknown event name: " << scriptName << std::endl;
 		}
 	}
+
+	if (mType->info.isAi){
+		loadAi();
+	}
 }
 
 Monster::~Monster()
 {
 	clearTargetList();
 	clearFriendList();
+}
+
+void Monster::loadAi()
+{
+
 }
 
 void Monster::addList()
@@ -1795,6 +1804,7 @@ void Monster::death(Creature*)
 	clearTargetList();
 	clearFriendList();
 	onIdleStatus();
+	g_game.removeCreature(this, false);
 }
 
 Item* Monster::getCorpse(Creature* lastHitCreature, Creature* mostDamageCreature)

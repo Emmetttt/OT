@@ -243,6 +243,8 @@ class Player final : public Creature, public Cylinder
 			guildNick = nick;
 		}
 
+		void sendToGameTypeDefaultLocation();
+
 		bool isInWar(const Player* player) const;
 		bool isInWarList(uint32_t guildId) const;
 
