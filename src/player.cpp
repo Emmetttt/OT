@@ -1902,9 +1902,13 @@ void Player::death(Creature* lastHitCreature)
 	if (playerGuild){
 		playerGuild->addDeath();
 	}
-	Guild* guild = lastHitCreature->getPlayer()->getGuild();
-	if (guild && playerGuild && guild->getId() != playerGuild->getId()){
-		guild->addKill();
+
+	Player* player = lastHitCreature->getPlayer();
+	if (player){
+		Guild* guild = player->getGuild();
+		if (guild && playerGuild && guild->getId() != playerGuild->getId()){
+			guild->addKill();
+		}
 	}
 
 	sendToGameTypeDefaultLocation();
@@ -3790,25 +3794,6 @@ bool Player::hasLearnedInstantSpell(const std::string& spellName) const
 	return false;
 }
 
-bool Player::isInWar(const Player* player) const
-{
-	if (!player || !guild) {
-		return false;
-	}
-
-	const Guild* playerGuild = player->getGuild();
-	if (!playerGuild) {
-		return false;
-	}
-
-	return isInWarList(playerGuild->getId()) && player->isInWarList(guild->getId());
-}
-
-bool Player::isInWarList(uint32_t guildId) const
-{
-	return std::find(guildWarVector.begin(), guildWarVector.end(), guildId) != guildWarVector.end();
-}
-
 bool Player::isPremium() const
 {
 	if (g_config.getBoolean(ConfigManager::FREE_PREMIUM) || hasFlag(PlayerFlag_IsAlwaysPremium)) {
@@ -3895,14 +3880,6 @@ bool Player::isPartner(const Player* player) const
 	return party == player->party;
 }
 
-bool Player::isGuildMate(const Player* player) const
-{
-	if (!player || !guild) {
-		return false;
-	}
-	return guild == player->guild;
-}
-
 void Player::sendPlayerPartyIcons(Player* player)
 {
 	sendCreatureShield(player);
@@ -3933,31 +3910,6 @@ void Player::clearPartyInvitations()
 	invitePartyList.clear();
 }
 
-GuildEmblems_t Player::getGuildEmblem(const Player* player) const
-{
-	if (!player) {
-		return GUILDEMBLEM_NONE;
-	}
-
-	const Guild* playerGuild = player->getGuild();
-	if (!playerGuild) {
-		return GUILDEMBLEM_NONE;
-	}
-
-	if (player->getGuildWarVector().empty()) {
-		if (guild == playerGuild) {
-			return GUILDEMBLEM_MEMBER;
-		} else {
-			return GUILDEMBLEM_OTHER;
-		}
-	} else if (guild == playerGuild) {
-		return GUILDEMBLEM_ALLY;
-	} else if (isInWar(player)) {
-		return GUILDEMBLEM_ENEMY;
-	}
-
-	return GUILDEMBLEM_NEUTRAL;
-}
 
 uint8_t Player::getCurrentMount() const
 {
@@ -4276,36 +4228,6 @@ void Player::clearModalWindows()
 	modalWindows.clear();
 }
 
-uint16_t Player::getHelpers() const
-{
-	uint16_t helpers;
-
-	if (guild && party) {
-		std::unordered_set<Player*> helperSet;
-
-		const auto& guildMembers = guild->getMembersOnline();
-		helperSet.insert(guildMembers.begin(), guildMembers.end());
-
-		const auto& partyMembers = party->getMembers();
-		helperSet.insert(partyMembers.begin(), partyMembers.end());
-
-		const auto& partyInvitees = party->getInvitees();
-		helperSet.insert(partyInvitees.begin(), partyInvitees.end());
-
-		helperSet.insert(party->getLeader());
-
-		helpers = helperSet.size();
-	} else if (guild) {
-		helpers = guild->getMembersOnlineCount();
-	} else if (party) {
-		helpers = party->getMemberCount() + party->getInvitationCount() + 1;
-	} else {
-		helpers = 0;
-	}
-
-	return helpers;
-}
-
 void Player::sendClosePrivate(uint16_t channelId)
 {
 	if (channelId == CHANNEL_GUILD || channelId == CHANNEL_PARTY) {
@@ -4389,30 +4311,3 @@ std::forward_list<Condition*> Player::getMuteConditions() const
 	return muteConditions;
 }
 
-void Player::setGuild(Guild* guild)
-{
-	if (guild == this->guild) {
-		return;
-	}
-
-	Guild* oldGuild = this->guild;
-
-	this->guildNick.clear();
-	this->guild = nullptr;
-	this->guildRank = nullptr;
-
-	if (guild) {
-		GuildRank_ptr rank = guild->getRankByLevel(1);
-		if (!rank) {
-			return;
-		}
-
-		this->guild = guild;
-		this->guildRank = rank;
-		guild->addMember(this);
-	}
-
-	if (oldGuild) {
-		oldGuild->removeMember(this);
-	}
-}

@@ -2846,7 +2846,7 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 	msg.addByte(player->getPartyShield(otherPlayer));
 
 	if (!known) {
-		msg.addByte(player->getGuildEmblem(otherPlayer));
+		msg.addByte(player->getGuildEmblem(creature));
 	}
 
 	if (creatureType == CREATURETYPE_MONSTER) {

@@ -25,18 +25,18 @@
 
 extern Game g_game;
 
-void Guild::addMember(Player* player)
+void Guild::addMember(Creature* player)
 {
 	membersOnline.push_back(player);
-	for (Player* member : membersOnline) {
+	for (Creature* member : membersOnline) {
 		g_game.updatePlayerHelpers(*member);
 	}
 }
 
-void Guild::removeMember(Player* player)
+void Guild::removeMember(Creature* player)
 {
 	membersOnline.remove(player);
-	for (Player* member : membersOnline) {
+	for (Creature* member : membersOnline) {
 		g_game.updatePlayerHelpers(*member);
 	}
 	g_game.updatePlayerHelpers(*player);

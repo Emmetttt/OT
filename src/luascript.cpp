@@ -2330,13 +2330,10 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "setTown", LuaScriptInterface::luaPlayerSetTown);
 
 	registerMethod("Player", "getGuild", LuaScriptInterface::luaPlayerGetGuild);
-	registerMethod("Player", "setGuild", LuaScriptInterface::luaPlayerSetGuild);
 
 	registerMethod("Player", "getGuildLevel", LuaScriptInterface::luaPlayerGetGuildLevel);
-	registerMethod("Player", "setGuildLevel", LuaScriptInterface::luaPlayerSetGuildLevel);
 
 	registerMethod("Player", "getGuildNick", LuaScriptInterface::luaPlayerGetGuildNick);
-	registerMethod("Player", "setGuildNick", LuaScriptInterface::luaPlayerSetGuildNick);
 
 	registerMethod("Player", "getGroup", LuaScriptInterface::luaPlayerGetGroup);
 	registerMethod("Player", "setGroup", LuaScriptInterface::luaPlayerSetGroup);
@@ -8496,20 +8493,6 @@ int LuaScriptInterface::luaPlayerGetGuild(lua_State* L)
 	return 1;
 }
 
-int LuaScriptInterface::luaPlayerSetGuild(lua_State* L)
-{
-	// player:setGuild(guild)
-	Player* player = getUserdata<Player>(L, 1);
-	if (!player) {
-		lua_pushnil(L);
-		return 1;
-	}
-
-	player->setGuild(getUserdata<Guild>(L, 2));
-	pushBoolean(L, true);
-	return 1;
-}
-
 int LuaScriptInterface::luaPlayerGetGuildLevel(lua_State* L)
 {
 	// player:getGuildLevel()
@@ -8522,26 +8505,6 @@ int LuaScriptInterface::luaPlayerGetGuildLevel(lua_State* L)
 	return 1;
 }
 
-int LuaScriptInterface::luaPlayerSetGuildLevel(lua_State* L)
-{
-	// player:setGuildLevel(level)
-	uint8_t level = getNumber<uint8_t>(L, 2);
-	Player* player = getUserdata<Player>(L, 1);
-	if (!player || !player->getGuild()) {
-		lua_pushnil(L);
-		return 1;
-	}
-
-	GuildRank_ptr rank = player->getGuild()->getRankByLevel(level);
-	if (!rank) {
-		pushBoolean(L, false);
-	} else {
-		player->setGuildRank(rank);
-		pushBoolean(L, true);
-	}
-
-	return 1;
-}
 
 int LuaScriptInterface::luaPlayerGetGuildNick(lua_State* L)
 {
@@ -8549,20 +8512,6 @@ int LuaScriptInterface::luaPlayerGetGuildNick(lua_State* L)
 	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushString(L, player->getGuildNick());
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-int LuaScriptInterface::luaPlayerSetGuildNick(lua_State* L)
-{
-	// player:setGuildNick(nick)
-	const std::string& nick = getString(L, 2);
-	Player* player = getUserdata<Player>(L, 1);
-	if (player) {
-		player->setGuildNick(nick);
-		pushBoolean(L, true);
 	} else {
 		lua_pushnil(L);
 	}
@@ -10229,10 +10178,14 @@ int LuaScriptInterface::luaGuildGetMembersOnline(lua_State* L)
 	lua_createtable(L, members.size(), 0);
 
 	int index = 0;
-	for (Player* player : members) {
-		pushUserdata<Player>(L, player);
-		setMetatable(L, -1, "Player");
-		lua_rawseti(L, -2, ++index);
+	for (Creature* creature : members) {
+		Player* player = dynamic_cast<Player*>(creature);
+		if (player != nullptr)
+		{
+			pushUserdata<Player>(L, player);
+			setMetatable(L, -1, "Player");
+			lua_rawseti(L, -2, ++index);
+		}
 	}
 	return 1;
 }

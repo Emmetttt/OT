@@ -2,6 +2,9 @@
 <monsters>
 	<!-- AI-->
 	<monster name="Knight" file="AI/knight.xml" />
+	<monster name="Paladin" file="AI/paladin.xml" />
+	<monster name="Sorcerer" file="AI/sorcerer.xml" />
+	<monster name="Druid" file="AI/druid.xml" />
 
 	<!-- Amazons -->
 	<monster name="Amazon" file="Amazons/amazon.xml" />

@@ -434,8 +434,8 @@ class Game
 		void internalCreatureChangeVisible(Creature* creature, bool visible);
 		void changeLight(const Creature* creature);
 		void updateCreatureSkull(const Creature* creature);
-		void updatePlayerShield(Player* player);
-		void updatePlayerHelpers(const Player& player);
+		void updatePlayerShield(Creature* player);
+		void updatePlayerHelpers(const Creature& player);
 		void updateCreatureType(Creature* creature);
 		void updateCreatureWalkthrough(const Creature* creature);
 
@@ -453,6 +453,7 @@ class Game
 			return currentMap;
 		}
 		Town* getCurrentTown(uint32_t guildId);
+		Town* getCurrentChokePoint();
 		void setCurrentMap(CurrentMap_t newMap){
 			currentMap = newMap;
 		}
@@ -512,6 +513,8 @@ class Game
 		void removeMonster(Monster* monster);
 
 		Guild* getGuild(uint32_t id);
+		void prepopulateTeams();
+		void addToTeam(Creature* creature);
 		void addGuild(Guild* guild);
 		void removeGuild(uint32_t guildId);
 		void decreaseBrowseFieldRef(const Position& pos);

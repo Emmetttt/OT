@@ -1203,13 +1203,6 @@ function broadcastMessage(message, messageType)
 	print("> Broadcasted message: \"" .. message .. "\".")
 end
 
-function Guild.addMember(self, player)
-	return player:setGuild(guild)
-end
-function Guild.removeMember(self, player)
-	return player:getGuild() == self and player:setGuild(nil)
-end
-
 function getPlayerInstantSpellCount(cid) local p = Player(cid) return p and #p:getInstantSpells() end
 function getPlayerInstantSpellInfo(cid, spellId)
 	local player = Player(cid)

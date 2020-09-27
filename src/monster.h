@@ -173,11 +173,24 @@ class Monster final : public Creature
 		bool isIgnoringFieldDamage() const {
 			return ignoreFieldDamage;
 		}
+		bool isAi() const {
+			return ai;
+		}
 
 		BlockType_t blockHit(Creature* attacker, CombatType_t combatType, int32_t& damage,
 		                     bool checkDefense = false, bool checkArmor = false, bool field = false) override;
 
 		static uint32_t monsterAutoID;
+
+		/* MANA */
+		uint32_t getMana() const {
+			return mana;
+		}
+		uint32_t getMaxMana() const {
+			return manaMax;
+		}
+		void changeMana(int32_t manaChange);
+		void drainMana(Creature* attacker, int32_t manaLoss);
 
 	private:
 		CreatureHashSet friendList;
@@ -200,6 +213,8 @@ class Monster final : public Creature
 		int32_t targetChangeCooldown = 0;
 		int32_t challengeFocusDuration = 0;
 		int32_t stepDuration = 0;
+		uint32_t mana = 0;
+		uint32_t manaMax = 0;
 
 		Position masterPos;
 
@@ -208,6 +223,7 @@ class Monster final : public Creature
 		bool isMasterInRange = false;
 		bool randomStepping = false;
 		bool ignoreFieldDamage = false;
+		bool ai = false;
 
 		void loadAi();
 		void onCreatureEnter(Creature* creature);

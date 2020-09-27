@@ -30,7 +30,6 @@ extern Events* g_events;
 
 int32_t Monster::despawnRange;
 int32_t Monster::despawnRadius;
-
 uint32_t Monster::monsterAutoID = 0x40000000;
 
 Monster* Monster::createMonster(const std::string& name)
@@ -63,7 +62,7 @@ Monster::Monster(MonsterType* mType) :
 		}
 	}
 
-	if (mType->info.isAi){
+	if (mType->info.isAi) {
 		loadAi();
 	}
 }
@@ -76,7 +75,12 @@ Monster::~Monster()
 
 void Monster::loadAi()
 {
-
+	mana = mType->info.mana;
+	manaMax = mType->info.manaMax;
+	ai = true;
+	g_game.addToTeam(this);
+	setMasterPos(g_game.getCurrentTown(getGuild()->getId())->getTemplePosition());
+	g_game.placeCreature(this, getMasterPos(), false, true);
 }
 
 void Monster::addList()
@@ -190,7 +194,7 @@ void Monster::onRemoveCreature(Creature* creature, bool isLogout)
 			spawn->startSpawnCheck();
 		}
 
-		setIdle(true);
+		setIdle(false);
 	} else {
 		onCreatureLeave(creature);
 	}
@@ -444,7 +448,11 @@ bool Monster::isFriend(const Creature* creature) const
 		if (tmpPlayer && (tmpPlayer == getMaster() || masterPlayer->isPartner(tmpPlayer))) {
 			return true;
 		}
-	} else if (creature->getMonster() && !creature->isSummon()) {
+	}
+
+	Guild* creatureGuild = creature->getGuild();
+	Guild* thisGuild = getGuild();
+	if (thisGuild && creatureGuild && thisGuild->getId() == creatureGuild->getId()){
 		return true;
 	}
 
@@ -457,9 +465,10 @@ bool Monster::isOpponent(const Creature* creature) const
 		if (creature != getMaster()) {
 			return true;
 		}
-	} else {
-		if ((creature->getPlayer() && !creature->getPlayer()->hasFlag(PlayerFlag_IgnoredByMonsters)) ||
-		        (creature->getMaster() && creature->getMaster()->getPlayer())) {
+	} else {	
+		Guild* creatureGuild = creature->getGuild();
+		Guild* thisGuild = getGuild();
+		if (thisGuild && creatureGuild && thisGuild->getId() != creatureGuild->getId()){
 			return true;
 		}
 	}
@@ -675,6 +684,10 @@ void Monster::updateIdleStatus()
 		idle = std::find_if(conditions.begin(), conditions.end(), [](Condition* condition) {
 			return condition->isAggressive();
 		}) == conditions.end();
+	}
+
+	if (isAi()){
+		idle = false;
 	}
 
 	setIdle(idle);
@@ -1125,14 +1138,14 @@ void Monster::pushCreatures(Tile* tile)
 
 bool Monster::getNextStep(Direction& direction, uint32_t& flags)
 {
-	if (isIdle || getHealth() <= 0) {
+	if (getHealth() <= 0) {
 		//we dont have anyone watching might aswell stop walking
 		eventWalk = 0;
 		return false;
 	}
 
 	bool result = false;
-	if ((!followCreature || !hasFollowPath) && (!isSummon() || !isMasterInRange)) {
+	if ((!followCreature || !hasFollowPath) && (!isSummon() || !isMasterInRange) && !isAi()) {
 		if (getTimeSinceLastMove() >= 1000) {
 			randomStepping = true;
 			//choose a random direction
@@ -1155,6 +1168,24 @@ bool Monster::getNextStep(Direction& direction, uint32_t& flags)
 				} else if (mType->info.staticAttackChance < static_cast<uint32_t>(uniform_random(1, 100))) {
 					result = getDanceStep(getPosition(), direction);
 				}
+			}
+		}
+	} else if (isAi()) {
+		result = Creature::getNextStep(direction, flags);
+		if (!result) {
+			listWalkDir.clear();
+			std::forward_list<Direction> listDir;
+			if (getPathTo(g_game.getCurrentChokePoint()->getTemplePosition(), listDir, 1, 1000, true, false, 1000)) {
+				listWalkDir = listDir;
+				result = Creature::getNextStep(direction, flags);
+				if (!result) {
+					std::cout << "random step2222" << std::endl;
+					result = getRandomStep(getPosition(), direction);
+				}
+			}
+			else {
+				std::cout << "random step" << std::endl;
+				result = getRandomStep(getPosition(), direction);
 			}
 		}
 	}
@@ -1805,6 +1836,7 @@ void Monster::death(Creature*)
 	clearFriendList();
 	onIdleStatus();
 	g_game.removeCreature(this, false);
+	g_game.prepopulateTeams();
 }
 
 Item* Monster::getCorpse(Creature* lastHitCreature, Creature* mostDamageCreature)
@@ -2002,5 +2034,24 @@ void Monster::getPathSearchParams(const Creature* creature, FindPathParams& fpp)
 		fpp.fullPathSearch = true;
 	} else {
 		fpp.fullPathSearch = !canUseAttack(getPosition(), creature);
+	}
+}
+
+void Monster::drainMana(Creature* attacker, int32_t manaLoss)
+{
+	onAttacked();
+	changeMana(-manaLoss);
+
+	if (attacker) {
+		addDamagePoints(attacker, manaLoss);
+	}
+}
+
+void Monster::changeMana(int32_t manaChange)
+{
+	if (manaChange > 0) {
+		mana += std::min<int32_t>(manaChange, getMaxMana() - mana);
+	} else {
+		mana = std::max<int32_t>(0, mana + manaChange);
 	}
 }

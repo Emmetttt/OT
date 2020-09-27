@@ -20,7 +20,7 @@
 #ifndef FS_GUILD_H_C00F0A1D732E4BA88FF62ACBE74D76BC
 #define FS_GUILD_H_C00F0A1D732E4BA88FF62ACBE74D76BC
 
-class Player;
+class Creature;
 
 struct GuildRank {
 	uint32_t id;
@@ -38,8 +38,8 @@ class Guild
 	public:
 		Guild(uint32_t id, std::string name) : name(std::move(name)), id(id) {}
 
-		void addMember(Player* player);
-		void removeMember(Player* player);
+		void addMember(Creature* creature);
+		void removeMember(Creature* creature);
 
 		uint32_t getId() const {
 			return id;
@@ -47,7 +47,7 @@ class Guild
 		const std::string& getName() const {
 			return name;
 		}
-		const std::list<Player*>& getMembersOnline() const {
+		const std::list<Creature*>& getMembersOnline() const {
 			return membersOnline;
 		}
 		uint32_t getMembersOnlineCount() const {
@@ -92,7 +92,7 @@ class Guild
 		}
 
 	private:
-		std::list<Player*> membersOnline;
+		std::list<Creature*> membersOnline;
 		std::vector<GuildRank_ptr> ranks;
 		std::string name;
 		std::string motd;

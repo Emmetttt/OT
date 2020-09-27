@@ -27,12 +27,10 @@
 #include "enums.h"
 #include "vocation.h"
 #include "protocolgame.h"
-#include "ioguild.h"
 #include "party.h"
 #include "inbox.h"
 #include "depotchest.h"
 #include "depotlocker.h"
-#include "guild.h"
 #include "groups.h"
 #include "town.h"
 #include "mounts.h"
@@ -46,7 +44,6 @@ class Npc;
 class Party;
 class SchedulerTask;
 class Bed;
-class Guild;
 
 enum skillsid_t {
 	SKILLVALUE_LEVEL = 0,
@@ -222,31 +219,7 @@ class Player final : public Creature, public Cylinder
 			bankBalance = balance;
 		}
 
-		Guild* getGuild() const {
-			return guild;
-		}
-		void setGuild(Guild* guild);
-
-		GuildRank_ptr getGuildRank() const {
-			return guildRank;
-		}
-		void setGuildRank(GuildRank_ptr newGuildRank) {
-			guildRank = newGuildRank;
-		}
-
-		bool isGuildMate(const Player* player) const;
-
-		const std::string& getGuildNick() const {
-			return guildNick;
-		}
-		void setGuildNick(std::string nick) {
-			guildNick = nick;
-		}
-
 		void sendToGameTypeDefaultLocation();
-
-		bool isInWar(const Player* player) const;
-		bool isInWarList(uint32_t guildId) const;
 
 		void setLastWalkthroughAttempt(int64_t walkthroughAttempt) {
 			lastWalkthroughAttempt = walkthroughAttempt;
@@ -261,14 +234,12 @@ class Player final : public Creature, public Cylinder
 
 		uint16_t getClientIcons() const;
 
-		const GuildWarVector& getGuildWarVector() const {
-			return guildWarVector;
-		}
-
 		Vocation* getVocation() const {
 			return vocation;
 		}
-
+		uint16_t getHelpers() const {
+			return Creature::getHelpers();
+		}
 		OperatingSystem_t getOperatingSystem() const {
 			return operatingSystem;
 		}
@@ -301,8 +272,6 @@ class Player final : public Creature, public Cylinder
 		bool addPartyInvitation(Party* party);
 		void removePartyInvitation(Party* party);
 		void clearPartyInvitations();
-
-		GuildEmblems_t getGuildEmblem(const Player* player) const;
 
 		uint64_t getSpentMana() const {
 			return manaSpent;
@@ -414,8 +383,6 @@ class Player final : public Creature, public Cylinder
 		}
 		bool isPremium() const;
 		void setPremiumDays(int32_t v);
-
-		uint16_t getHelpers() const;
 
 		bool setVocation(uint16_t vocId);
 		uint16_t getVocationId() const {
@@ -1215,8 +1182,6 @@ class Player final : public Creature, public Cylinder
 		std::map<uint32_t, int32_t> storageMap;
 
 		std::vector<OutfitEntry> outfits;
-		GuildWarVector guildWarVector;
-
 		std::list<ShopInfo> shopItemList;
 
 		std::forward_list<Party*> invitePartyList;
@@ -1225,7 +1190,6 @@ class Player final : public Creature, public Cylinder
 		std::forward_list<Condition*> storedConditionList; // TODO: This variable is only temporarily used when logging in, get rid of it somehow
 
 		std::string name;
-		std::string guildNick;
 
 		Skill skills[SKILL_LAST + 1];
 		LightInfo itemsLight;
@@ -1249,8 +1213,6 @@ class Player final : public Creature, public Cylinder
 		int64_t nextAction = 0;
 
 		BedItem* bedItem = nullptr;
-		Guild* guild = nullptr;
-		GuildRank_ptr guildRank = nullptr;
 		Group* group = nullptr;
 		Inbox* inbox;
 		Item* tradeItem = nullptr;

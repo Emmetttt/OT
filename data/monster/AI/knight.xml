@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<monster name="Knight" nameDescription="a Knight" race="blood" experience="60" speed="172" manacost="390">
-	<health now="110" max="110" />
-	<look type="137" head="113" body="120" legs="95" feet="115" corpse="20323" />
+<monster name="BOT Knight" nameDescription="a Knight" race="blood" experience="60" speed="309">
+	<health now="3000" max="3000" />
+	<mana now="1050" max="1050" />
+	<look type="268" head="113" body="120" legs="95" feet="115" addons="3" corpse="2317" />
 	<targetchange interval="4000" chance="10" />
 	<flags>
 		<flag summonable="0" />
@@ -12,7 +13,7 @@
 		<flag pushable="1" />
 		<flag canpushitems="1" />
 		<flag canpushcreatures="0" />
-		<flag targetdistance="4" />
+		<flag targetdistance="1" />
 		<flag staticattack="90" />
 		<flag runonhealth="0" />
 		<flag canwalkonenergy="1" />
@@ -21,16 +22,18 @@
 		<flag isAi="1" />
 	</flags>
 	<attacks>
-		<attack name="melee" interval="2000" min="0" max="-45" />
-		<attack name="physical" interval="2000" chance="15" range="7" min="0" max="-40">
-			<attribute key="shootEffect" value="throwingknife" />
-		</attack>
+		<attack name="melee" interval="2000" min="-20" max="-456" />
+		<attack name="fierce berserk" interval="2000" chance="50" range="1" />
 	</attacks>
-	<defenses armor="10" defense="10" />
-	<elements>
-	</elements>
-	<voices>
-	</voices>
-	<loot>
-	</loot>
+	<defenses armor="39" defense="0">
+		<defense name="healing" interval="2000" chance="20" min="650" max="850">
+			<attribute key="areaEffect" value="blueshimmer" />
+		</defense>
+		<defense name="healing" interval="2000" chance="20" min="101" max="162">
+			<attribute key="areaEffect" value="blueshimmer" />
+		</defense>
+		<defense name="speed" interval="2000" chance="5" speedchange="80" duration="30000">
+			<attribute key="areaEffect" value="blueshimmer" />
+		</defense>
+	</defenses>
 </monster>

@@ -222,9 +222,21 @@ void Game::initialiseGameMode(){
 		++it;
 	}
 
+	auto mon = monsters.begin();
+	while (mon != monsters.end()) {
+		Monster* monster = mon->second;
+		Guild* guild = monster->getGuild();
+
+		if (guild) {
+			internalTeleport(monster, getCurrentTown(guild->getId())->getTemplePosition(), true);
+		}
+		++mon;
+	}
+
 	// Hard coded to white and black team for now
 	setGuildWarStatsToZero(1);
 	setGuildWarStatsToZero(2);
+	prepopulateTeams();
 	// When we have more game modes, switch on GetGameMode
 }
 
@@ -293,6 +305,30 @@ Town* Game::getCurrentTown(uint32_t guildId) {
 	}
 	std::cout << ss.str() << std::endl;
 
+	return map.towns.getTown(ss.str());
+}
+
+Town* Game::getCurrentChokePoint() {
+	std::ostringstream ss;
+	switch (g_game.getCurrentMap()) {
+		case CURRENT_MAP_EDRON:
+			ss << "EdronChokePoint";
+			break;
+		case CURRENT_MAP_THAIS:
+			ss << "ThaisChokePoint";
+			break;
+		case CURRENT_MAP_VENORE:
+			ss << "VenoreChokePoint";
+			break;
+		case CURRENT_MAP_FIBULA:
+			ss << "FibulaChokePoint";
+			break;
+		default:
+			ss << "EdronChokePoint";
+			break;
+	}
+
+	std::cout << ss.str() << std::endl;
 	return map.towns.getTown(ss.str());
 }
 
@@ -4790,7 +4826,7 @@ void Game::updateCreatureSkull(const Creature* creature)
 	}
 }
 
-void Game::updatePlayerShield(Player* player)
+void Game::updatePlayerShield(Creature* player)
 {
 	SpectatorVec spectators;
 	map.getSpectators(spectators, player->getPosition(), true, true);
@@ -4799,7 +4835,7 @@ void Game::updatePlayerShield(Player* player)
 	}
 }
 
-void Game::updatePlayerHelpers(const Player& player)
+void Game::updatePlayerHelpers(const Creature& player)
 {
 	uint32_t creatureId = player.getID();
 	uint16_t helpers = player.getHelpers();
@@ -5762,6 +5798,70 @@ void Game::addMonster(Monster* monster)
 void Game::removeMonster(Monster* monster)
 {
 	monsters.erase(monster->getID());
+}
+
+void Game::prepopulateTeams()
+{
+	std::cout << "prepopulating teams" << std::endl;
+
+	Guild* guild1 = g_game.getGuild(1);
+	Guild* guild2 = g_game.getGuild(2);
+	while (guild1->getMembersOnlineCount() < 1 || guild2->getMembersOnlineCount() < 1 )
+	{
+		std::cout << "in team loop" << std::endl;
+
+		int32_t randVoc = normal_random(0, 3);
+		Monster* monster = nullptr; 
+		switch (randVoc){
+			case 0:
+				std::cout << "knight" << std::endl;
+				monster = Monster::createMonster("knight");
+				break;
+			case 1:
+				std::cout << "paladin" << std::endl;
+				monster = Monster::createMonster("paladin");
+				break;
+			case 2:
+				std::cout << "druid" << std::endl;
+				monster = Monster::createMonster("druid");
+				break;
+			case 3:
+				std::cout << "sorcerer" << std::endl;
+				monster = Monster::createMonster("sorcerer");
+				break;
+		}
+		if (!monster) {
+			std::cout << "[Error]: Cant create monster " << randVoc << std::endl;
+		} else {
+			addMonster(monster);
+		}
+	}
+}
+
+void Game::addToTeam(Creature* creature)
+{
+	Guild* guild1 = g_game.getGuild(1);
+	Guild* guild2 = g_game.getGuild(2);
+	if (guild1->getMembersOnlineCount() > guild2->getMembersOnlineCount()) {
+		creature->guild = guild2;
+		creature->guildRank = guild2->getRankByName("a Member");
+		guild2->addMember(creature);
+		IOGuild::getWarList(guild2->getId(), creature->getMutableGuildWarVector());
+		creature->currentOutfit.lookHead = 114;
+		creature->currentOutfit.lookBody = 114;
+		creature->currentOutfit.lookLegs = 114;
+		creature->currentOutfit.lookFeet = 114;
+	}
+	else {
+		creature->guild = guild1;
+		creature->guildRank = guild1->getRankByName("a Member");
+		guild1->addMember(creature);
+		IOGuild::getWarList(guild1->getId(), creature->getMutableGuildWarVector());
+		creature->currentOutfit.lookHead = 0;
+		creature->currentOutfit.lookBody = 0;
+		creature->currentOutfit.lookLegs = 0;
+		creature->currentOutfit.lookFeet = 0;
+	}
 }
 
 Guild* Game::getGuild(uint32_t id)

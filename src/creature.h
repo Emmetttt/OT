@@ -23,10 +23,12 @@
 #include "map.h"
 #include "position.h"
 #include "condition.h"
+#include "ioguild.h"
 #include "const.h"
 #include "tile.h"
 #include "enums.h"
 #include "creatureevent.h"
+#include "guild.h"
 
 using ConditionList = std::list<Condition*>;
 using CreatureEventList = std::list<CreatureEvent*>;
@@ -458,6 +460,38 @@ class Creature : virtual public Thing
 			}
 		}
 
+		uint16_t getHelpers() const;
+
+		/* GUILD */
+		Guild* getGuild() const {
+			return guild;
+		}
+		void setGuild(Guild* guild);
+
+		GuildRank_ptr getGuildRank() const {
+			return guildRank;
+		}
+		void setGuildRank(GuildRank_ptr newGuildRank) {
+			guildRank = newGuildRank;
+		}
+
+		const std::string& getGuildNick() const {
+			return guildNick;
+		}
+		void setGuildNick(std::string nick) {
+			guildNick = nick;
+		}
+		GuildEmblems_t getGuildEmblem(const Creature* creature) const;
+		const GuildWarVector& getGuildWarVector() const {
+			return guildWarVector;
+		}
+		GuildWarVector& getMutableGuildWarVector() {
+			return guildWarVector;
+		}
+		bool isInWar(const Creature* player) const;
+		bool isInWarList(uint32_t guildId) const;
+		bool isGuildMate(const Creature* creature) const;
+
 	protected:
 		virtual bool useCacheMap() const {
 			return false;
@@ -553,6 +587,11 @@ class Creature : virtual public Thing
 		virtual void death(Creature*) {}
 		virtual bool dropCorpse(Creature* lastHitCreature, Creature* mostDamageCreature, bool lastHitUnjustified, bool mostDamageUnjustified);
 		virtual Item* getCorpse(Creature* lastHitCreature, Creature* mostDamageCreature);
+
+		Guild* guild = nullptr;
+		GuildRank_ptr guildRank = nullptr;
+		std::string guildNick;
+		GuildWarVector guildWarVector;
 
 		friend class Game;
 		friend class Map;

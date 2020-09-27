@@ -429,36 +429,9 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 		}
 	}
 	else {
-		uint32_t guildId1 = 1;
-		Guild* guild1 = g_game.getGuild(guildId1);		
-		uint32_t guildId2 = 2;
-		Guild* guild2 = g_game.getGuild(guildId2);
-		if (guild1->getMembersOnlineCount() > guild2->getMembersOnlineCount()) {
-			player->guild = guild2;
-			player->guildRank = guild2->getRankByName("a Member");
-			guild2->addMember(player);
-			IOGuild::getWarList(guildId2, player->guildWarVector);
-			player->currentOutfit.lookHead = 114;
-			player->currentOutfit.lookBody = 114;
-			player->currentOutfit.lookLegs = 114;
-			player->currentOutfit.lookFeet = 114;
-			Town* town = g_game.getCurrentTown(guildId2);
-			player->town = town;
-			player->loginPosition = player->getTemplePosition();
-		}
-		else {
-			player->guild = guild1;
-			player->guildRank = guild1->getRankByName("a Member");
-			guild1->addMember(player);
-			IOGuild::getWarList(guildId1, player->guildWarVector);
-			player->currentOutfit.lookHead = 0;
-			player->currentOutfit.lookBody = 0;
-			player->currentOutfit.lookLegs = 0;
-			player->currentOutfit.lookFeet = 0;
-			Town* town = g_game.getCurrentTown(guildId1);
-			player->town = town;
-			player->loginPosition = player->getTemplePosition();
-		}
+		g_game.addToTeam(player);
+		player->town = g_game.getCurrentTown(player->getGuild()->getId());
+		player->loginPosition = player->getTemplePosition();
 	}
 
 	query.str(std::string());

@@ -707,6 +707,7 @@ bool Map::getPathMatching(const Creature& creature, std::forward_list<Direction>
 
 	int_fast32_t prevx = endPos.x;
 	int_fast32_t prevy = endPos.y;
+	int i = 0;
 
 	found = found->parent;
 	while (found) {
@@ -738,7 +739,10 @@ bool Map::getPathMatching(const Creature& creature, std::forward_list<Direction>
 		}
 
 		found = found->parent;
+		i++;
 	}
+	
+	std::cout << "dirlist length " << i << std::endl;
 	return true;
 }
 

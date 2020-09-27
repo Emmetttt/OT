@@ -211,6 +211,7 @@ void Creature::onWalk()
 	}
 
 	if (cancelNextWalk) {
+		std::cout << "clearing list walk dir" << std:: endl;
 		listWalkDir.clear();
 		onWalkAborted();
 		cancelNextWalk = false;
@@ -238,6 +239,7 @@ void Creature::onWalk(Direction& dir)
 bool Creature::getNextStep(Direction& dir, uint32_t&)
 {
 	if (listWalkDir.empty()) {
+		std::cout << "list walk dir was empty" << std::endl;
 		return false;
 	}
 
@@ -669,7 +671,7 @@ void Creature::onDeath()
 		}
 	}
 
-	bool droppedCorpse = dropCorpse(lastHitCreature, mostDamageCreature, lastHitUnjustified, mostDamageUnjustified);
+	dropCorpse(lastHitCreature, mostDamageCreature, lastHitUnjustified, mostDamageUnjustified);
 	death(lastHitCreature);
 
 	if (master) {
@@ -1577,7 +1579,15 @@ bool Creature::getPathTo(const Position& targetPos, std::forward_list<Direction>
 	return g_game.map.getPathMatching(*this, dirList, FrozenPathingConditionCall(targetPos), fpp);
 }
 
-bool Creature::getPathTo(const Position& targetPos, std::forward_list<Direction>& dirList, int32_t minTargetDist, int32_t maxTargetDist, bool fullPathSearch /*= true*/, bool clearSight /*= true*/, int32_t maxSearchDist /*= 0*/) const
+bool Creature::getPathTo(
+	const Position& targetPos,
+	std::forward_list<Direction>& dirList, 
+	int32_t minTargetDist, 
+	int32_t maxTargetDist, 
+	bool fullPathSearch /*= true*/, 
+	bool clearSight /*= true*/, 
+	int32_t maxSearchDist /*= 0*/
+) const
 {
 	FindPathParams fpp;
 	fpp.fullPathSearch = fullPathSearch;
@@ -1586,4 +1596,98 @@ bool Creature::getPathTo(const Position& targetPos, std::forward_list<Direction>
 	fpp.minTargetDist = minTargetDist;
 	fpp.maxTargetDist = maxTargetDist;
 	return getPathTo(targetPos, dirList, fpp);
+}
+
+void Creature::setGuild(Guild* guild)
+{
+	if (guild == this->guild) {
+		return;
+	}
+
+	Guild* oldGuild = this->guild;
+
+	this->guildNick.clear();
+	this->guild = nullptr;
+	this->guildRank = nullptr;
+
+	if (guild) {
+		GuildRank_ptr rank = guild->getRankByLevel(1);
+		if (!rank) {
+			return;
+		}
+
+		this->guild = guild;
+		this->guildRank = rank;
+		guild->addMember(this);
+	}
+
+	if (oldGuild) {
+		oldGuild->removeMember(this);
+	}
+}
+
+uint16_t Creature::getHelpers() const
+{
+	uint16_t helpers;
+
+	if (guild) {
+		helpers = guild->getMembersOnlineCount();
+	}
+	else {
+		helpers = 0;
+	}
+
+	return helpers;
+}
+
+GuildEmblems_t Creature::getGuildEmblem(const Creature* creature) const
+{
+	if (!creature){
+		return GUILDEMBLEM_NONE;
+	}
+
+	const Guild* creatureGuild = creature->getGuild();
+	if (!creatureGuild) {
+		return GUILDEMBLEM_NONE;
+	}
+
+	if (creature->getGuildWarVector().empty()) {
+		if (guild == creatureGuild) {
+				return GUILDEMBLEM_MEMBER;
+		} else {
+				return GUILDEMBLEM_OTHER;
+		}
+	} else if (guild == creatureGuild) {
+			return GUILDEMBLEM_ALLY;
+	} else if (isInWar(creature)) {
+			return GUILDEMBLEM_ENEMY;
+	}
+	return GUILDEMBLEM_NEUTRAL;
+}
+
+bool Creature::isInWar(const Creature* creature) const
+{
+	if (!creature || !guild) {
+		return false;
+	}
+
+	const Guild* playerGuild = creature->getGuild();
+	if (!playerGuild) {
+		return false;
+	}
+
+	return isInWarList(playerGuild->getId()) && creature->isInWarList(guild->getId());
+}
+
+bool Creature::isInWarList(uint32_t guildId) const
+{
+	return std::find(guildWarVector.begin(), guildWarVector.end(), guildId) != guildWarVector.end();
+}
+
+bool Creature::isGuildMate(const Creature* creature) const
+{
+	if (!creature || !guild) {
+		return false;
+	}
+	return guild == creature->guild;
 }

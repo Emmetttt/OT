@@ -881,6 +881,16 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 		}
 	}
 
+	if ((node = monsterNode.child("mana"))) {
+		if ((attr = node.attribute("now"))) {
+			mType->info.mana = pugi::cast<int32_t>(attr.value());
+		}
+
+		if ((attr = node.attribute("max"))) {
+			mType->info.manaMax = pugi::cast<int32_t>(attr.value());
+		}
+	}
+
 	if ((node = monsterNode.child("flags"))) {
 		for (auto flagNode : node.children()) {
 			attr = flagNode.first_attribute();
@@ -927,6 +937,8 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 				mType->info.canWalkOnFire = attr.as_bool();
 			} else if (strcasecmp(attrName, "canwalkonpoison") == 0) {
 				mType->info.canWalkOnPoison = attr.as_bool();
+			} else if (strcasecmp(attrName, "isAi") == 0) {
+				mType->info.isAi = attr.as_bool();
 			} else {
 				std::cout << "[Warning - Monsters::loadMonster] Unknown flag attribute: " << attrName << ". " << file << std::endl;
 			}

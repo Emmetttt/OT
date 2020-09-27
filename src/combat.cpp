@@ -22,6 +22,7 @@
 #include "combat.h"
 
 #include "game.h"
+#include "monster.h"
 #include "weapons.h"
 #include "configmanager.h"
 #include "events.h"
@@ -333,7 +334,7 @@ ReturnValue Combat::canDoCombat(Creature* attacker, Creature* target)
 			if (target->isSummon() && target->getMaster()->getPlayer() && target->getZone() == ZONE_NOPVP) {
 				return RETURNVALUE_ACTIONNOTPERMITTEDINANOPVPZONE;
 			}
-		} else if (attacker->getMonster()) {
+		} else if (attacker->getMonster() && !attacker->getMonster()->isAi()) {
 			const Creature* targetMaster = target->getMaster();
 
 			if (!targetMaster || !targetMaster->getPlayer()) {
