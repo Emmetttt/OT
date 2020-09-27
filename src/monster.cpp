@@ -1170,21 +1170,26 @@ bool Monster::getNextStep(Direction& direction, uint32_t& flags)
 				}
 			}
 		}
-	} else if (isAi()) {
+	} else if (isAi() && eventWalk != 0) {
 		result = Creature::getNextStep(direction, flags);
 		if (!result) {
-			listWalkDir.clear();
-			std::forward_list<Direction> listDir;
-			if (getPathTo(g_game.getCurrentChokePoint()->getTemplePosition(), listDir, 1, 1000, true, false, 1000)) {
-				listWalkDir = listDir;
-				result = Creature::getNextStep(direction, flags);
-				if (!result) {
-					std::cout << "random step2222" << std::endl;
-					result = getRandomStep(getPosition(), direction);
-				}
+			FindPathParams fpp;
+			fpp.fullPathSearch = true;
+			fpp.clearSight = false;
+			fpp.allowDiagonal = true;
+			fpp.keepDistance = false;
+			fpp.maxSearchDist = 100;
+			fpp.minTargetDist = 0;
+			fpp.maxTargetDist = 2;
+			Position pos = g_game.getNextWaypoint(this);
+			if (getPathTo(pos, listWalkDir, fpp)) {
+				startAutoWalk(listWalkDir);
+				result = true;
 			}
 			else {
-				std::cout << "random step" << std::endl;
+				if (waypoint > 3){
+					waypoint = 1;
+				}
 				result = getRandomStep(getPosition(), direction);
 			}
 		}
@@ -1835,6 +1840,7 @@ void Monster::death(Creature*)
 	clearTargetList();
 	clearFriendList();
 	onIdleStatus();
+	getGuild()->removeMember(this);
 	g_game.removeCreature(this, false);
 	g_game.prepopulateTeams();
 }

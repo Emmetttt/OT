@@ -239,7 +239,6 @@ void Creature::onWalk(Direction& dir)
 bool Creature::getNextStep(Direction& dir, uint32_t&)
 {
 	if (listWalkDir.empty()) {
-		std::cout << "list walk dir was empty" << std::endl;
 		return false;
 	}
 

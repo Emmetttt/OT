@@ -593,7 +593,7 @@ bool Map::getPathMatching(const Creature& creature, std::forward_list<Direction>
 	const Position startPos = pos;
 
 	AStarNode* found = nullptr;
-	while (fpp.maxSearchDist != 0 || nodes.getClosedNodes() < 100) {
+	while (fpp.maxSearchDist != 0 || nodes.getClosedNodes() < 10000) {
 		AStarNode* n = nodes.getBestNode();
 		if (!n) {
 			if (found) {
@@ -742,7 +742,6 @@ bool Map::getPathMatching(const Creature& creature, std::forward_list<Direction>
 		i++;
 	}
 	
-	std::cout << "dirlist length " << i << std::endl;
 	return true;
 }
 

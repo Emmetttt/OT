@@ -88,6 +88,12 @@ class Monster final : public Creature
 			masterPos = pos;
 		}
 
+		uint32_t getWaypoint() const {
+			return waypoint;
+		}
+		void incrementWaypoint(){
+			waypoint++;
+		}
 		RaceType_t getRace() const override {
 			return mType->info.race;
 		}
@@ -215,6 +221,7 @@ class Monster final : public Creature
 		int32_t stepDuration = 0;
 		uint32_t mana = 0;
 		uint32_t manaMax = 0;
+		uint32_t waypoint = 1;
 
 		Position masterPos;
 

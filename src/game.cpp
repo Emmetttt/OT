@@ -308,28 +308,36 @@ Town* Game::getCurrentTown(uint32_t guildId) {
 	return map.towns.getTown(ss.str());
 }
 
-Town* Game::getCurrentChokePoint() {
+Position Game::getNextWaypoint(Monster* monster) {
 	std::ostringstream ss;
 	switch (g_game.getCurrentMap()) {
 		case CURRENT_MAP_EDRON:
-			ss << "EdronChokePoint";
+			ss << "Edron";
 			break;
 		case CURRENT_MAP_THAIS:
-			ss << "ThaisChokePoint";
+			ss << "Thais";
 			break;
 		case CURRENT_MAP_VENORE:
-			ss << "VenoreChokePoint";
+			ss << "Venore";
 			break;
 		case CURRENT_MAP_FIBULA:
-			ss << "FibulaChokePoint";
-			break;
-		default:
-			ss << "EdronChokePoint";
+			ss << "Fibula";
 			break;
 	}
+	if (monster->getWaypoint() > 3){
+		ss << "ChokePoint";
+	}
+	else {
+		if (monster->getGuild()->getId() % 2 == 0) {
+			ss << "WhiteWaypoint" << monster->getWaypoint();
+		}
+		else {
+			ss << "BlackWaypoint" << monster->getWaypoint();
+		}
 
-	std::cout << ss.str() << std::endl;
-	return map.towns.getTown(ss.str());
+		monster->incrementWaypoint();
+	}
+	return map.towns.getTown(ss.str())->getTemplePosition();
 }
 
 void Game::checkGameState(){
@@ -5806,7 +5814,7 @@ void Game::prepopulateTeams()
 
 	Guild* guild1 = g_game.getGuild(1);
 	Guild* guild2 = g_game.getGuild(2);
-	while (guild1->getMembersOnlineCount() < 1 || guild2->getMembersOnlineCount() < 1 )
+	while (guild1->getMembersOnlineCount() < 10 || guild2->getMembersOnlineCount() < 10 )
 	{
 		std::cout << "in team loop" << std::endl;
 
