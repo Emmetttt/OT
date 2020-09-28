@@ -117,6 +117,7 @@ class ConfigManager
 			SERVER_SAVE_NOTIFY_DURATION,
 			YELL_MINIMUM_LEVEL,
 			TDM_KILLS_TO_WIN,
+			NUMBER_BOTS_PER_TEAM,
 
 			LAST_INTEGER_CONFIG /* this must be the last one */
 		};

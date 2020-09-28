@@ -303,7 +303,6 @@ Town* Game::getCurrentTown(uint32_t guildId) {
 	else {
 		ss << "BlackTeam";
 	}
-	std::cout << ss.str() << std::endl;
 
 	return map.towns.getTown(ss.str());
 }
@@ -5810,14 +5809,11 @@ void Game::removeMonster(Monster* monster)
 
 void Game::prepopulateTeams()
 {
-	std::cout << "prepopulating teams" << std::endl;
-
 	Guild* guild1 = g_game.getGuild(1);
 	Guild* guild2 = g_game.getGuild(2);
-	while (guild1->getMembersOnlineCount() < 10 || guild2->getMembersOnlineCount() < 10 )
+	uint32_t teamCount = g_config.getNumber(ConfigManager::NUMBER_BOTS_PER_TEAM);
+	while (guild1->getMembersOnlineCount() < teamCount || guild2->getMembersOnlineCount() < teamCount)
 	{
-		std::cout << "in team loop" << std::endl;
-
 		int32_t randVoc = normal_random(0, 3);
 		Monster* monster = nullptr; 
 		switch (randVoc){

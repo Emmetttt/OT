@@ -19,6 +19,7 @@ expFromPlayersLevelRange = 999
 -- Game mode settings
 defaultGameMode = "tdm"
 tdmKillsToWin = 3
+numberBotsPerTeam = 30
 
 -- Connection Config
 -- NOTE: maxPlayers set to 0 means no limit

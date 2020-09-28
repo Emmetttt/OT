@@ -1170,7 +1170,7 @@ bool Monster::getNextStep(Direction& direction, uint32_t& flags)
 				}
 			}
 		}
-	} else if (isAi() && eventWalk != 0) {
+	} else if (isAi()) {
 		result = Creature::getNextStep(direction, flags);
 		if (!result) {
 			FindPathParams fpp;
@@ -1178,7 +1178,7 @@ bool Monster::getNextStep(Direction& direction, uint32_t& flags)
 			fpp.clearSight = false;
 			fpp.allowDiagonal = true;
 			fpp.keepDistance = false;
-			fpp.maxSearchDist = 100;
+			fpp.maxSearchDist = 300;
 			fpp.minTargetDist = 0;
 			fpp.maxTargetDist = 2;
 			Position pos = g_game.getNextWaypoint(this);

@@ -161,6 +161,7 @@ bool ConfigManager::load()
 
 	string[DEFAULT_GAME_MODE] = getGlobalString(L, "defaultGameMode", "tdm");
 	integer[TDM_KILLS_TO_WIN] = getGlobalNumber(L, "tdmKillsToWin", 20);
+	integer[NUMBER_BOTS_PER_TEAM] = getGlobalNumber(L, "numberBotsPerTeam", 10);
 
 	integer[MAX_PLAYERS] = getGlobalNumber(L, "maxPlayers");
 	integer[PZ_LOCKED] = getGlobalNumber(L, "pzLocked", 60000);
