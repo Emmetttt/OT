@@ -1173,25 +1173,30 @@ bool Monster::getNextStep(Direction& direction, uint32_t& flags)
 	} else if (isAi()) {
 		result = Creature::getNextStep(direction, flags);
 		if (!result) {
-			FindPathParams fpp;
-			fpp.fullPathSearch = true;
-			fpp.clearSight = false;
-			fpp.allowDiagonal = true;
-			fpp.keepDistance = false;
-			fpp.maxSearchDist = 300;
-			fpp.minTargetDist = 0;
-			fpp.maxTargetDist = 2;
-			Position pos = g_game.getNextWaypoint(this);
-			if (getPathTo(pos, listWalkDir, fpp)) {
-				startAutoWalk(listWalkDir);
-				result = true;
-			}
-			else {
-				if (waypoint > 3){
-					waypoint = 1;
-				}
-				result = getRandomStep(getPosition(), direction);
-			}
+			result = g_game.map.getNextDirection(direction, getPosition());
+			
+			// result = canWalkTo(g_game.map.getNextDirection(getPosition()), getPosition());
+
+
+			// FindPathParams fpp;
+			// fpp.fullPathSearch = true;
+			// fpp.clearSight = false;
+			// fpp.allowDiagonal = true;
+			// fpp.keepDistance = false;
+			// fpp.maxSearchDist = 300;
+			// fpp.minTargetDist = 0;
+			// fpp.maxTargetDist = 2;
+			// Position pos = g_game.getNextWaypoint(this);
+			// if (getPathTo(pos, listWalkDir, fpp)) {
+			// 	startAutoWalk(listWalkDir);
+			// 	result = true;
+			// }
+			// else {
+			// 	if (waypoint > 3){
+			// 		waypoint = 1;
+			// 	}
+			// 	result = getRandomStep(getPosition(), direction);
+			// }
 		}
 	}
 

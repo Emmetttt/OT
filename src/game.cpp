@@ -237,6 +237,24 @@ void Game::initialiseGameMode(){
 	setGuildWarStatsToZero(1);
 	setGuildWarStatsToZero(2);
 	prepopulateTeams();
+
+	Position chokePoint;
+	switch (g_game.getCurrentMap()) {
+		case CURRENT_MAP_EDRON:
+			chokePoint = map.towns.getTown("EdronChokePoint")->getTemplePosition();
+			break;
+		case CURRENT_MAP_THAIS:
+			chokePoint = map.towns.getTown("ThaisChokePoint")->getTemplePosition();
+			break;
+		case CURRENT_MAP_VENORE:
+			chokePoint = map.towns.getTown("VenoreChokePoint")->getTemplePosition();
+			break;
+		case CURRENT_MAP_FIBULA:
+			chokePoint = map.towns.getTown("FibulaChokePoint")->getTemplePosition();
+			break;
+	}
+	map.produceMap(chokePoint);
+
 	// When we have more game modes, switch on GetGameMode
 }
 

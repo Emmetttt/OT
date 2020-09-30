@@ -265,6 +265,9 @@ class Map
 		Towns towns;
 		Houses houses;
 
+		bool produceMap(Position pos);
+		bool getNextDirection(Direction& dir, Position pos);
+
 	private:
 		SpectatorCache spectatorCache;
 		SpectatorCache playersSpectatorCache;
@@ -276,12 +279,17 @@ class Map
 
 		uint32_t width = 0;
 		uint32_t height = 0;
+		int_fast32_t aiMap[512][512];
 
 		// Actually scans the map for spectators
 		void getSpectatorsInternal(SpectatorVec& spectators, const Position& centerPos,
 		                           int32_t minRangeX, int32_t maxRangeX,
 		                           int32_t minRangeY, int32_t maxRangeY,
 		                           int32_t minRangeZ, int32_t maxRangeZ, bool onlyPlayers) const;
+
+		void writeToAiMap(int_fast32_t value, std::list<Position>& positionQueue, std::list<Position>& backupQueue);
+		void queryTile(Position pos, uint16_t x, uint16_t y, int_fast32_t value, std::list<Position>& backupQueue);
+		bool checkNextDirection(uint16_t x, uint16_t y, uint16_t z, int_fast32_t value);
 
 		friend class Game;
 		friend class IOMap;

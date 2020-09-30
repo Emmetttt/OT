@@ -567,6 +567,138 @@ const Tile* Map::canWalkTo(const Creature& creature, const Position& pos) const
 	return tile;
 }
 
+// getTile allows us to see if we can walk
+// static int_fast32_t map[512][512]
+bool Map::produceMap(Position pos)
+{
+	int_fast32_t value = 99999;
+	aiMap[pos.x][pos.y] = value;
+	std::list<Position> positionQueue1;
+	std::list<Position> positionQueue2;
+	positionQueue1.emplace_back(pos);
+
+	while (!positionQueue1.empty() || !positionQueue2.empty())
+	{
+		if (!positionQueue1.empty()) {
+			writeToAiMap(value, positionQueue1, positionQueue2);	
+		}
+		else {
+			writeToAiMap(value, positionQueue2, positionQueue1);
+		}
+
+		value--;
+	}
+
+	return true;
+}
+
+void Map::writeToAiMap(int_fast32_t value, std::list<Position>& positionQueue, std::list<Position>& backupQueue)
+{
+	while (!positionQueue.empty()){
+		Position& currentPos = positionQueue.front();
+		positionQueue.pop_front();
+		queryTile(currentPos, currentPos.x + 1, currentPos.y, value, backupQueue);
+		queryTile(currentPos, currentPos.x - 1, currentPos.y, value, backupQueue);
+		queryTile(currentPos, currentPos.x, currentPos.y + 1, value, backupQueue);
+		queryTile(currentPos, currentPos.x, currentPos.y - 1, value, backupQueue);
+	}
+}
+
+void Map::queryTile(Position pos, uint16_t x, uint16_t y, int_fast32_t value, std::list<Position>& backupQueue)
+{
+	Tile* tile = getTile(x, y, pos.z);
+	if (tile && tile->getGround() && !tile->hasFlag(TILESTATE_BLOCKSOLID) && aiMap[x][y] == 0){
+		if (Item::items[tile->getGround()->getID()].blockSolid) {
+			return;
+		}
+
+		if (const auto items = tile->getItemList()) {
+			for (const Item* item : *items) {
+				const ItemType& iiType = Item::items[item->getID()];
+				if (iiType.blockSolid) {
+					return;
+				}
+			}
+		}
+
+		aiMap[x][y] = value;
+		Position tempPos(x, y, pos.z);
+		backupQueue.emplace_back(tempPos);
+	}
+}
+
+bool Map::getNextDirection(Direction& dir, Position pos)
+{
+	int_fast32_t value = aiMap[pos.x][pos.y];
+
+	// std::cout << aiMap[pos.x - 1][pos.y - 1] << " " << aiMap[pos.x][pos.y - 1] << " " << aiMap[pos.x + 1][pos.y - 1] << std::endl;
+	// std::cout << aiMap[pos.x - 1][pos.y] << " " << aiMap[pos.x][pos.y] << " " << aiMap[pos.x + 1][pos.y] << std::endl;
+	// std::cout << aiMap[pos.x - 1][pos.y + 1] << " " << aiMap[pos.x][pos.y + 1] << " " << aiMap[pos.x + 1][pos.y + 1] << std::endl;
+	// std::cout << "--------------" << std::endl;
+
+	std::vector<Direction> list;
+	if (checkNextDirection(pos.x-1, pos.y, pos.z, value)) list.push_back(DIRECTION_WEST);
+	if (checkNextDirection(pos.x+1, pos.y, pos.z, value)) list.push_back(DIRECTION_EAST);
+	if (checkNextDirection(pos.x, pos.y-1, pos.z, value)) list.push_back(DIRECTION_NORTH);
+	if (checkNextDirection(pos.x, pos.y+1, pos.z, value)) list.push_back(DIRECTION_SOUTH);
+
+	if (list.size() > 0){
+		int index = rand() % list.size(); // pick a random index
+		dir = list[index]; // a random value taken from that list
+		return true;
+	}
+
+	if (checkNextDirection(pos.x-1, pos.y, pos.z, value-1)) list.push_back(DIRECTION_WEST);
+	if (checkNextDirection(pos.x+1, pos.y, pos.z, value-1)) list.push_back(DIRECTION_EAST);
+	if (checkNextDirection(pos.x, pos.y-1, pos.z, value-1)) list.push_back(DIRECTION_NORTH);
+	if (checkNextDirection(pos.x, pos.y+1, pos.z, value-1)) list.push_back(DIRECTION_SOUTH);
+
+	if (list.size() > 0){
+		int index = rand() % list.size(); // pick a random index
+		dir = list[index]; // a random value taken from that list
+		return true;
+	}
+
+	if (checkNextDirection(pos.x-1, pos.y-1, pos.z, value)) list.push_back(DIRECTION_NORTHWEST);
+	if (checkNextDirection(pos.x+1, pos.y-1, pos.z, value)) list.push_back(DIRECTION_NORTHEAST);
+	if (checkNextDirection(pos.x-1, pos.y+1, pos.z, value)) list.push_back(DIRECTION_SOUTHWEST);
+	if (checkNextDirection(pos.x+1, pos.y+1, pos.z, value)) list.push_back(DIRECTION_SOUTHEAST);
+
+	if (list.size() > 0){
+		int index = rand() % list.size(); // pick a random index
+		dir = list[index]; // a random value taken from that list
+		return true;
+	}
+
+	if (checkNextDirection(pos.x-1, pos.y-1, pos.z, value-1)) list.push_back(DIRECTION_NORTHWEST);
+	if (checkNextDirection(pos.x+1, pos.y-1, pos.z, value-1)) list.push_back(DIRECTION_NORTHEAST);
+	if (checkNextDirection(pos.x-1, pos.y+1, pos.z, value-1)) list.push_back(DIRECTION_SOUTHWEST);
+	if (checkNextDirection(pos.x+1, pos.y+1, pos.z, value-1)) list.push_back(DIRECTION_SOUTHEAST);
+
+	if (list.size() > 0){
+		int index = rand() % list.size(); // pick a random index
+		dir = list[index]; // a random value taken from that list
+		return true;
+	}
+
+	return false;
+}
+
+bool Map::checkNextDirection(uint16_t x, uint16_t y, uint16_t z, int_fast32_t value)
+{
+	if (aiMap[x][y] > value){
+		Tile* tile = getTile(x, y, z);
+		const CreatureVector* creatures = tile->getCreatures();
+		if (creatures && !creatures->empty()) {
+			return false;
+		}
+
+		return true;
+	};
+
+	return false;
+}
+
 bool Map::getPathMatching(const Creature& creature, std::forward_list<Direction>& dirList, const FrozenPathingConditionCall& pathCondition, const FindPathParams& fpp) const
 {
 	Position pos = creature.getPosition();
