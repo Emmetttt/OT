@@ -188,16 +188,6 @@ class Monster final : public Creature
 
 		static uint32_t monsterAutoID;
 
-		/* MANA */
-		uint32_t getMana() const {
-			return mana;
-		}
-		uint32_t getMaxMana() const {
-			return manaMax;
-		}
-		void changeMana(int32_t manaChange);
-		void drainMana(Creature* attacker, int32_t manaLoss);
-
 	private:
 		CreatureHashSet friendList;
 		CreatureList targetList;
@@ -219,8 +209,6 @@ class Monster final : public Creature
 		int32_t targetChangeCooldown = 0;
 		int32_t challengeFocusDuration = 0;
 		int32_t stepDuration = 0;
-		uint32_t mana = 0;
-		uint32_t manaMax = 0;
 		uint32_t waypoint = 1;
 
 		Position masterPos;

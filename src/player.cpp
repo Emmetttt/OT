@@ -1509,12 +1509,7 @@ void Player::drainHealth(Creature* attacker, int32_t damage)
 
 void Player::drainMana(Creature* attacker, int32_t manaLoss)
 {
-	onAttacked();
-	changeMana(-manaLoss);
-
-	if (attacker) {
-		addDamagePoints(attacker, manaLoss);
-	}
+	Creature::drainMana(attacker, manaLoss);
 
 	sendStats();
 }
@@ -1897,19 +1892,6 @@ uint32_t Player::getIP() const
 void Player::death(Creature* lastHitCreature)
 {
 	loginPosition = town->getTemplePosition();
-
-	Guild* playerGuild = getGuild();
-	if (playerGuild){
-		playerGuild->addDeath();
-	}
-
-	Player* player = lastHitCreature->getPlayer();
-	if (player){
-		Guild* guild = player->getGuild();
-		if (guild && playerGuild && guild->getId() != playerGuild->getId()){
-			guild->addKill();
-		}
-	}
 
 	sendToGameTypeDefaultLocation();
 }
@@ -3385,28 +3367,6 @@ bool Player::onKilledCreature(Creature* target, bool lastHit/* = true*/)
 		return false;
 	}
 
-	addStreak();
-	switch (getStreak()) {
-		case 1:
-			setSkull(SKULL_GREEN);
-			break;
-		case 2:
-			setSkull(SKULL_YELLOW);
-			break;
-		case 3:
-			setSkull(SKULL_WHITE);
-			break;
-		case 5:
-			setSkull(SKULL_ORANGE);
-			break;
-		case 10:
-			setSkull(SKULL_RED);
-			break;
-		case 20:
-			setSkull(SKULL_BLACK);
-			break;
-	}
-
 	return unjustified;
 }
 
@@ -3483,14 +3443,11 @@ void Player::changeHealth(int32_t healthChange, bool sendHealthChange/* = true*/
 
 void Player::changeMana(int32_t manaChange)
 {
-	if (!hasFlag(PlayerFlag_HasInfiniteMana)) {
-		if (manaChange > 0) {
-			mana += std::min<int32_t>(manaChange, getMaxMana() - mana);
-		} else {
-			mana = std::max<int32_t>(0, mana + manaChange);
-		}
+	if (hasFlag(PlayerFlag_HasInfiniteMana)) {
+		return;
 	}
 
+	Creature::changeMana(manaChange);
 	sendStats();
 }
 

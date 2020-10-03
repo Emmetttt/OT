@@ -1,7 +1,7 @@
 -- Combat settings
 -- NOTE: valid values for worldType are: "pvp", "no-pvp" and "pvp-enforced"
 worldType = "pvp"
-hotkeyAimbotEnabled = false
+hotkeyAimbotEnabled = true
 protectionLevel = 1
 killsToRedSkull = 5
 killsToBlackSkull = 20
@@ -18,7 +18,7 @@ expFromPlayersLevelRange = 999
 
 -- Game mode settings
 defaultGameMode = "tdm"
-tdmKillsToWin = 3
+tdmKillsToWin = 200
 numberBotsPerTeam = 30
 
 -- Connection Config

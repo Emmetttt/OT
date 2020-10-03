@@ -76,6 +76,11 @@ struct spellBlock_t {
 		chance(other.chance),
 		speed(other.speed),
 		range(other.range),
+		healthPercent(other.healthPercent),
+		manaPercent(other.manaPercent),
+		isHealing(other.isHealing),
+		isManaShield(other.isManaShield),
+		isHaste(other.isHaste),
 		minCombatValue(other.minCombatValue),
 		maxCombatValue(other.maxCombatValue),
 		combatSpell(other.combatSpell),
@@ -85,12 +90,17 @@ struct spellBlock_t {
 
 	BaseSpell* spell = nullptr;
 	uint32_t chance = 100;
+	uint32_t healthPercent = 100;
+	uint32_t manaPercent = 100;
 	uint32_t speed = 2000;
 	uint32_t range = 0;
 	int32_t minCombatValue = 0;
 	int32_t maxCombatValue = 0;
 	bool combatSpell = false;
 	bool isMelee = false;
+	bool isHealing = false;
+	bool isManaShield = false;
+	bool isHaste = false;
 };
 
 struct voiceBlock_t {
@@ -200,6 +210,8 @@ class MonsterSpell
 
 		int32_t minCombatValue = 0;
 		int32_t maxCombatValue = 0;
+		int32_t healthPercent = 100;
+		int32_t manaPercent = 100;
 		int32_t attack = 0;
 		int32_t skill = 0;
 		int32_t length = 0;
@@ -218,6 +230,9 @@ class MonsterSpell
 		bool needDirection = false;
 		bool combatSpell = false;
 		bool isMelee = false;
+		bool isHealing = false;
+		bool isManaShield = false;
+		bool isHaste = false;
 
 		Outfit_t outfit = {};
 		ShootType_t shoot = CONST_ANI_NONE;

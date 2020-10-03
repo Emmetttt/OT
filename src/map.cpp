@@ -571,6 +571,17 @@ const Tile* Map::canWalkTo(const Creature& creature, const Position& pos) const
 // static int_fast32_t map[512][512]
 bool Map::produceMap(Position pos)
 {
+	// Zero the map
+	std::cout << "Zeroing Map" << std::endl;
+	for (int_fast32_t i = 0; i < 512; i++)
+	{
+		for (int_fast32_t j = 0; j < 512; j++)
+		{
+			aiMap[i][j] = 0;
+		}
+	}
+
+	std::cout << "Calculating map" << std::endl;
 	int_fast32_t value = 99999;
 	aiMap[pos.x][pos.y] = value;
 	std::list<Position> positionQueue1;

@@ -188,7 +188,7 @@ void Game::setGameState(GameState_t newState)
 }
 
 void Game::initialiseGameMode(){
-	int32_t randMap = normal_random(0, 3);
+	int32_t randMap = uniform_random(0, 3);
 	switch (randMap){
 		case 0:
 			std::cout << "THAIS" << std::endl;
@@ -241,20 +241,22 @@ void Game::initialiseGameMode(){
 	Position chokePoint;
 	switch (g_game.getCurrentMap()) {
 		case CURRENT_MAP_EDRON:
-			chokePoint = map.towns.getTown("EdronChokePoint")->getTemplePosition();
+			chokePoint = map.towns.getTown("EdronChokePoint1")->getTemplePosition();
 			break;
 		case CURRENT_MAP_THAIS:
-			chokePoint = map.towns.getTown("ThaisChokePoint")->getTemplePosition();
+			chokePoint = map.towns.getTown("ThaisChokePoint1")->getTemplePosition();
 			break;
 		case CURRENT_MAP_VENORE:
-			chokePoint = map.towns.getTown("VenoreChokePoint")->getTemplePosition();
+			chokePoint = map.towns.getTown("VenoreChokePoint1")->getTemplePosition();
 			break;
 		case CURRENT_MAP_FIBULA:
-			chokePoint = map.towns.getTown("FibulaChokePoint")->getTemplePosition();
+			chokePoint = map.towns.getTown("FibulaChokePoint1")->getTemplePosition();
 			break;
 	}
 	map.produceMap(chokePoint);
 
+	// Set rotation of choke points
+	g_scheduler.addEvent(createSchedulerTask(180000, std::bind(&Game::rotateChokePoints, this)));
 	// When we have more game modes, switch on GetGameMode
 }
 
@@ -325,34 +327,33 @@ Town* Game::getCurrentTown(uint32_t guildId) {
 	return map.towns.getTown(ss.str());
 }
 
-Position Game::getNextWaypoint(Monster* monster) {
+void Game::rotateChokePoints()
+{
+		// std::cout << "rotate choke points" << std::endl;
+		// std::this_thread::sleep_for(std::chrono::milliseconds(sleepSeconds*1000));
+	Position nextChokePoint = getNextChokePoint();
+	map.produceMap(nextChokePoint);
+	int32_t sleepSeconds = uniform_random(60, 180);
+	std::cout << "sleep for" << sleepSeconds << std::endl;
+	g_scheduler.addEvent(createSchedulerTask(sleepSeconds * 1000, std::bind(&Game::rotateChokePoints, this)));
+}
+
+Position Game::getNextChokePoint() {
+	int32_t randMap = uniform_random(1, 6);
 	std::ostringstream ss;
 	switch (g_game.getCurrentMap()) {
 		case CURRENT_MAP_EDRON:
-			ss << "Edron";
+			ss << "EdronChokePoint" << randMap;
 			break;
 		case CURRENT_MAP_THAIS:
-			ss << "Thais";
+			ss << "ThaisChokePoint" << randMap;
 			break;
 		case CURRENT_MAP_VENORE:
-			ss << "Venore";
+			ss << "VenoreChokePoint" << randMap;
 			break;
 		case CURRENT_MAP_FIBULA:
-			ss << "Fibula";
+			ss << "FibulaChokePoint" << randMap;
 			break;
-	}
-	if (monster->getWaypoint() > 3){
-		ss << "ChokePoint";
-	}
-	else {
-		if (monster->getGuild()->getId() % 2 == 0) {
-			ss << "WhiteWaypoint" << monster->getWaypoint();
-		}
-		else {
-			ss << "BlackWaypoint" << monster->getWaypoint();
-		}
-
-		monster->incrementWaypoint();
 	}
 	return map.towns.getTown(ss.str())->getTemplePosition();
 }
@@ -4242,8 +4243,8 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 		message.position = targetPos;
 
 		SpectatorVec spectators;
-		if (targetPlayer && target->hasCondition(CONDITION_MANASHIELD) && damage.primary.type != COMBAT_UNDEFINEDDAMAGE) {
-			int32_t manaDamage = std::min<int32_t>(targetPlayer->getMana(), healthChange);
+		if (target->hasCondition(CONDITION_MANASHIELD) && damage.primary.type != COMBAT_UNDEFINEDDAMAGE) {
+			int32_t manaDamage = std::min<int32_t>(target->getMana(), healthChange);
 			if (manaDamage != 0) {
 				if (damage.origin != ORIGIN_NONE) {
 					const auto& events = target->getCreatureEvents(CREATURE_EVENT_MANACHANGE);
@@ -4255,11 +4256,11 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 						if (healthChange == 0) {
 							return true;
 						}
-						manaDamage = std::min<int32_t>(targetPlayer->getMana(), healthChange);
+						manaDamage = std::min<int32_t>(target->getMana(), healthChange);
 					}
 				}
 
-				targetPlayer->drainMana(attacker, manaDamage);
+				target->drainMana(attacker, manaDamage);
 				map.getSpectators(spectators, targetPos, true, true);
 				addMagicEffect(spectators, targetPos, CONST_ME_LOSEENERGY);
 
@@ -4452,10 +4453,6 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 bool Game::combatChangeMana(Creature* attacker, Creature* target, CombatDamage& damage)
 {
 	Player* targetPlayer = target->getPlayer();
-	if (!targetPlayer) {
-		return true;
-	}
-
 	int32_t manaChange = damage.primary.value + damage.secondary.value;
 	if (manaChange > 0) {
 		if (damage.origin != ORIGIN_NONE) {
@@ -4469,11 +4466,11 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, CombatDamage& 
 			}
 		}
 
-		int32_t realManaChange = targetPlayer->getMana();
-		targetPlayer->changeMana(manaChange);
-		realManaChange = targetPlayer->getMana() - realManaChange;
+		int32_t realManaChange = target->getMana();
+		target->changeMana(manaChange);
+		realManaChange = target->getMana() - realManaChange;
 
-		if (realManaChange > 0 && !targetPlayer->isInGhostMode()) {
+		if (targetPlayer && realManaChange > 0 && !targetPlayer->isInGhostMode()) {
 			TextMessage message(MESSAGE_HEALED, "You gained " + std::to_string(realManaChange) + " mana.");
 			message.position = target->getPosition();
 			message.primary.value = realManaChange;
@@ -4496,7 +4493,7 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, CombatDamage& 
 			attackerPlayer = nullptr;
 		}
 
-		int32_t manaLoss = std::min<int32_t>(targetPlayer->getMana(), -manaChange);
+		int32_t manaLoss = std::min<int32_t>(target->getMana(), -manaChange);
 		BlockType_t blockType = target->blockHit(attacker, COMBAT_MANADRAIN, manaLoss);
 		if (blockType != BLOCK_NONE) {
 			addMagicEffect(targetPos, CONST_ME_POFF);
@@ -4518,7 +4515,7 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, CombatDamage& 
 			}
 		}
 
-		targetPlayer->drainMana(attacker, manaLoss);
+		target->drainMana(attacker, manaLoss);
 
 		std::stringstream ss;
 
@@ -4533,44 +4530,47 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, CombatDamage& 
 
 		SpectatorVec spectators;
 		map.getSpectators(spectators, targetPos, false, true);
-		for (Creature* spectator : spectators) {
-			Player* tmpPlayer = spectator->getPlayer();
-			if (tmpPlayer == attackerPlayer && attackerPlayer != targetPlayer) {
-				ss.str({});
-				ss << ucfirst(target->getNameDescription()) << " loses " << damageString << " mana due to your attack.";
-				message.type = MESSAGE_DAMAGE_DEALT;
-				message.text = ss.str();
-			} else if (tmpPlayer == targetPlayer) {
-				ss.str({});
-				ss << "You lose " << damageString << " mana";
-				if (!attacker) {
-					ss << '.';
-				} else if (targetPlayer == attackerPlayer) {
-					ss << " due to your own attack.";
-				} else {
-					ss << " mana due to an attack by " << attacker->getNameDescription() << '.';
-				}
-				message.type = MESSAGE_DAMAGE_RECEIVED;
-				message.text = ss.str();
-			} else {
-				if (spectatorMessage.empty()) {
+		if (targetPlayer)
+		{
+			for (Creature* spectator : spectators) {
+				Player* tmpPlayer = spectator->getPlayer();
+				if (tmpPlayer == attackerPlayer && attackerPlayer != targetPlayer) {
 					ss.str({});
-					ss << ucfirst(target->getNameDescription()) << " loses " << damageString << " mana";
-					if (attacker) {
-						ss << " due to ";
-						if (attacker == target) {
-							ss << (targetPlayer->getSex() == PLAYERSEX_FEMALE ? "her own attack" : "his own attack");
-						} else {
-							ss << "an attack by " << attacker->getNameDescription();
-						}
+					ss << ucfirst(target->getNameDescription()) << " loses " << damageString << " mana due to your attack.";
+					message.type = MESSAGE_DAMAGE_DEALT;
+					message.text = ss.str();
+				} else if (tmpPlayer == targetPlayer) {
+					ss.str({});
+					ss << "You lose " << damageString << " mana";
+					if (!attacker) {
+						ss << '.';
+					} else if (targetPlayer == attackerPlayer) {
+						ss << " due to your own attack.";
+					} else {
+						ss << " mana due to an attack by " << attacker->getNameDescription() << '.';
 					}
-					ss << '.';
-					spectatorMessage = ss.str();
+					message.type = MESSAGE_DAMAGE_RECEIVED;
+					message.text = ss.str();
+				} else {
+					if (spectatorMessage.empty()) {
+						ss.str({});
+						ss << ucfirst(target->getNameDescription()) << " loses " << damageString << " mana";
+						if (attacker) {
+							ss << " due to ";
+							if (attacker == target) {
+								ss << (targetPlayer->getSex() == PLAYERSEX_FEMALE ? "her own attack" : "his own attack");
+							} else {
+								ss << "an attack by " << attacker->getNameDescription();
+							}
+						}
+						ss << '.';
+						spectatorMessage = ss.str();
+					}
+					message.type = MESSAGE_DAMAGE_OTHERS;
+					message.text = spectatorMessage;
 				}
-				message.type = MESSAGE_DAMAGE_OTHERS;
-				message.text = spectatorMessage;
+				tmpPlayer->sendTextMessage(message);
 			}
-			tmpPlayer->sendTextMessage(message);
 		}
 	}
 
@@ -5832,23 +5832,19 @@ void Game::prepopulateTeams()
 	uint32_t teamCount = g_config.getNumber(ConfigManager::NUMBER_BOTS_PER_TEAM);
 	while (guild1->getMembersOnlineCount() < teamCount || guild2->getMembersOnlineCount() < teamCount)
 	{
-		int32_t randVoc = normal_random(0, 3);
+		int32_t randVoc = uniform_random(0, 3);
 		Monster* monster = nullptr; 
 		switch (randVoc){
 			case 0:
-				std::cout << "knight" << std::endl;
 				monster = Monster::createMonster("knight");
 				break;
 			case 1:
-				std::cout << "paladin" << std::endl;
 				monster = Monster::createMonster("paladin");
 				break;
 			case 2:
-				std::cout << "druid" << std::endl;
 				monster = Monster::createMonster("druid");
 				break;
 			case 3:
-				std::cout << "sorcerer" << std::endl;
 				monster = Monster::createMonster("sorcerer");
 				break;
 		}

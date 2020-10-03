@@ -936,21 +936,65 @@ void Monster::onThinkDefense(uint32_t interval)
 	bool resetTicks = true;
 	defenseTicks += interval;
 
-	for (const spellBlock_t& spellBlock : mType->info.defenseSpells) {
-		if (spellBlock.speed > defenseTicks) {
-			resetTicks = false;
-			continue;
-		}
+	if (isAi())
+	{
+		// hierarachy:
+		// 1. if we need healing, heal
+		// 2. if we're a druid and our team member needs healing, heal the,
+		// 3. if we need mana, pot baby
+		// 4. if we're not hasted, haste
+		// 5. if we're a mage and not mana shielded, mana shield
 
-		if (defenseTicks % spellBlock.speed >= interval) {
-			//already used this spell for this round
-			continue;
-		}
+		// 1. check for healing
+		for (const spellBlock_t& spellBlock : mType->info.defenseSpells) {
+			if (spellBlock.speed > defenseTicks) {
+				resetTicks = false;
+				continue;
+			}
 
-		if ((spellBlock.chance >= static_cast<uint32_t>(uniform_random(1, 100)))) {
-			minCombatValue = spellBlock.minCombatValue;
-			maxCombatValue = spellBlock.maxCombatValue;
-			spellBlock.spell->castSpell(this, this);
+			if (defenseTicks % spellBlock.speed >= interval) {
+				//already used this spell for this round
+				continue;
+			}
+
+			float currentHealthPercent = ((float)getHealth() / (float)getMaxHealth()) * 100;
+			if (spellBlock.isHealing && spellBlock.healthPercent >= currentHealthPercent) {
+				minCombatValue = spellBlock.minCombatValue;
+				maxCombatValue = spellBlock.maxCombatValue;
+				spellBlock.spell->castSpell(this, this);
+			}
+			else if (spellBlock.isManaShield && getCondition(CONDITION_MANASHIELD) == nullptr)
+			{
+				minCombatValue = spellBlock.minCombatValue;
+				maxCombatValue = spellBlock.maxCombatValue;
+				spellBlock.spell->castSpell(this, this);
+			}
+			else if (spellBlock.isHaste && getSpeed() == getBaseSpeed())
+			{
+				minCombatValue = spellBlock.minCombatValue;
+				maxCombatValue = spellBlock.maxCombatValue;
+				spellBlock.spell->castSpell(this, this);
+			}
+		}
+	}
+	else
+	{
+		for (const spellBlock_t& spellBlock : mType->info.defenseSpells) {
+			if (spellBlock.speed > defenseTicks) {
+				resetTicks = false;
+				continue;
+			}
+
+			if (defenseTicks % spellBlock.speed >= interval) {
+				//already used this spell for this round
+				continue;
+			}
+
+			if ((spellBlock.chance >= static_cast<uint32_t>(uniform_random(1, 100)))) {
+				minCombatValue = spellBlock.minCombatValue;
+				maxCombatValue = spellBlock.maxCombatValue;
+				spellBlock.spell->castSpell(this, this);
+			}
 		}
 	}
 
@@ -1174,29 +1218,6 @@ bool Monster::getNextStep(Direction& direction, uint32_t& flags)
 		result = Creature::getNextStep(direction, flags);
 		if (!result) {
 			result = g_game.map.getNextDirection(direction, getPosition());
-			
-			// result = canWalkTo(g_game.map.getNextDirection(getPosition()), getPosition());
-
-
-			// FindPathParams fpp;
-			// fpp.fullPathSearch = true;
-			// fpp.clearSight = false;
-			// fpp.allowDiagonal = true;
-			// fpp.keepDistance = false;
-			// fpp.maxSearchDist = 300;
-			// fpp.minTargetDist = 0;
-			// fpp.maxTargetDist = 2;
-			// Position pos = g_game.getNextWaypoint(this);
-			// if (getPathTo(pos, listWalkDir, fpp)) {
-			// 	startAutoWalk(listWalkDir);
-			// 	result = true;
-			// }
-			// else {
-			// 	if (waypoint > 3){
-			// 		waypoint = 1;
-			// 	}
-			// 	result = getRandomStep(getPosition(), direction);
-			// }
 		}
 	}
 
@@ -2045,24 +2066,5 @@ void Monster::getPathSearchParams(const Creature* creature, FindPathParams& fpp)
 		fpp.fullPathSearch = true;
 	} else {
 		fpp.fullPathSearch = !canUseAttack(getPosition(), creature);
-	}
-}
-
-void Monster::drainMana(Creature* attacker, int32_t manaLoss)
-{
-	onAttacked();
-	changeMana(-manaLoss);
-
-	if (attacker) {
-		addDamagePoints(attacker, manaLoss);
-	}
-}
-
-void Monster::changeMana(int32_t manaChange)
-{
-	if (manaChange > 0) {
-		mana += std::min<int32_t>(manaChange, getMaxMana() - mana);
-	} else {
-		mana = std::max<int32_t>(0, mana + manaChange);
 	}
 }

@@ -453,7 +453,8 @@ class Game
 			return currentMap;
 		}
 		Town* getCurrentTown(uint32_t guildId);
-		Position getNextWaypoint(Monster* monster);
+		Position getNextChokePoint();
+		void rotateChokePoints();
 		void setCurrentMap(CurrentMap_t newMap){
 			currentMap = newMap;
 		}

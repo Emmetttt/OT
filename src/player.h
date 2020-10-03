@@ -451,12 +451,6 @@ class Player final : public Creature, public Cylinder
 		int32_t getMaxHealth() const override {
 			return std::max<int32_t>(1, healthMax + varStats[STAT_MAXHITPOINTS]);
 		}
-		uint32_t getMana() const {
-			return mana;
-		}
-		uint32_t getMaxMana() const {
-			return std::max<int32_t>(0, manaMax + varStats[STAT_MAXMANAPOINTS]);
-		}
 
 		Item* getInventoryItem(slots_t slot) const;
 
@@ -570,7 +564,6 @@ class Player final : public Creature, public Cylinder
 		static bool lastHitIsPlayer(Creature* lastHitCreature);
 
 		void changeHealth(int32_t healthChange, bool sendHealthChange = true) override;
-		void changeMana(int32_t manaChange);
 		void changeSoul(int32_t soulChange);
 
 		bool isPzLocked() const {
@@ -610,7 +603,8 @@ class Player final : public Creature, public Cylinder
 		void getShieldAndWeapon(const Item*& shield, const Item*& weapon) const;
 
 		void drainHealth(Creature* attacker, int32_t damage) override;
-		void drainMana(Creature* attacker, int32_t manaLoss);
+		void drainMana(Creature* attacker, int32_t manaLoss) override;
+		void changeMana(int32_t manaChange) override;
 		void addManaSpent(uint64_t amount);
 		void addSkillAdvance(skills_t skill, uint64_t count);
 
@@ -643,13 +637,6 @@ class Player final : public Creature, public Cylinder
 		void onPlacedCreature() override;
 
 		LightInfo getCreatureLight() const override;
-
-		int32_t getStreak() const {
-			return streak;
-		}
-		void addStreak(){
-			streak++;
-		}
 		Skulls_t getSkull() const override;
 		Skulls_t getSkullClient(const Creature* creature) const override;
 		int64_t getSkullTicks() const { return skullTicks; }
@@ -1227,7 +1214,6 @@ class Player final : public Creature, public Cylinder
 		Town* town = nullptr;
 		Vocation* vocation = nullptr;
 
-		uint32_t streak = 0;
 		uint32_t inventoryWeight = 0;
 		uint32_t capacity = 40000;
 		uint32_t damageImmunities = 0;
@@ -1244,8 +1230,6 @@ class Player final : public Creature, public Cylinder
 		uint32_t guid = 0;
 		uint32_t windowTextId = 0;
 		uint32_t editListId = 0;
-		uint32_t mana = 0;
-		uint32_t manaMax = 0;
 		int32_t varSkills[SKILL_LAST + 1] = {};
 		int32_t varSpecialSkills[SPECIALSKILL_LAST + 1] = {};
 		int32_t varStats[STAT_LAST + 1] = {};

@@ -85,6 +85,31 @@ bool Creature::canSeeCreature(const Creature* creature) const
 	return true;
 }
 
+void Creature::addStreak()
+{
+	streak++;
+	switch (getStreak()) {
+		case 1:
+			setSkull(SKULL_GREEN);
+			break;
+		case 2:
+			setSkull(SKULL_YELLOW);
+			break;
+		case 3:
+			setSkull(SKULL_WHITE);
+			break;
+		case 5:
+			setSkull(SKULL_ORANGE);
+			break;
+		case 10:
+			setSkull(SKULL_RED);
+			break;
+		case 20:
+			setSkull(SKULL_BLACK);
+			break;
+	}
+}
+
 void Creature::setSkull(Skulls_t newSkull)
 {
 	skull = newSkull;
@@ -211,7 +236,6 @@ void Creature::onWalk()
 	}
 
 	if (cancelNextWalk) {
-		std::cout << "clearing list walk dir" << std:: endl;
 		listWalkDir.clear();
 		onWalkAborted();
 		cancelNextWalk = false;
@@ -670,6 +694,17 @@ void Creature::onDeath()
 		}
 	}
 
+	Guild* killerGuild = lastHitCreature->getGuild();
+	if (killerGuild && guild && guild->getId() != killerGuild->getId()){
+		killerGuild->addKill();
+		guild->addDeath();
+	}
+
+	if (lastHitCreature->getPlayer() || (lastHitCreature->getMonster() && lastHitCreature->getMonster()->isAi()))
+	{
+		lastHitCreature->addStreak();
+	}
+
 	dropCorpse(lastHitCreature, mostDamageCreature, lastHitUnjustified, mostDamageUnjustified);
 	death(lastHitCreature);
 
@@ -775,6 +810,25 @@ void Creature::drainHealth(Creature* attacker, int32_t damage)
 
 	if (attacker) {
 		attacker->onAttackedCreatureDrainHealth(this, damage);
+	}
+}
+
+void Creature::drainMana(Creature* attacker, int32_t manaLoss)
+{
+	onAttacked();
+	changeMana(-manaLoss);
+
+	if (attacker) {
+		addDamagePoints(attacker, manaLoss);
+	}
+}
+
+void Creature::changeMana(int32_t manaChange)
+{
+	if (manaChange > 0) {
+		mana += std::min<int32_t>(manaChange, getMaxMana() - mana);
+	} else {
+		mana = std::max<int32_t>(0, mana + manaChange);
 	}
 }
 

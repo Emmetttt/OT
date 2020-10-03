@@ -229,6 +229,14 @@ class Creature : virtual public Thing
 		virtual int32_t getMaxHealth() const {
 			return healthMax;
 		}
+		uint32_t getMana() const {
+			return mana;
+		}
+		uint32_t getMaxMana() const {
+			return manaMax;
+		}
+		virtual void drainMana(Creature* attacker, int32_t manaLoss);
+		virtual void changeMana(int32_t manaChange);
 
 		const Outfit_t getCurrentOutfit() const {
 			return currentOutfit;
@@ -462,6 +470,11 @@ class Creature : virtual public Thing
 
 		uint16_t getHelpers() const;
 
+		int32_t getStreak() const {
+			return streak;
+		}
+		void addStreak();
+
 		/* GUILD */
 		Guild* getGuild() const {
 			return guild;
@@ -537,6 +550,9 @@ class Creature : virtual public Thing
 		int32_t varSpeed = 0;
 		int32_t health = 1000;
 		int32_t healthMax = 1000;
+		uint32_t mana = 0;
+		uint32_t manaMax = 0;
+		uint32_t streak = 0;
 
 		Outfit_t currentOutfit;
 		Outfit_t defaultOutfit;

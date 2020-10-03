@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<monster name="BOT Paladin" nameDescription="a Paladin" race="blood" experience="60" speed="309">
+<monster name="BOT Paladin" nameDescription="a Paladin" race="blood" experience="12938980" speed="309">
 	<health now="2105" max="2105" />
 	<mana now="2970" max="2970" />
 	<look type="137" head="113" body="120" legs="95" feet="115" addons="3" corpse="2317" />
@@ -27,10 +27,10 @@
 		</attack>
 	</attacks>
 	<defenses armor="31" defense="0">
-		<defense name="healing" interval="2000" chance="20" min="475" max="765">
+		<defense name="healing" interval="1200" min="475" max="765" healthPercent="80">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
-		<defense name="speed" interval="2000" chance="70" speedchange="80" duration="30000">
+		<defense name="speed" interval="2000" speedchange="80" duration="30000">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 	</defenses>
