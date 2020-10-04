@@ -884,6 +884,7 @@ class LuaScriptInterface
 
 		static int luaPlayerGetTown(lua_State* L);
 		static int luaPlayerSetTown(lua_State* L);
+		static int luaPlayerSetLevel(lua_State* L);
 
 		static int luaPlayerGetGuild(lua_State* L);
 		static int luaPlayerSetGuild(lua_State* L);

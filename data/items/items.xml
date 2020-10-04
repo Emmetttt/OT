@@ -3353,8 +3353,8 @@
 	<item id="2408" article="a" name="warlord sword">
 		<attribute key="description" value="Strong powers flow in this magic sword." />
 		<attribute key="weight" value="6400" />
-		<attribute key="defense" value="38" />
-		<attribute key="attack" value="53" />
+		<attribute key="defense" value="50" />
+		<attribute key="attack" value="110" />
 		<attribute key="weaponType" value="sword" />
 		<attribute key="slotType" value="two-handed" />
 	</item>
@@ -15726,7 +15726,8 @@
 		<attribute key="weaponType" value="distance" />
 		<attribute key="ammoType" value="bolt" />
 		<attribute key="range" value="3" />
-		<attribute key="attack" value="4" />
+		<attribute key="attack" value="50" />
+		<attribute key="hitChance" value="-10" />
 	</item>
 	<item id="8851" article="a" name="royal crossbow">
 		<attribute key="weight" value="12000" />
@@ -16083,7 +16084,8 @@
 		<attribute key="weight" value="2900" />
 		<attribute key="weaponType" value="wand" />
 		<attribute key="shootType" value="death" />
-		<attribute key="range" value="3" />
+		<attribute key="range" value="4" />
+		<attribute key="magiclevelpoints" value="10" />
 	</item>
 	<item id="8911" article="a" name="northwind rod">
 		<attribute key="description" value="It was made by one of the shamans in Svargrond and symbolises an icy mammoth." />
@@ -16153,7 +16155,7 @@
 	<item id="8926" article="a" name="demonwing axe">
 		<attribute key="weight" value="12000" />
 		<attribute key="defense" value="20" />
-		<attribute key="attack" value="53" />
+		<attribute key="attack" value="100" />
 		<attribute key="weaponType" value="axe" />
 		<attribute key="slotType" value="two-handed" />
 	</item>
@@ -22711,7 +22713,8 @@
 		<attribute key="weight" value="2800" />
 		<attribute key="weaponType" value="wand" />
 		<attribute key="shootType" value="death" />
-		<attribute key="range" value="3" />
+		<attribute key="range" value="6" />
+		<attribute key="magiclevelpoints" value="20" />
 	</item>
 	<item fromid="13761" toid="13773" name="rubbish" />
 	<item id="13774" name="torn teddy">
@@ -25524,7 +25527,7 @@
 		<attribute key="weaponType" value="wand" />
 		<attribute key="shootType" value="energy" />
 		<attribute key="range" value="4" />
-		<attribute key="magiclevelpoints" value="1" />
+		<attribute key="magiclevelpoints" value="10" />
 	</item>
 	<item id="18391" article="a" name="glowing mushroom">
 		<attribute key="weight" value="1000" />
@@ -25652,7 +25655,6 @@
 		<attribute key="weaponType" value="wand" />
 		<attribute key="shootType" value="fire" />
 		<attribute key="range" value="4" />
-		<attribute key="magiclevelpoints" value="1" />
 	</item>
 	<item id="18410" article="a" name="prismatic shield">
 		<attribute key="weight" value="7200" />
@@ -25868,8 +25870,8 @@
 		<attribute key="weaponType" value="distance" />
 		<attribute key="ammoType" value="bolt" />
 		<attribute key="range" value="6" />
-		<attribute key="attack" value="4" />
-		<attribute key="hitChance" value="3" />
+		<attribute key="attack" value="60" />
+		<attribute key="hitChance" value="10" />
 	</item>
 	<item id="18454" article="a" name="mycological bow">
 		<attribute key="weight" value="4900" />
@@ -35211,7 +35213,8 @@
 		<attribute key="weight" value="3500" />
 		<attribute key="weaponType" value="wand" />
 		<attribute key="shootType" value="ice" />
-		<attribute key="range" value="3" />
+		<attribute key="range" value="6" />
+		<attribute key="magiclevelpoints" value="20" />
 	</item>
 	<item id="25889" article="a" name="blade of mayhem" />
 	<item id="25890" article="a" name="slayer of mayhem" />

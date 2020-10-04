@@ -700,6 +700,9 @@ void Creature::onDeath()
 		guild->addDeath();
 	}
 
+	streak = 0;
+	setSkull(SKULL_NONE);
+
 	if (lastHitCreature->getPlayer() || (lastHitCreature->getMonster() && lastHitCreature->getMonster()->isAi()))
 	{
 		lastHitCreature->addStreak();

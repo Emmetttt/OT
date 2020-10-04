@@ -881,8 +881,8 @@ void Combat::doAreaCombat(Creature* caster, const Position& position, const Area
 					CombatDamage damageCopy = damage; // we cannot avoid copying here, because we don't know if it's player combat or not, so we can't modify the initial damage.
 					bool playerCombatReduced = false;
 					if ((damageCopy.primary.value < 0 || damageCopy.secondary.value < 0) && caster) {
-						Player* targetPlayer = creature->getPlayer();
-						if (targetPlayer && caster->getPlayer()) {
+						if (caster->getPlayer() && (creature->getPlayer() || (creature->getMonster() && creature->getMonster()->isAi())))
+						{
 								damageCopy.primary.value /= 2;
 								damageCopy.secondary.value /= 2;
 								playerCombatReduced = true;

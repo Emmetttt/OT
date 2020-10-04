@@ -2,7 +2,7 @@
 <monster name="BOT Knight" nameDescription="a Knight" race="blood" experience="12938980" speed="309">
 	<health now="3000" max="3000" />
 	<mana now="1050" max="1050" />
-	<look type="268" head="113" body="120" legs="95" feet="115" addons="3" corpse="2317" />
+	<look type="268" head="113" body="120" legs="95" feet="115" addons="3" corpse="3058" />
 	<targetchange interval="4000" chance="10" />
 	<flags>
 		<flag summonable="0" />
@@ -33,4 +33,19 @@
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 	</defenses>
+	<loot>
+	    <item id="2195" chance="30000" /> <!-- BOH -->
+	    <item id="2206" chance="30000" /> <!-- Time ring -->
+	    <item id="2197" chance="30000" /> <!-- SSA -->
+	    <item id="2164" chance="30000" /> <!-- Might ring -->
+	    <item id="8266" chance="30000" /> <!-- Kosheis ammy -->
+	    <item id="8850" chance="10000" /> <!-- Chain bolter -->
+	    <item id="18453" chance="1000" /> <!-- Crystal Crossbow -->
+	    <item id="18390" chance="10000" /> <!-- wand of defiance -->
+	    <item id="13760" chance="1000" /> <!-- wand of dimensions -->
+	    <item id="8910" chance="10000" /> <!-- underworld rod -->
+	    <item id="25888" chance="1000" /> <!-- rod of mayhem -->
+	    <item id="8926" chance="10000" /> <!-- Demonwing -->
+	    <item id="2408" chance="1000" /> <!-- Warlord sword -->
+	</loot>
 </monster>

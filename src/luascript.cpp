@@ -2328,6 +2328,8 @@ void LuaScriptInterface::registerFunctions()
 
 	registerMethod("Player", "getTown", LuaScriptInterface::luaPlayerGetTown);
 	registerMethod("Player", "setTown", LuaScriptInterface::luaPlayerSetTown);
+	
+	registerMethod("Player", "setLevel", LuaScriptInterface::luaPlayerSetLevel);
 
 	registerMethod("Player", "getGuild", LuaScriptInterface::luaPlayerGetGuild);
 
@@ -8470,6 +8472,22 @@ int LuaScriptInterface::luaPlayerSetTown(lua_State* L)
 	} else {
 		lua_pushnil(L);
 	}
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerSetLevel(lua_State* L)
+{
+	// player:setLevel(level)
+	uint16_t level = getNumber<uint16_t>(L, 2);
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	player->experience = player->getExpForLevel(level);
+	player->level = level;
+
 	return 1;
 }
 

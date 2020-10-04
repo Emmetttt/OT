@@ -1629,9 +1629,6 @@ void Player::addExperience(Creature* source, uint64_t exp, bool sendText/* = fal
 	}
 
 	if (prevLevel != level) {
-		health = getMaxHealth();
-		mana = getMaxMana();
-
 		updateBaseSpeed();
 		setBaseSpeed(getBaseSpeed());
 
@@ -1921,6 +1918,7 @@ void Player::sendToGameTypeDefaultLocation()
 
 	health = healthMax;
 	mana = manaMax;
+
 	g_game.addCreatureHealth(this);
 	onThink(EVENT_CREATURE_THINK_INTERVAL);
 	onIdleStatus();
@@ -3058,7 +3056,9 @@ uint64_t Player::getGainedExperience(Creature* attacker) const
 {
 	if (g_config.getBoolean(ConfigManager::EXPERIENCE_FROM_PLAYERS)) {
 		Player* attackerPlayer = attacker->getPlayer();
-		if (attackerPlayer && attackerPlayer != this && skillLoss && std::abs(static_cast<int32_t>(attackerPlayer->getLevel() - level)) <= g_config.getNumber(ConfigManager::EXP_FROM_PLAYERS_LEVEL_RANGE)) {
+		if (attackerPlayer && attackerPlayer != this && skillLoss
+			&& getGuild() && attackerPlayer->getGuild() && getGuild()->getId() != attackerPlayer->getGuild()->getId()
+			&& std::abs(static_cast<int32_t>(attackerPlayer->getLevel() - level)) <= g_config.getNumber(ConfigManager::EXP_FROM_PLAYERS_LEVEL_RANGE)) {
 			return std::max<uint64_t>(0, std::floor(getExperience() * getDamageRatio(attacker) * 0.1));
 		}
 	}
