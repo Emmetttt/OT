@@ -26,6 +26,9 @@
 			<attribute key="shootEffect" value="suddendeath" />
 			<attribute key="areaEffect" value="mortarea" />
 		</attack>
+		<attack name="magicwall" chance="5">
+			<attribute key="shootEffect" value="energyball" />
+		</attack>
 	</attacks>
 	<defenses armor="39" defense="0">
 		<defense name="healing" interval="1200" min="898" max="1677" healthPercent="80">

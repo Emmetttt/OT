@@ -265,7 +265,7 @@ class Map
 		Towns towns;
 		Houses houses;
 
-		bool produceMap(Position pos);
+		bool produceMap(Position pos, std::list<Position>& forbiddenTiles);
 		bool getNextDirection(Direction& dir, Position pos);
 
 	private:
@@ -287,8 +287,8 @@ class Map
 		                           int32_t minRangeY, int32_t maxRangeY,
 		                           int32_t minRangeZ, int32_t maxRangeZ, bool onlyPlayers) const;
 
-		void writeToAiMap(int_fast32_t value, std::list<Position>& positionQueue, std::list<Position>& backupQueue);
-		void queryTile(Position pos, uint16_t x, uint16_t y, int_fast32_t value, std::list<Position>& backupQueue);
+		void writeToAiMap(int_fast32_t value, std::list<Position>& positionQueue, std::list<Position>& backupQueue, std::list<Position>& forbiddenTiles);
+		void queryTile(Position pos, uint16_t x, uint16_t y, int_fast32_t value, std::list<Position>& backupQueue, std::list<Position>& forbiddenTiles);
 		bool checkNextDirection(uint16_t x, uint16_t y, uint16_t z, int_fast32_t value);
 
 		friend class Game;

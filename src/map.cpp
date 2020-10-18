@@ -569,10 +569,9 @@ const Tile* Map::canWalkTo(const Creature& creature, const Position& pos) const
 
 // getTile allows us to see if we can walk
 // static int_fast32_t map[512][512]
-bool Map::produceMap(Position pos)
+bool Map::produceMap(Position pos, std::list<Position>& forbiddenTiles)
 {
 	// Zero the map
-	std::cout << "Zeroing Map" << std::endl;
 	for (int_fast32_t i = 0; i < 512; i++)
 	{
 		for (int_fast32_t j = 0; j < 512; j++)
@@ -581,7 +580,6 @@ bool Map::produceMap(Position pos)
 		}
 	}
 
-	std::cout << "Calculating map" << std::endl;
 	int_fast32_t value = 99999;
 	aiMap[pos.x][pos.y] = value;
 	std::list<Position> positionQueue1;
@@ -591,10 +589,10 @@ bool Map::produceMap(Position pos)
 	while (!positionQueue1.empty() || !positionQueue2.empty())
 	{
 		if (!positionQueue1.empty()) {
-			writeToAiMap(value, positionQueue1, positionQueue2);	
+			writeToAiMap(value, positionQueue1, positionQueue2, forbiddenTiles);
 		}
 		else {
-			writeToAiMap(value, positionQueue2, positionQueue1);
+			writeToAiMap(value, positionQueue2, positionQueue1, forbiddenTiles);
 		}
 
 		value--;
@@ -603,24 +601,41 @@ bool Map::produceMap(Position pos)
 	return true;
 }
 
-void Map::writeToAiMap(int_fast32_t value, std::list<Position>& positionQueue, std::list<Position>& backupQueue)
+void Map::writeToAiMap(
+	int_fast32_t value,
+	std::list<Position>& positionQueue,
+	std::list<Position>& backupQueue,
+	std::list<Position>& forbiddenTiles
+)
 {
 	while (!positionQueue.empty()){
 		Position& currentPos = positionQueue.front();
 		positionQueue.pop_front();
-		queryTile(currentPos, currentPos.x + 1, currentPos.y, value, backupQueue);
-		queryTile(currentPos, currentPos.x - 1, currentPos.y, value, backupQueue);
-		queryTile(currentPos, currentPos.x, currentPos.y + 1, value, backupQueue);
-		queryTile(currentPos, currentPos.x, currentPos.y - 1, value, backupQueue);
+		queryTile(currentPos, currentPos.x + 1, currentPos.y, value, backupQueue, forbiddenTiles);
+		queryTile(currentPos, currentPos.x - 1, currentPos.y, value, backupQueue, forbiddenTiles);
+		queryTile(currentPos, currentPos.x, currentPos.y + 1, value, backupQueue, forbiddenTiles);
+		queryTile(currentPos, currentPos.x, currentPos.y - 1, value, backupQueue, forbiddenTiles);
 	}
 }
 
-void Map::queryTile(Position pos, uint16_t x, uint16_t y, int_fast32_t value, std::list<Position>& backupQueue)
+void Map::queryTile(
+	Position pos,
+	uint16_t x,
+	uint16_t y,
+	int_fast32_t value,
+	std::list<Position>& backupQueue,
+	std::list<Position>& forbiddenTiles
+)
 {
 	Tile* tile = getTile(x, y, pos.z);
 	if (tile && tile->getGround() && !tile->hasFlag(TILESTATE_BLOCKSOLID) && aiMap[x][y] == 0){
 		if (Item::items[tile->getGround()->getID()].blockSolid) {
 			return;
+		}
+		for (const auto& it : forbiddenTiles) {
+			if (it.x == x && it.y == y) {
+				return;
+			}
 		}
 
 		if (const auto items = tile->getItemList()) {

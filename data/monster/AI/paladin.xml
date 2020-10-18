@@ -25,6 +25,9 @@
 		<attack name="physical" interval="2000" chance="100" range="7" target="1" min="0" max="-700">
 			<attribute key="shootEffect" value="bolt" />
 		</attack>
+		<attack name="magicwall" chance="5">
+			<attribute key="shootEffect" value="energyball" />
+		</attack>
 	</attacks>
 	<defenses armor="31" defense="0">
 		<defense name="healing" interval="1200" min="475" max="765" healthPercent="80">

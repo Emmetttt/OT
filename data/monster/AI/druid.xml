@@ -29,6 +29,9 @@
 		<attack name="speed" interval="2000" chance="15" range="7" radius="1" target="1" speedchange="-700" duration="10000">
 			<attribute key="areaEffect" value="redshimmer" />
 		</attack>
+		<attack name="magicwall" chance="5">
+			<attribute key="shootEffect" value="energyball" />
+		</attack>
 	</attacks>
 	<defenses armor="39" defense="0">
 		<defense name="healing" interval="1200" min="898" max="1677" healthPercent="80">

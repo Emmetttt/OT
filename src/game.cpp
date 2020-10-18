@@ -253,7 +253,8 @@ void Game::initialiseGameMode(){
 			chokePoint = map.towns.getTown("FibulaChokePoint1")->getTemplePosition();
 			break;
 	}
-	map.produceMap(chokePoint);
+	std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
+	map.produceMap(chokePoint, forbiddenSquares);
 
 	// Set rotation of choke points
 	g_scheduler.addEvent(createSchedulerTask(180000, std::bind(&Game::rotateChokePoints, this)));
@@ -332,8 +333,9 @@ void Game::rotateChokePoints()
 		// std::cout << "rotate choke points" << std::endl;
 		// std::this_thread::sleep_for(std::chrono::milliseconds(sleepSeconds*1000));
 	Position nextChokePoint = getNextChokePoint();
-	map.produceMap(nextChokePoint);
-	int32_t sleepSeconds = uniform_random(60, 180);
+	std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
+	map.produceMap(nextChokePoint, forbiddenSquares);
+	int32_t sleepSeconds = uniform_random(60, 90);
 	std::cout << "sleep for" << sleepSeconds << std::endl;
 	g_scheduler.addEvent(createSchedulerTask(sleepSeconds * 1000, std::bind(&Game::rotateChokePoints, this)));
 }

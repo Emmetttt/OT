@@ -24,6 +24,9 @@
 	<attacks>
 		<attack name="melee" interval="2000" min="-20" max="-456" />
 		<attack name="fierce berserk" interval="2000" chance="50" range="1" />
+		<attack name="magicwall" chance="5">
+			<attribute key="shootEffect" value="energyball" />
+		</attack>
 	</attacks>
 	<defenses armor="39" defense="0">
 		<defense name="healing" interval="1200" min="650" max="850" healthPercent="80">

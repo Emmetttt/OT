@@ -884,47 +884,45 @@ bool Monster::canUseSpell(const Position& pos, const Position& targetPos,
 
 void Monster::onThinkTarget(uint32_t interval)
 {
-	if (!isSummon()) {
-		if (mType->info.changeTargetSpeed != 0) {
-			bool canChangeTarget = true;
+	if (isSummon() && mType->info.changeTargetSpeed != 0) return;
+		
+	bool canChangeTarget = true;
+
+	if (challengeFocusDuration > 0) {
+		challengeFocusDuration -= interval;
+
+		if (challengeFocusDuration <= 0) {
+			challengeFocusDuration = 0;
+		}
+	}
+
+	if (targetChangeCooldown > 0) {
+		targetChangeCooldown -= interval;
+
+		if (targetChangeCooldown <= 0) {
+			targetChangeCooldown = 0;
+			targetChangeTicks = mType->info.changeTargetSpeed;
+		} else {
+			canChangeTarget = false;
+		}
+	}
+
+	if (canChangeTarget) {
+		targetChangeTicks += interval;
+
+		if (targetChangeTicks >= mType->info.changeTargetSpeed) {
+			targetChangeTicks = 0;
+			targetChangeCooldown = mType->info.changeTargetSpeed;
 
 			if (challengeFocusDuration > 0) {
-				challengeFocusDuration -= interval;
-
-				if (challengeFocusDuration <= 0) {
-					challengeFocusDuration = 0;
-				}
+				challengeFocusDuration = 0;
 			}
 
-			if (targetChangeCooldown > 0) {
-				targetChangeCooldown -= interval;
-
-				if (targetChangeCooldown <= 0) {
-					targetChangeCooldown = 0;
-					targetChangeTicks = mType->info.changeTargetSpeed;
+			if (mType->info.changeTargetChance >= uniform_random(1, 100)) {
+				if (mType->info.targetDistance <= 1) {
+					searchTarget(TARGETSEARCH_RANDOM);
 				} else {
-					canChangeTarget = false;
-				}
-			}
-
-			if (canChangeTarget) {
-				targetChangeTicks += interval;
-
-				if (targetChangeTicks >= mType->info.changeTargetSpeed) {
-					targetChangeTicks = 0;
-					targetChangeCooldown = mType->info.changeTargetSpeed;
-
-					if (challengeFocusDuration > 0) {
-						challengeFocusDuration = 0;
-					}
-
-					if (mType->info.changeTargetChance >= uniform_random(1, 100)) {
-						if (mType->info.targetDistance <= 1) {
-							searchTarget(TARGETSEARCH_RANDOM);
-						} else {
-							searchTarget(TARGETSEARCH_NEAREST);
-						}
-					}
+					searchTarget(TARGETSEARCH_NEAREST);
 				}
 			}
 		}
