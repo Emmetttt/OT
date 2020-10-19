@@ -297,6 +297,8 @@ void Game::endGameMode(){
 		}
 		++it;
 	}
+
+	map.clean();
 }
 
 Town* Game::getCurrentTown(uint32_t guildId) {
@@ -3532,7 +3534,7 @@ void Game::playerChangeOutfit(uint32_t playerId, Outfit_t outfit)
 	if (player->canWear(outfit.lookType, outfit.lookAddons)) {
 		player->defaultOutfit = outfit;
 
-		if (player->hasCondition(CONDITION_OUTFIT)) {
+		if (player->hasCondition(CONDITION_OUTFIT) || player->hasCondition(CONDITION_HASFLAG)) {
 			return;
 		}
 
@@ -5871,6 +5873,8 @@ void Game::addToTeam(Creature* creature)
 		creature->currentOutfit.lookBody = 114;
 		creature->currentOutfit.lookLegs = 114;
 		creature->currentOutfit.lookFeet = 114;
+		Condition* condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_BLACKTEAM, -1);
+		creature->addCondition(condition, true);
 	}
 	else {
 		creature->guild = guild1;
@@ -5881,6 +5885,8 @@ void Game::addToTeam(Creature* creature)
 		creature->currentOutfit.lookBody = 0;
 		creature->currentOutfit.lookLegs = 0;
 		creature->currentOutfit.lookFeet = 0;
+		Condition* condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_WHITETEAM, -1);
+		creature->addCondition(condition, true);
 	}
 }
 

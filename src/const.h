@@ -545,7 +545,7 @@ enum PlayerFlags : uint64_t {
 	PlayerFlag_IgnoreSpellCheck = static_cast<uint64_t>(1) << 34,
 	PlayerFlag_IgnoreWeaponCheck = static_cast<uint64_t>(1) << 35,
 	PlayerFlag_CannotBeMuted = static_cast<uint64_t>(1) << 36,
-	PlayerFlag_IsAlwaysPremium = static_cast<uint64_t>(1) << 37,
+	PlayerFlag_IsAlwaysPremium = static_cast<uint64_t>(1) << 37
 };
 
 enum ReloadTypes_t : uint8_t  {

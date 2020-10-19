@@ -1201,7 +1201,15 @@ bool Creature::addCondition(Condition* condition, bool force/* = false*/)
 
 	if (condition->startCondition(this)) {
 		conditions.push_back(condition);
-		onAddCondition(condition->getType());
+
+		if (condition->getType() == CONDITION_PARALYZE && hasCondition(CONDITION_HASTE)) {
+			removeCondition(CONDITION_HASTE);
+		} else if (condition->getType() == CONDITION_HASTE && hasCondition(CONDITION_PARALYZE)) {
+			removeCondition(CONDITION_PARALYZE);
+		}
+
+		std::cout << "added condition" << std::endl;
+
 		return true;
 	}
 

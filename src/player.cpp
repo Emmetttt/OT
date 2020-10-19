@@ -3145,7 +3145,7 @@ void Player::onAddCondition(ConditionType_t type)
 {
 	Creature::onAddCondition(type);
 
-	if (type == CONDITION_OUTFIT && isMounted()) {
+	if ((type == CONDITION_OUTFIT || type == CONDITION_HASFLAG) && isMounted()) {
 		dismount();
 	}
 
@@ -3926,7 +3926,7 @@ bool Player::toggleMount(bool mount)
 			return false;
 		}
 
-		if (hasCondition(CONDITION_OUTFIT)) {
+		if (hasCondition(CONDITION_OUTFIT) || hasCondition(CONDITION_HASFLAG)) {
 			sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 			return false;
 		}

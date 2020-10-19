@@ -7,6 +7,10 @@
 	<action fromid="7759" toid="7762" script="other/enchanting.lua" />
 	<action itemid="24739" script="other/enchanting.lua" />
 
+	<!-- Game modes -->
+	<action itemid="4990" script="gamemode/ctf_white_flag.lua" />
+	<action itemid="4991" script="gamemode/ctf_black_flag.lua" />
+
 	<!-- Market -->
 	<action itemid="14405" function="market" />
 

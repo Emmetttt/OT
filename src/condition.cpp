@@ -182,6 +182,7 @@ Condition* Condition::createCondition(ConditionId_t id, ConditionType_t type, in
 			return new ConditionInvisible(id, type, ticks, buff, subId, aggressive);
 
 		case CONDITION_OUTFIT:
+		case CONDITION_HASFLAG:
 			return new ConditionOutfit(id, type, ticks, buff, subId, aggressive);
 
 		case CONDITION_LIGHT:
@@ -205,13 +206,13 @@ Condition* Condition::createCondition(ConditionId_t id, ConditionType_t type, in
 		case CONDITION_INFIGHT:
 		case CONDITION_DRUNK:
 		case CONDITION_EXHAUST_WEAPON:
-		case CONDITION_EXHAUST_COMBAT:
-		case CONDITION_EXHAUST_HEAL:
 		case CONDITION_MUTED:
 		case CONDITION_CHANNELMUTEDTICKS:
 		case CONDITION_YELLTICKS:
 		case CONDITION_PACIFIED:
 		case CONDITION_MANASHIELD:
+		case CONDITION_WHITETEAM:
+		case CONDITION_BLACKTEAM:
 			return new ConditionGeneric(id, type, ticks, buff, subId, aggressive);
 
 		default:

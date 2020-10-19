@@ -532,7 +532,7 @@
 	<item fromid="1427" toid="1428" article="a" name="campfire" />
 	<item fromid="1429" toid="1434" article="a" name="sign" />
 	<item id="1435" article="a" name="dragon flag" />
-	<item id="1436" article="a" name="castle flag" />
+	<item id="1436" name="flag" />
 	<item id="1437" article="a" name="flag" />
 	<item fromid="1438" toid="1439" article="a" name="street sign">
 		<attribute key="allowDistRead" value="true" />
@@ -8209,8 +8209,8 @@
 	<item id="4977" article="an" name="anchor" />
 	<item fromid="4978" toid="4987" article="a" name="hawser" />
 	<item fromid="4988" toid="4989" article="a" name="cleat" />
-	<item id="4990" article="a" name="white flag" />
-	<item id="4991" article="a" name="pirate flag" />
+	<item id="4990" article="a" name="white team's flag" />
+	<item id="4991" article="a" name="black team's flag" />
 	<item id="4992" article="a" name="dead butterfly">
 		<attribute key="weight" value="20" />
 		<attribute key="decayTo" value="0" />
@@ -8930,7 +8930,7 @@
 	<item id="5616" article="a" name="pirate tapestry">
 		<attribute key="weight" value="1000" />
 	</item>
-	<item fromid="5617" toid="5618" article="a" name="pirate flag" />
+	<item fromid="5617" toid="5618" name="flag" />
 	<item fromid="5619" toid="5624" name="rubble" />
 	<item id="5625" article="a" name="dead tortoise">
 		<attribute key="containerSize" value="30" />
