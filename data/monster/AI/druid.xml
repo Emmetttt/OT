@@ -22,7 +22,7 @@
 		<flag isAi="1" />
 	</flags>
 	<attacks>
-		<attack name="death" interval="2000" chance="90" range="8" min="-296" max="-429">
+		<attack name="death" interval="2000" chance="90" range="7" min="-296" max="-429">
 			<attribute key="shootEffect" value="suddendeath" />
 			<attribute key="areaEffect" value="mortarea" />
 		</attack>

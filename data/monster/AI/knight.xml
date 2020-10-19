@@ -32,7 +32,7 @@
 		<defense name="healing" interval="1200" min="650" max="850" healthPercent="80">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
-		<defense name="speed" interval="2000" speedchange="80" duration="30000">
+		<defense name="speed" interval="2000" speedchange="800" duration="5000">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 	</defenses>

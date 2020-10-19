@@ -884,7 +884,7 @@ bool Monster::canUseSpell(const Position& pos, const Position& targetPos,
 
 void Monster::onThinkTarget(uint32_t interval)
 {
-	if (isSummon() && mType->info.changeTargetSpeed != 0) return;
+	if (isSummon() || mType->info.changeTargetSpeed == 0) return;
 		
 	bool canChangeTarget = true;
 

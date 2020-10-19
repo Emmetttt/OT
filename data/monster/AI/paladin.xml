@@ -13,7 +13,7 @@
 		<flag pushable="1" />
 		<flag canpushitems="1" />
 		<flag canpushcreatures="0" />
-		<flag targetdistance="3" />
+		<flag targetdistance="1" />
 		<flag staticattack="90" />
 		<flag runonhealth="0" />
 		<flag canwalkonenergy="1" />
@@ -22,7 +22,7 @@
 		<flag isAi="1" />
 	</flags>
 	<attacks>
-		<attack name="physical" interval="2000" chance="100" range="7" target="1" min="0" max="-700">
+		<attack name="physical" interval="2000" chance="100" range="5" target="1" min="0" max="-700">
 			<attribute key="shootEffect" value="bolt" />
 		</attack>
 		<attack name="magicwall" chance="5">
@@ -33,7 +33,7 @@
 		<defense name="healing" interval="1200" min="475" max="765" healthPercent="80">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
-		<defense name="speed" interval="2000" speedchange="80" duration="30000">
+		<defense name="speed" interval="2000" speedchange="200" duration="30000">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 	</defenses>
