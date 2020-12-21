@@ -1,100 +1,72 @@
-<<<<<<< Updated upstream
-function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, mostDamageUnjustified)
-	player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You are dead.")
-	if (player:getCondition(CONDITION_HASFLAG, CONDITIONID_DEFAULT)) then
-		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You dont have the flag mate.")
-		player:removeCondition(CONDITION_HASFLAG, CONDITIONID_DEFAULT)
-		
-		local corpsePos = corpse:getPosition()
-		local pos = {
-			x = corpsePos.x,
-			y = corpsePos.y,
-			z = corpsePos.z,
-			stackpos = 1
-		}
-
-		if (player:getCondition(CONDITION_WHITETEAM, CONDITIONID_DEFAULT)) then
-			Game.createItem(5617, 1, pos)
-		elseif (player:getCondition(CONDITION_BLACKTEAM, CONDITIONID_DEFAULT)) then
-			Game.createItem(1436, 1, pos)
-		end
-=======
-local deathListEnabled = true
 local vocationEquipment = 
 {
 	[5] = { -- sorcerer
-		RewardOne		= 2195, -- BOH
-		RewardTwo		= 2206, -- Time Ring
-		RewardThree		= 18390, -- Wand of Defiance
-		RewardFour		= 13760 -- Wand of Dimensions
+		[1]	= { Id = 2195, Slot = CONST_SLOT_FEET }, -- BOH
+		[2]	= { Id = 2206, Slot = CONST_SLOT_RING }, -- Time Ring
+		[3]	= { Id = 18390, Slot = CONST_SLOT_LEFT }, -- Wand of Defiance
+		[4]	= { Id = 13760, Slot = CONST_SLOT_LEFT } -- Wand of Dimensions
 	},
 	[6] = { -- druid
-		RewardOne		= 2195, -- BOH
-		RewardTwo		= 2206, -- Time Ring
-		RewardThree		= 8910, -- Underworld Rod
-		RewardFour		= 25888 -- Rod of Mayhem
+		[1]	= { Id = 2195, Slot = CONST_SLOT_FEET }, -- BOH
+		[2]	= { Id = 2206, Slot = CONST_SLOT_RING }, -- Time Ring
+		[3]	= { Id = 8910, Slot = CONST_SLOT_LEFT}, -- Underworld Rod
+		[4]	= { Id = 25888, Slot = CONST_SLOT_LEFT } -- Rod of Mayhem
 	},
 	[7] = { -- paladin
-		RewardOne		= 2195, -- BOH
-		RewardTwo		= 2206, -- Time Ring
-		RewardThree		= 8850, -- Chain Bolter
-		RewardFour		= 18453 -- Crystal Crossbow
+		[1]	= { Id = 2195, Slot = CONST_SLOT_FEET }, -- BOH
+		[2]	= { Id = 2206, Slot = CONST_SLOT_RING }, -- Time Ring
+		[3]	= { Id = 8850, Slot = CONST_SLOT_LEFT}, -- Chain Bolter
+		[4]	= { Id = 18453, Slot = CONST_SLOT_LEFT } -- Crystal Crossbow
 	},
 	[8] = { -- knight
-		RewardOne		= 2195, -- BOH
-		RewardTwo		= 2206, -- Time Ring
-		RewardThree		= 8926, -- Demonwing
-		RewardFour		= 2408 -- Warlord Sword
+		[1]	= { Id = 2195, Slot = CONST_SLOT_FEET }, -- BOH
+		[2]	= { Id = 2206, Slot = CONST_SLOT_RING }, -- Time Ring
+		[3]	= { Id = 8926, Slot = CONST_SLOT_LEFT}, -- Demonwing
+		[4]	= { Id = 2408, Slot = CONST_SLOT_LEFT} -- Warlord Sword
 	},
 }
 local slots = {CONST_SLOT_FIRST, CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_BACKPACK, CONST_SLOT_ARMOR, CONST_SLOT_RIGHT, CONST_SLOT_LEFT, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO}
+local baseExpGain = 15000000
 
 function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, mostDamageUnjustified)
 	player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You are dead.")
 	
 	incrementSet(killer)
+	addExp(killer, player:getStreak())
 	if (killer:getGuid() ~= mostDamageKiller:getGuid()) then
 		incrementSet(mostDamageKiller)
+		addExp(mostDamageKiller, player:getStreak())
 	end
 
 	for i = 1, #slots do
 		local item = player:getSlotItem(slots[i])
-		player:removeItem(item, 1)
+		if item then
+			item:remove(1)
+		end
 	end
 
 	equipStarterEquipment(player)
 end
 
+function addExp(player, streak)
+	if (player == nil or streak == 0) then
+		return true
+	end
+	player:addExperience(baseExpGain * streak * math.random(0.5, 1.5))
+
+	return true
+end
+
 function incrementSet(player)
-	if (player == nil or player:getVocation() == nil or player:getSkull() == nil) then
+	if (player == nil or player:getVocation() == nil) then
 		return true
 	end
 	
 	local vocation = player:getVocation():getId()
-	local skull = player:getSkull()
-
-	if (skull == 1) then
-		addItem(player, vocationEquipment[vocation].RewardOne)
-	elseif (skull == 2) then
-		addItem(player, vocationEquipment[vocation].RewardTwo)
-	elseif (skull == 3) then
-		addItem(player, vocationEquipment[vocation].RewardThree)
-	elseif (skull == 4) then
-		addItem(player, vocationEquipment[vocation].RewardFour)
+	local config = vocationEquipment[vocation][player:getStreak()]
+	local item = player:getSlotItem(config.Slot)
+	if item then
+		item:remove(1)
 	end
-end
-
-function addItem(player, id)
-	
-	-- for i = 1, #slots do
-	-- 	local item = player:getSlotItem(slots[i])
-	-- 	if (item ~= nil and id == item) then
-	-- 		return true
-	-- 	end
-	-- end
-	local backpack = player:getSlotItem(CONST_SLOT_BACKPACK)
-	if (backpack ~= nil and not player:getItemById(id, true)) then-- and not backpack:hasItem(id)) then
-		backpack:addItem(id, 1)
->>>>>>> Stashed changes
-	end
+	player:addItemEx(Game.createItem(config.Id, 1), false, config.Slot)
 end

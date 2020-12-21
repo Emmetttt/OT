@@ -1208,8 +1208,6 @@ bool Creature::addCondition(Condition* condition, bool force/* = false*/)
 			removeCondition(CONDITION_PARALYZE);
 		}
 
-		std::cout << "added condition" << std::endl;
-
 		return true;
 	}
 

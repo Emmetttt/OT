@@ -2322,6 +2322,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "getItemById", LuaScriptInterface::luaPlayerGetItemById);
 
 	registerMethod("Player", "getVocation", LuaScriptInterface::luaPlayerGetVocation);
+	registerMethod("Player", "getStreak", LuaScriptInterface::luaPlayerGetStreak);
 	registerMethod("Player", "setVocation", LuaScriptInterface::luaPlayerSetVocation);
 
 	registerMethod("Player", "getSex", LuaScriptInterface::luaPlayerGetSex);
@@ -8382,6 +8383,18 @@ int LuaScriptInterface::luaPlayerGetVocation(lua_State* L)
 	if (player) {
 		pushUserdata<Vocation>(L, player->getVocation());
 		setMetatable(L, -1, "Vocation");
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerGetStreak(lua_State* L)
+{
+	// player:getStreak()
+	Player* player = getUserdata<Player>(L, 1);
+	if (player) {
+		lua_pushnumber(L, player->getStreak());
 	} else {
 		lua_pushnil(L);
 	}
