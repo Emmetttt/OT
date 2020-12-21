@@ -700,9 +700,6 @@ void Creature::onDeath()
 		guild->addDeath();
 	}
 
-	streak = 0;
-	setSkull(SKULL_NONE);
-
 	if (lastHitCreature->getPlayer() || (lastHitCreature->getMonster() && lastHitCreature->getMonster()->isAi()))
 	{
 		lastHitCreature->addStreak();
@@ -714,6 +711,9 @@ void Creature::onDeath()
 	if (master) {
 		setMaster(nullptr);
 	}
+
+	streak = 0;
+	setSkull(SKULL_NONE);
 }
 
 bool Creature::dropCorpse(Creature* lastHitCreature, Creature* mostDamageCreature, bool lastHitUnjustified, bool mostDamageUnjustified)

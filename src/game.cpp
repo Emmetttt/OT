@@ -257,6 +257,7 @@ void Game::initialiseGameMode(){
 	map.produceMap(chokePoint, forbiddenSquares);
 
 	// Set rotation of choke points
+	g_scheduler.addEvent(createSchedulerTask(120000, std::bind(&Game::declareLeaderboard, this)));
 	g_scheduler.addEvent(createSchedulerTask(180000, std::bind(&Game::rotateChokePoints, this)));
 	// When we have more game modes, switch on GetGameMode
 }
@@ -291,7 +292,7 @@ void Game::endGameMode(){
 			}
 
 			player->sendTextMessage(
-				MESSAGE_STATUS_CONSOLE_RED,
+				MESSAGE_STATUS_WARNING,
 				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!"
 			);
 		}
@@ -330,10 +331,38 @@ Town* Game::getCurrentTown(uint32_t guildId) {
 	return map.towns.getTown(ss.str());
 }
 
+void Game::declareLeaderboard()
+{
+	int32_t highestStreak = 0;
+	std::string highestPlayer = "";
+	auto it = players.begin();
+	while (it != players.end()) {
+		Player* player = it->second;
+		if (player->getStreak() > highestStreak){
+			highestPlayer = player->getName();
+			highestStreak = player->getStreak();
+		}
+		++it;
+	}
+
+	if (highestPlayer != "")
+	{
+		it = players.begin();
+		std::string message = highestPlayer + " is leading with " + std::to_string(highestStreak) + " kills. Kill them to win a chance to win something rare!";
+		while (it != players.end()) {
+			Player* player = it->second;
+			player->sendTextMessage(
+				MESSAGE_STATUS_WARNING,
+				message
+			);
+			++it;
+		}
+	}
+	g_scheduler.addEvent(createSchedulerTask(120000, std::bind(&Game::declareLeaderboard, this)));
+}
+
 void Game::rotateChokePoints()
 {
-		// std::cout << "rotate choke points" << std::endl;
-		// std::this_thread::sleep_for(std::chrono::milliseconds(sleepSeconds*1000));
 	Position nextChokePoint = getNextChokePoint();
 	std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
 	map.produceMap(nextChokePoint, forbiddenSquares);

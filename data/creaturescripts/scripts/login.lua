@@ -110,7 +110,16 @@ local vocationEquipment =
 function onLogin(player)
 	-- Stamina
 	nextUseStaminaTime[player.uid] = 0
+	equipStarterEquipment(player)
 
+	-- Events
+	player:registerEvent("PlayerDeath")
+	player:registerEvent("DropLoot")
+
+	return true
+end
+
+function equipStarterEquipment(player)
 	local vocation = player:getVocation():getId()
 	equip(player, vocationEquipment[vocation].Head, CONST_SLOT_HEAD, 1)
 	equip(player, vocationEquipment[vocation].Necklace, CONST_SLOT_NECKLACE, 1)
@@ -123,12 +132,6 @@ function onLogin(player)
 	equip(player, vocationEquipment[vocation].Ammo, CONST_SLOT_AMMO, 100)
 	equip(player, vocationEquipment[vocation].Legs, CONST_SLOT_LEGS, 1)
 	equipItems(player, vocationEquipment[vocation].Items)
-
-	-- Events
-	player:registerEvent("PlayerDeath")
-	player:registerEvent("DropLoot")
-	
-	return true
 end
 
 function equip(player, item, location, count)
@@ -145,7 +148,4 @@ function equipItems(player, items)
 	for i = 1, #items do
 		backpack:addItem(items[i].Id, items[i].Count)
 	end
-	-- for item in items do
-	-- 	container:addItem(item.Id, item.Count)
-	-- end
 end

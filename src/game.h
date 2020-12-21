@@ -454,6 +454,7 @@ class Game
 		}
 		Town* getCurrentTown(uint32_t guildId);
 		Position getNextChokePoint();
+		void declareLeaderboard();
 		void rotateChokePoints();
 		void setCurrentMap(CurrentMap_t newMap){
 			currentMap = newMap;
