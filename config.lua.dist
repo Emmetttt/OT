@@ -23,19 +23,19 @@ numberBotsPerTeam = 20
 
 -- Connection Config
 -- NOTE: maxPlayers set to 0 means no limit
-ip = "18.133.228.68"
+ip = "empira.io"
 bindOnlyGlobalAddress = false
 loginProtocolPort = 7171
 gameProtocolPort = 7172
 statusProtocolPort = 7171
-maxPlayers = 0
+maxPlayers = 50
 motd = "Welcome to The Forgotten Server!"
 onePlayerOnlinePerAccount = false
 allowClones = true
 serverName = "Forgotten"
 statusTimeout = 5000
 replaceKickOnLogin = false
-maxPacketsPerSecond = 25
+maxPacketsPerSecond = 100
 
 -- Deaths
 -- NOTE: Leave deathLosePercent as -1 if you want to use the default

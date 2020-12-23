@@ -2369,7 +2369,7 @@
 	<item id="2197" article="a" name="stone skin amulet">
 		<attribute key="weight" value="700" />
 		<attribute key="slotType" value="necklace" />
-		<attribute key="charges" value="5" />
+		<attribute key="charges" value="30" />
 		<attribute key="showcharges" value="1" />
 		<attribute key="absorbPercentPhysical" value="80" />
 		<attribute key="absorbPercentDeath" value="80" />
@@ -2455,7 +2455,7 @@
 		<attribute key="slotType" value="ring" />
 		<attribute key="decayTo" value="0" />
 		<attribute key="transformDeEquipTo" value="2169" />
-		<attribute key="duration" value="600" />
+		<attribute key="duration" value="3600" />
 		<attribute key="showduration" value="1" />
 		<attribute key="speed" value="60" />
 		<attribute key="showattributes" value="1" />
@@ -3776,7 +3776,7 @@
 	</item>
 	<item id="2472" article="a" name="magic plate armor">
 		<attribute key="weight" value="8500" />
-		<attribute key="armor" value="17" />
+		<attribute key="armor" value="20" />
 		<attribute key="slotType" value="body" />
 	</item>
 	<item id="2473" article="a" name="viking helmet">
@@ -3898,8 +3898,11 @@
 	</item>
 	<item id="2496" article="a" name="horned helmet">
 		<attribute key="weight" value="5100" />
-		<attribute key="armor" value="11" />
+		<attribute key="armor" value="12" />
 		<attribute key="slotType" value="head" />
+		<attribute key="skillSword" value="5" />
+		<attribute key="skillAxe" value="5" />
+		<attribute key="skillClub" value="5" />
 	</item>
 	<item id="2497" article="a" name="crusader helmet">
 		<attribute key="weight" value="5200" />
@@ -3942,9 +3945,9 @@
 	</item>
 	<item id="2504" name="dwarven legs">
 		<attribute key="weight" value="4900" />
-		<attribute key="armor" value="7" />
+		<attribute key="armor" value="9" />
 		<attribute key="slotType" value="legs" />
-		<attribute key="absorbPercentPhysical" value="3" />
+		<attribute key="magiclevelpoints" value="8" />
 	</item>
 	<item id="2505" article="an" name="elven mail">
 		<attribute key="weight" value="9000" />
@@ -3953,8 +3956,9 @@
 	</item>
 	<item id="2506" article="a" name="dragon scale helmet">
 		<attribute key="weight" value="3250" />
-		<attribute key="armor" value="9" />
+		<attribute key="armor" value="11" />
 		<attribute key="slotType" value="head" />
+		<attribute key="skillDist" value="10" />
 	</item>
 	<item id="2507" name="elven legs">
 		<attribute key="weight" value="3300" />
@@ -3994,8 +3998,10 @@
 	<item id="2514" article="a" name="mastermind shield">
 		<attribute key="description" value="It's an enchanted shield." />
 		<attribute key="weight" value="5700" />
-		<attribute key="defense" value="37" />
+		<attribute key="defense" value="60" />
 		<attribute key="weaponType" value="shield" />
+		<attribute key="absorbPercentDeath" value="20" />
+		<attribute key="showattributes" value="1" />
 	</item>
 	<item id="2515" article="a" name="guardian shield">
 		<attribute key="weight" value="5500" />
@@ -4414,14 +4420,13 @@
 		<attribute key="weight" value="800" />
 		<attribute key="slotType" value="feet" />
 		<attribute key="decayTo" value="10021" />
-		<attribute key="transformDeEquipTo" value="6132" />
-		<attribute key="duration" value="14400" />
-		<attribute key="healthGain" value="3" />
-		<attribute key="healthTicks" value="6000" />
-		<attribute key="manaGain" value="12" />
-		<attribute key="manaTicks" value="6000" />
-		<attribute key="showduration" value="1" />
+		<attribute key="duration" value="144000" />
+		<attribute key="healthGain" value="70" />
+		<attribute key="healthTicks" value="1000" />
+		<attribute key="manaGain" value="70" />
+		<attribute key="manaTicks" value="1000" />
 		<attribute key="showattributes" value="1" />
+		<attribute key="speed" value="60" />
 	</item>
 	<item id="2641" name="patched boots">
 		<attribute key="weight" value="1000" />
@@ -9103,8 +9108,9 @@
 	</item>
 	<item id="5741" article="a" name="skull helmet">
 		<attribute key="weight" value="4200" />
-		<attribute key="armor" value="9" />
+		<attribute key="armor" value="6" />
 		<attribute key="slotType" value="head" />
+		<attribute key="magiclevelpoints" value="8" />
 	</item>
 	<item fromid="5743" toid="5744" name="wooden floor" />
 	<item id="5745" article="a" name="closed door">
@@ -11460,8 +11466,8 @@
 	</item>
 	<item id="6553" article="a" name="ruthless axe">
 		<attribute key="weight" value="5800" />
-		<attribute key="defense" value="15" />
-		<attribute key="attack" value="50" />
+		<attribute key="defense" value="33" />
+		<attribute key="attack" value="90" />
 		<attribute key="weaponType" value="axe" />
 		<attribute key="slotType" value="two-handed" />
 	</item>
@@ -12921,8 +12927,8 @@
 	</item>
 	<item id="7453" article="an" name="executioner">
 		<attribute key="weight" value="9900" />
-		<attribute key="defense" value="20" />
-		<attribute key="attack" value="51" />
+		<attribute key="defense" value="38" />
+		<attribute key="attack" value="110" />
 		<attribute key="weaponType" value="axe" />
 		<attribute key="slotType" value="two-handed" />
 	</item>
@@ -14668,57 +14674,58 @@
 		<attribute key="weight" value="750" />
 		<attribute key="armor" value="2" />
 		<attribute key="slotType" value="feet" />
-		<attribute key="absorbPercentIce" value="5" />
-		<attribute key="absorbPercentEnergy" value="-5" />
+		<attribute key="absorbPercentDeath" value="5" />
+		<attribute key="absorbPercentPhysical" value="5" />
+		<attribute key="speed" value="60" />
 	</item>
 	<item id="7893" name="lightning boots">
 		<attribute key="weight" value="750" />
 		<attribute key="armor" value="2" />
-		<attribute key="absorbPercentEnergy" value="5" />
-		<attribute key="absorbPercentEarth" value="-5" />
+		<attribute key="absorbPercentDeath" value="10" />
+		<attribute key="absorbPercentPhysical" value="10" />
+		<attribute key="speed" value="100" />
 		<attribute key="slotType" value="feet" />
 	</item>
 	<item id="7894" name="magma legs">
 		<attribute key="weight" value="1900" />
 		<attribute key="armor" value="8" />
-		<attribute key="absorbPercentFire" value="6" />
-		<attribute key="absorbPercentIce" value="-6" />
 		<attribute key="slotType" value="legs" />
+		<attribute key="magiclevelpoints" value="5" />
 	</item>
 	<item id="7895" name="lightning legs">
 		<attribute key="weight" value="1900" />
 		<attribute key="armor" value="8" />
-		<attribute key="absorbPercentEnergy" value="6" />
-		<attribute key="absorbPercentEarth" value="-6" />
+		<attribute key="absorbPercentDeath" value="10" />
+		<attribute key="absorbPercentPhysical" value="10" />
 		<attribute key="slotType" value="legs" />
 	</item>
 	<item id="7896" article="a" name="glacier kilt">
 		<attribute key="weight" value="1900" />
 		<attribute key="armor" value="8" />
 		<attribute key="slotType" value="legs" />
-		<attribute key="absorbPercentIce" value="6" />
-		<attribute key="absorbPercentEnergy" value="-6" />
+		<attribute key="absorbPercentDeath" value="5" />
+		<attribute key="absorbPercentPhysical" value="5" />
 	</item>
 	<item id="7897" article="a" name="glacier robe">
 		<attribute key="weight" value="2250" />
 		<attribute key="armor" value="11" />
 		<attribute key="slotType" value="body" />
-		<attribute key="absorbPercentIce" value="8" />
-		<attribute key="absorbPercentEnergy" value="-8" />
+		<attribute key="absorbPercentDeath" value="5" />
+		<attribute key="absorbPercentPhysical" value="5" />
 	</item>
 	<item id="7898" article="a" name="lightning robe">
 		<attribute key="weight" value="2250" />
 		<attribute key="armor" value="11" />
-		<attribute key="absorbPercentEnergy" value="8" />
-		<attribute key="absorbPercentEarth" value="-8" />
+		<attribute key="absorbPercentDeath" value="10" />
+		<attribute key="absorbPercentPhysical" value="10" />
 		<attribute key="slotType" value="body" />
 	</item>
 	<item id="7899" article="a" name="magma coat">
 		<attribute key="weight" value="2250" />
-		<attribute key="armor" value="11" />
-		<attribute key="absorbPercentFire" value="8" />
-		<attribute key="absorbPercentIce" value="-8" />
+		<attribute key="armor" value="13" />
+		<attribute key="absorbPercentDeath" value="8" />
 		<attribute key="slotType" value="body" />
+		<attribute key="magiclevelpoints" value="10" />
 	</item>
 	<item id="7900" article="a" name="magma monocle">
 		<attribute key="weight" value="1000" />
@@ -14730,15 +14737,15 @@
 	<item id="7901" article="a" name="lightning headband">
 		<attribute key="weight" value="1000" />
 		<attribute key="armor" value="5" />
-		<attribute key="absorbPercentEnergy" value="4" />
-		<attribute key="absorbPercentEarth" value="-5" />
+		<attribute key="absorbPercentDeath" value="10" />
+		<attribute key="absorbPercentPhysical" value="10" />
 		<attribute key="slotType" value="head" />
 	</item>
 	<item id="7902" article="a" name="glacier mask">
 		<attribute key="weight" value="1000" />
 		<attribute key="armor" value="5" />
-		<attribute key="absorbPercentIce" value="4" />
-		<attribute key="absorbPercentEnergy" value="-5" />
+		<attribute key="absorbPercentDeath" value="5" />
+		<attribute key="absorbPercentPhysical" value="5" />
 		<attribute key="slotType" value="head" />
 	</item>
 	<item id="7903" article="a" name="terra hood">
@@ -15725,9 +15732,9 @@
 		<attribute key="slotType" value="two-handed" />
 		<attribute key="weaponType" value="distance" />
 		<attribute key="ammoType" value="bolt" />
-		<attribute key="range" value="3" />
-		<attribute key="attack" value="50" />
-		<attribute key="hitChance" value="-10" />
+		<attribute key="range" value="5" />
+		<attribute key="attack" value="40" />
+		<attribute key="hitChance" value="40" />
 	</item>
 	<item id="8851" article="a" name="royal crossbow">
 		<attribute key="weight" value="12000" />
@@ -15974,17 +15981,16 @@
 	</item>
 	<item id="8889" article="a" name="skullcracker armor">
 		<attribute key="weight" value="11000" />
-		<attribute key="armor" value="14" />
-		<attribute key="absorbPercentDeath" value="5" />
-		<attribute key="absorbPercentHoly" value="-5" />
+		<attribute key="armor" value="22" />
+		<attribute key="absorbPercentDeath" value="20" />
+		<attribute key="absorbPercentHoly" value="-50" />
 		<attribute key="slotType" value="body" />
 	</item>
 	<item id="8890" article="a" name="robe of the underworld">
 		<attribute key="weight" value="3100" />
-		<attribute key="armor" value="12" />
+		<attribute key="armor" value="15" />
 		<attribute key="slotType" value="body" />
-		<attribute key="absorbPercentDeath" value="12" />
-		<attribute key="absorbPercentHoly" value="-12" />
+		<attribute key="magiclevelpoints" value="8" />
 	</item>
 	<item id="8891" article="a" name="paladin armor">
 		<attribute key="armor" value="12" />
@@ -16040,6 +16046,10 @@
 		<attribute key="weight" value="6900" />
 		<attribute key="defense" value="30" />
 		<attribute key="weaponType" value="shield" />
+		<attribute key="healthGain" value="50" />
+		<attribute key="healthTicks" value="1000" />
+		<attribute key="manaGain" value="50" />
+		<attribute key="manaTicks" value="1000" />
 	</item>
 	<item id="8906" article="a" name="fiery rainbow shield">
 		<attribute key="description" value="It has been temporarily imbued with fire magic and boosts your shielding skill." />
@@ -16105,8 +16115,13 @@
 	<item id="8918" article="a" name="spellbook of dark mysteries">
 		<attribute key="description" value="It shows your spells and can also shield against attacks when worn." />
 		<attribute key="weight" value="2850" />
-		<attribute key="magiclevelpoints" value="3" />
+		<attribute key="magiclevelpoints" value="10" />
+		<attribute key="speed" value="60" />
 		<attribute key="defense" value="16" />
+		<attribute key="healthGain" value="100" />
+		<attribute key="healthTicks" value="1000" />
+		<attribute key="manaGain" value="100" />
+		<attribute key="manaTicks" value="1000" />
 		<attribute key="weaponType" value="shield" />
 	</item>
 	<item id="8919" article="a" name="spell rune">
@@ -16154,7 +16169,7 @@
 	</item>
 	<item id="8926" article="a" name="demonwing axe">
 		<attribute key="weight" value="12000" />
-		<attribute key="defense" value="20" />
+		<attribute key="defense" value="35" />
 		<attribute key="attack" value="100" />
 		<attribute key="weaponType" value="axe" />
 		<attribute key="slotType" value="two-handed" />
@@ -17124,14 +17139,13 @@
 		<attribute key="weight" value="7000" />
 		<attribute key="armor" value="16" />
 		<attribute key="slotType" value="body" />
-		<attribute key="absorbPercentDeath" value="3" />
+		<attribute key="absorbPercentDeath" value="10" />
 	</item>
 	<item id="9777" article="a" name="yalahari leg piece">
 		<attribute key="weight" value="6500" />
-		<attribute key="armor" value="8" />
+		<attribute key="armor" value="9" />
 		<attribute key="slotType" value="legs" />
-		<attribute key="absorbPercentDeath" value="5" />
-		<attribute key="skillDist" value="2" />
+		<attribute key="skillDist" value="5" />
 	</item>
 	<item id="9778" article="a" name="yalahari mask">
 		<attribute key="weight" value="3500" />
@@ -21452,10 +21466,9 @@
 	</item>
 	<item id="12645" article="an" name="elite draken helmet">
 		<attribute key="weight" value="4300" />
-		<attribute key="armor" value="9" />
+		<attribute key="armor" value="10" />
 		<attribute key="slotType" value="head" />
-		<attribute key="absorbPercentDeath" value="3" />
-		<attribute key="skillDist" value="1" />
+		<attribute key="skillDist" value="5" />
 	</item>
 	<item id="12646" name="draken boots">
 		<attribute key="armor" value="3" />
@@ -24107,10 +24120,13 @@
 	</item>
 	<item id="15409" article="a" name="depth ocrea">
 		<attribute key="weight" value="4800" />
-		<attribute key="armor" value="8" />
+		<attribute key="armor" value="12" />
 		<attribute key="slotType" value="legs" />
-		<attribute key="absorbPercentManaDrain" value="15" />
+		<attribute key="absorbPercentPhysical" value="5" />
 		<attribute key="showattributes" value="1" />
+		<attribute key="skillAxe" value="10" />
+		<attribute key="skillSword" value="10" />
+		<attribute key="skillClub" value="10" />
 	</item>
 	<item id="15410" article="a" name="depth calcei">
 		<attribute key="weight" value="3700" />
@@ -24129,10 +24145,13 @@
 	</item>
 	<item id="15412" article="an" name="ornate legs">
 		<attribute key="weight" value="7700" />
-		<attribute key="armor" value="8" />
+		<attribute key="armor" value="11" />
 		<attribute key="slotType" value="legs" />
 		<attribute key="absorbPercentPhysical" value="5" />
 		<attribute key="showattributes" value="1" />
+		<attribute key="skillAxe" value="5" />
+		<attribute key="skillSword" value="5" />
+		<attribute key="skillClub" value="5" />
 	</item>
 	<item id="15413" article="an" name="ornate shield">
 		<attribute key="weight" value="7100" />
@@ -25603,31 +25622,27 @@
 	</item>
 	<item id="18403" article="a" name="prismatic helmet">
 		<attribute key="weight" value="5600" />
-		<attribute key="armor" value="9" />
+		<attribute key="armor" value="11" />
 		<attribute key="slotType" value="head" />
-		<attribute key="absorbPercentPhysical" value="5" />
-		<attribute key="skillShield" value="1" />
+		<attribute key="skillDist" value="10" />
 	</item>
 	<item id="18404" article="a" name="prismatic armor">
 		<attribute key="weight" value="7900" />
-		<attribute key="armor" value="15" />
-		<attribute key="absorbPercentPhysical" value="5" />
+		<attribute key="armor" value="16" />
 		<attribute key="slotType" value="body" />
-		<attribute key="speed" value="30" />
+		<attribute key="absorbPercentDeath" value="15" />
 	</item>
 	<item id="18405" name="prismatic legs">
 		<attribute key="weight" value="7100" />
-		<attribute key="armor" value="8" />
+		<attribute key="armor" value="10" />
 		<attribute key="slotType" value="legs" />
-		<attribute key="absorbPercentPhysical" value="3" />
-		<attribute key="skillDist" value="2" />
+		<attribute key="skillDist" value="10" />
 	</item>
 	<item id="18406" name="prismatic boots">
 		<attribute key="weight" value="1800" />
-		<attribute key="armor" value="3" />
+		<attribute key="armor" value="2" />
 		<attribute key="slotType" value="feet" />
-		<attribute key="speed" value="30" />
-		<attribute key="absorbPercentDeath" value="3" />
+		<attribute key="speed" value="60" />
 		<attribute key="showattributes" value="1" />
 	</item>
 	<item id="18407" article="a" name="prismatic necklace">
@@ -25641,12 +25656,10 @@
 	</item>
 	<item id="18408" article="a" name="prismatic ring">
 		<attribute key="weight" value="105" />
-		<attribute key="slotType" value="ring" />
-		<attribute key="absorbPercentPhysical" value="10" />
-		<attribute key="absorbPercentEnergy" value="8" />
+		<attribute key="slotType" value="ring" />=
+		<attribute key="speed" value="200" />
 		<attribute key="transformEquipTo" value="18528" />
 		<attribute key="stopduration" value="1" />
-		<attribute key="showduration" value="1" />
 		<attribute key="showattributes" value="1" />
 	</item>
 	<item id="18409" article="a" name="wand of everblazing">
@@ -25871,7 +25884,7 @@
 		<attribute key="ammoType" value="bolt" />
 		<attribute key="range" value="6" />
 		<attribute key="attack" value="60" />
-		<attribute key="hitChance" value="10" />
+		<attribute key="hitChance" value="60" />
 	</item>
 	<item id="18454" article="a" name="mycological bow">
 		<attribute key="weight" value="4900" />
@@ -26118,12 +26131,9 @@
 	<item id="18528" article="a" name="prismatic ring">
 		<attribute key="weight" value="105" />
 		<attribute key="slotType" value="ring" />
-		<attribute key="absorbPercentPhysical" value="10" />
-		<attribute key="absorbPercentEnergy" value="8" />
 		<attribute key="transformDeEquipTo" value="18408" />
 		<attribute key="decayTo" value="0" />
 		<attribute key="duration" value="3600" />
-		<attribute key="showduration" value="1" />
 		<attribute key="showattributes" value="1" />
 	</item>
 	<item fromid="18531" toid="18534" name="stairs">
@@ -30353,9 +30363,9 @@
 		<attribute key="slotType" value="two-handed" />
 		<attribute key="weaponType" value="distance" />
 		<attribute key="ammoType" value="bolt" />
-		<attribute key="range" value="5" />
-		<attribute key="attack" value="40" />
-		<attribute key="hitChance" value="-20" />
+		<attribute key="range" value="4" />
+		<attribute key="attack" value="20" />
+		<attribute key="hitChance" value="20" />
 	</item>
 	<item id="21691" article="a" name="shrunken head necklace">
 		<attribute key="weight" value="550" />
@@ -30423,6 +30433,9 @@
 	</item>
 	<item id="21708" name="vampire silk slippers">
 		<attribute key="weight" value="1150" />
+		<attribute key="armor" value="4" />
+		<attribute key="speed" value="60" />
+		<attribute key="slotType" value="feet" />
 	</item>
 	<item fromid="21709" toid="21712" article="a" name="slimy growth" />
 	<item id="21713" article="a" name="chargeless monolith">
@@ -34168,6 +34181,11 @@
 	<item fromid="24809" toid="24810" name="dark wizard's crown">
 		<attribute key="weight" value="666" />
 		<attribute key="description" value="It grants infinite power and knowledge to the one who wears it." />
+		<attribute key="armor" value="13" />
+		<attribute key="slotType" value="head" />
+		<attribute key="skillSword" value="10" />
+		<attribute key="skillAxe" value="10" />
+		<attribute key="skillClub" value="10" />
 	</item>
 	<item id="24812" name="stairs">
 		<attribute key="floorchange" value="north" />
@@ -34246,8 +34264,9 @@
 	</item>
 	<item id="24848" article="a" name="shamanic mask">
 		<attribute key="weight" value="3100" />
-		<attribute key="armor" value="4" />
+		<attribute key="armor" value="5" />
 		<attribute key="slotType" value="head" />
+		<attribute key="magiclevelpoints" value="5" />
 	</item>
 	<item id="24849" article="an" name="onyx chip">
 		<attribute key="weight" value="120" />

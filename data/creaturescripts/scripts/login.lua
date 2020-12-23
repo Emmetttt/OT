@@ -1,14 +1,14 @@
 local vocationEquipment = 
 {
 	[5] = { -- sorcerer
-		Head		= 2493,
+		Head		= 2491, -- crown helmet
 		Necklace	= nil,
 		Backpack	= 10518,
-		Armor		= 2494,
-		Right		= 2520,
-		Left		= 18409,
-		Legs		= 2495,
-		Feet		= 9933,
+		Armor		= 2656, -- blue robe
+		Right		= 2520, -- demon shield
+		Left		= 8922, -- wand of voodoo
+		Legs		= 7730, -- blue legs
+		Feet		= 2643, -- leather boots
 		Ring		= nil,
 		Ammo		= nil,
 		Items		= {
@@ -26,14 +26,14 @@ local vocationEquipment =
 		}
 	},
 	[6] = { -- druid
-		Head		= 2662,
+		Head		= 2491, -- crown helmet
 		Necklace	= nil,
 		Backpack	= 10521,
-		Armor		= 2656,
-		Right		= 2542,
-		Left		= 8911,
-		Legs		= 7730,
-		Feet		= 6132,
+		Armor		= 2656, -- blue robe
+		Right		= 2520, -- demon shield
+		Left		= 8911, -- northwind rod
+		Legs		= 7730, -- blue legs
+		Feet		= 2195, -- BOH
 		Ring		= nil,
 		Ammo		= nil,
 		Items		= {
@@ -41,10 +41,7 @@ local vocationEquipment =
 			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 7590, Count = 100 }, -- gmp
-			{ Id = 2268, Count = 100 }, -- SD
-			{ Id = 2268, Count = 100 }, -- SD
-			{ Id = 2268, Count = 100 }, -- SD
-			{ Id = 2268, Count = 100 }, -- SD
+			{ Id = 2274, Count = 100 }, -- ava
 			{ Id = 2273, Count = 100 },  -- uh
 			{ Id = 2262, Count = 20 }, -- ebomb
 			{ Id = 2293, Count = 50 }, -- mwall
@@ -53,16 +50,16 @@ local vocationEquipment =
 		}
 	},
 	[7] = { -- paladin
-		Head		= 2506,
+		Head		= 2493, -- demon helmet
 		Necklace	= nil,
 		Backpack	= 3940,
-		Armor		= 2505,
+		Armor		= 2656, -- blue robe
 		Right		= nil,
-		Left		= 21690,
-		Legs		= 2469,
-		Feet		= 11118,
+		Left		= 2455, -- xbow
+		Legs		= 2488, -- crown legs
+		Feet		= 2643, -- leather boots
 		Ring		= nil,
-		Ammo		= 18436,
+		Ammo		= 18436, -- drill bolt
 		Items		= {
 			{ Id = 7589, Count = 100 },  -- smp
 			{ Id = 7589, Count = 100 },  -- smp
@@ -76,24 +73,25 @@ local vocationEquipment =
 			{ Id = 18436, Count = 100 }, -- ammo
 			{ Id = 18436, Count = 100 }, -- ammo
 			{ Id = 18436, Count = 100 }, -- ammo
+			{ Id = 2295, Count = 100 }, -- holy missile
 			{ Id = 2273, Count = 100 },  -- uh
 			{ Id = 2262, Count = 20 },   -- ebomb
 			{ Id = 2293, Count = 50 }    -- mwall
 		}
 	},
 	[8] = { -- knight
-		Head		= 2471,
+		Head		= 2493, -- demon helmet
 		Necklace	= nil,
 		Backpack	= 9774,
-		Armor		= 2466,
+		Armor		= 2492, -- dsm
 		Right		= nil,
-		Left		= 8931,
-		Legs		= 2470,
-		Feet		= 2646,
+		Left		= 6553, -- ruthless axe
+		Legs		= 2470, -- golden legs
+		Feet		= 2643, -- leather boots
 		Ring		= nil,
 		Ammo		= nil,
 		Items		= {
-			{ Id = 8473, Count = 100 }, -- UHP
+			{ Id = 2514, Count = 1 }, -- mms
 			{ Id = 8473, Count = 100 }, -- UHP
 			{ Id = 8473, Count = 100 }, -- UHP
 			{ Id = 8473, Count = 100 }, -- UHP

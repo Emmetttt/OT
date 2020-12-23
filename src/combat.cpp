@@ -177,6 +177,7 @@ bool Combat::isPlayerCombat(const Creature* target)
 
 ReturnValue Combat::canTargetCreature(Player* attacker, Creature* target)
 {
+	// TODO: Cannot target same team?
 	if (attacker == target) {
 		return RETURNVALUE_YOUMAYNOTATTACKTHISPLAYER;
 	}
@@ -749,11 +750,8 @@ void Combat::doTargetCombat(Creature* caster, Creature* target, CombatDamage& da
 	Player* casterPlayer = caster ? caster->getPlayer() : nullptr;
 	if (casterPlayer) {
 		if (damage.primary.value < 0 || damage.secondary.value < 0) {
-			Player* targetPlayer = target ? target->getPlayer() : nullptr;
-			if (targetPlayer) {
-				damage.primary.value /= 2;
-				damage.secondary.value /= 2;
-			}
+			damage.primary.value /= 2;
+			damage.secondary.value /= 2;
 			Combat::checkCriticalHit(casterPlayer, damage);
 			Combat::checkLeech(casterPlayer, damage);
 		}

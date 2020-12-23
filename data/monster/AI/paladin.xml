@@ -38,7 +38,6 @@
 		</defense>
 	</defenses>
 	<loot>
-	    <item id="2197" chance="30000" /> <!-- SSA -->
 	    <item id="2164" chance="30000" /> <!-- Might ring -->
 	    <item id="8266" chance="30000" /> <!-- Kosheis ammy -->
 	</loot>

@@ -34,7 +34,7 @@
 		</attack>
 	</attacks>
 	<defenses armor="39" defense="0">
-		<defense name="healing" interval="1200" min="898" max="1677" healthPercent="80">
+		<defense name="healing" interval="1200" min="808" max="1050" healthPercent="80">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 		<defense name="speed" interval="2000" speedchange="500" duration="30000">
@@ -45,7 +45,6 @@
 		</defense>
 	</defenses>
 	<loot>
-	    <item id="2197" chance="30000" /> <!-- SSA -->
 	    <item id="2164" chance="30000" /> <!-- Might ring -->
 	    <item id="8266" chance="30000" /> <!-- Kosheis ammy -->
 	</loot>

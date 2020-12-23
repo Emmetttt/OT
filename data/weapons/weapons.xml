@@ -13,7 +13,7 @@
 	<wand id="2185" level="19" mana="5" min="27" max="33" type="death"> <!-- Necrotic Rod -->
 		<vocation name="Druid" />
 	</wand>
-	<wand id="8911" level="22" mana="5" min="27" max="33" type="ice"> <!-- Northwind Rod -->
+	<wand id="8911" level="22" mana="5" min="380" max="420" type="ice"> <!-- Northwind Rod -->
 		<vocation name="Druid" />
 	</wand>
 	<wand id="2181" level="26" mana="8" min="42" max="48" type="earth"> <!-- Terra Rod -->
@@ -25,7 +25,7 @@
 	<wand id="8912" level="37" mana="13" min="55" max="75" type="earth"> <!-- Springsprout Rod -->
 		<vocation name="Druid" />
 	</wand>
-	<wand id="8910" level="42" mana="13" min="55" max="75" type="death"> <!-- Underworld Rod -->
+	<wand id="8910" level="42" mana="13" min="480" max="550" type="death"> <!-- Underworld Rod -->
 		<vocation name="Druid" />
 	</wand>
 	<wand id="13872" level="40" mana="13" min="55" max="75" type="ice"> <!-- Shimmer Rod -->
@@ -38,6 +38,9 @@
 		<vocation name="Druid" />
 	</wand>
 	<wand id="24839" level="37" mana="13" min="56" max="74" type="earth"> <!-- Ogre Scepta -->
+		<vocation name="Druid" />
+	</wand>
+	<wand id="25888" level="37" mana="13" min="580" max="620" type="ice"> <!-- rod of mayhem -->
 		<vocation name="Druid" />
 	</wand>
 
@@ -66,16 +69,16 @@
 	<wand id="8920" level="37" mana="13" min="55" max="75" type="energy"> <!-- Wand of Starmstorm -->
 		<vocation name="Sorcerer" />
 	</wand>
-	<wand id="8922" level="42" mana="13" min="55" max="75" type="death"> <!-- Wand of Voodoo -->
+	<wand id="8922" level="42" mana="13" min="130" max="150" type="death"> <!-- Wand of Voodoo -->
 		<vocation name="Sorcerer" />
 	</wand>
-	<wand id="13760" level="37" mana="13" min="55" max="75" type="death"> <!-- Wand of Dimensions -->
+	<wand id="13760" level="37" mana="13" min="280" max="320" type="death"> <!-- Wand of Dimensions -->
 		<vocation name="Sorcerer" />
 	</wand>
 	<wand id="13880" level="40" mana="13" min="55" max="75" type="energy"> <!-- Shimmer Wand -->
 		<vocation name="Sorcerer" />
 	</wand>
-	<wand id="18390" level="65" mana="17" min="70" max="100" type="energy"> <!-- Wand of Defiance -->
+	<wand id="18390" level="65" mana="17" min="200" max="220" type="energy"> <!-- Wand of Defiance -->
 		<vocation name="Sorcerer" />
 	</wand>
 	<wand id="18409" level="65" mana="17" min="70" max="100" type="fire"> <!-- Wand of Everblazing -->

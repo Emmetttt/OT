@@ -81,6 +81,11 @@ void Monster::loadAi()
 	g_game.addToTeam(this);
 	setMasterPos(g_game.getCurrentTown(getGuild()->getId())->getTemplePosition());
 	g_game.placeCreature(this, getMasterPos(), false, true);
+
+	// register ai events
+	if (!registerCreatureEvent("PlayerDeath")) {
+		std::cout << "[Warning - Monster::Monster] Unknown event name: playerdeath" << std::endl;
+	}
 }
 
 void Monster::addList()
