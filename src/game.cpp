@@ -292,7 +292,7 @@ void Game::endGameMode(){
 			}
 
 			player->sendTextMessage(
-				MESSAGE_STATUS_WARNING,
+				MESSAGE_EVENT_ADVANCE,
 				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!"
 			);
 		}
@@ -352,7 +352,7 @@ void Game::declareLeaderboard()
 		while (it != players.end()) {
 			Player* player = it->second;
 			player->sendTextMessage(
-				MESSAGE_STATUS_WARNING,
+				MESSAGE_EVENT_ADVANCE,
 				message
 			);
 			++it;

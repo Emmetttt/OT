@@ -185,15 +185,18 @@
 	<rune group="attack" spellid="18" name="Explosion Rune" id="2313" allowfaruse="1" charges="6" level="31" magiclevel="6" cooldown="2000" groupcooldown="2000" blocktype="solid" script="attack/explosion_rune.lua" />
 	<rune group="attack" spellid="16" name="Great Fireball Rune" id="2304" allowfaruse="1" charges="4" level="30" magiclevel="4" cooldown="2000" groupcooldown="2000" blocktype="solid" script="attack/great_fireball_rune.lua" />
 	<rune group="attack" spellid="86" name="Magic Wall Rune" id="2293" allowfaruse="1" charges="3" level="32" magiclevel="9" cooldown="2000" groupcooldown="2000" blocktype="all" script="attack/magic_wall_rune.lua" />
-	<rune group="attack" spellid="21" name="Sudden Death Rune" id="2268" allowfaruse="1" charges="3" level="45" magiclevel="15" cooldown="2000" groupcooldown="2000" needtarget="1" blocktype="solid" script="attack/sudden_death_rune.lua" />
+	<rune group="attack" spellid="21" name="Sudden Death Rune" id="2268" allowfaruse="1" charges="3" level="45" magiclevel="15" cooldown="2000" groupcooldown="2000" needtarget="1" blocktype="solid" script="attack/sudden_death_rune.lua" >
+		<vocation name="Sorcerer" />
+		<vocation name="Master Sorcerer" showInDescription="1" />
+	</rune>
 	<rune group="attack" name="Holy Missile Rune" id="2295" allowfaruse="1" charges="3" level="45" magiclevel="15" cooldown="2000" groupcooldown="2000" needtarget="1" blocktype="solid" script="attack/holy_missile_rune.lua" />
 	<rune group="attack" spellid="54" name="Paralyze Rune" id="2278" allowfaruse="1" charges="1" level="54" magiclevel="18" pzlock="1" cooldown="2000" groupcooldown="2000" mana="1400" needtarget="1" blocktype="solid" script="attack/paralyze_rune.lua">
 		<vocation name="Druid" />
-		<vocation name="Elder Druid" showInDescription="0" />
+		<vocation name="Elder Druid" showInDescription="1" />
 	</rune>
 	<rune group="attack" spellid="94" name="Wild Growth Rune" id="2269" allowfaruse="1" charges="2" level="27" magiclevel="8" cooldown="2000" groupcooldown="2000" blocktype="all" script="attack/wild_growth_rune.lua">
 		<vocation name="Druid" />
-		<vocation name="Elder Druid" showInDescription="0" />
+		<vocation name="Elder Druid" showInDescription="1" />
 	</rune>
 
 	<!-- Healing Runes -->

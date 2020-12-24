@@ -15,9 +15,6 @@ local vocationEquipment =
 			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 7590, Count = 100 }, -- gmp
-			{ Id = 7590, Count = 100 }, -- gmp
-			{ Id = 2268, Count = 100 }, -- SD
-			{ Id = 2268, Count = 100 }, -- SD
 			{ Id = 2268, Count = 100 }, -- SD
 			{ Id = 2268, Count = 100 }, -- SD
 			{ Id = 2273, Count = 100 },  -- uh
@@ -37,7 +34,6 @@ local vocationEquipment =
 		Ring		= nil,
 		Ammo		= nil,
 		Items		= {
-			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 7590, Count = 100 }, -- gmp
@@ -64,12 +60,7 @@ local vocationEquipment =
 			{ Id = 7589, Count = 100 },  -- smp
 			{ Id = 7589, Count = 100 },  -- smp
 			{ Id = 7589, Count = 100 },  -- smp
-			{ Id = 7589, Count = 100 },  -- smp
 			{ Id = 8472, Count = 100 },  -- gsp
-			{ Id = 8472, Count = 100 },  -- gsp
-			{ Id = 8472, Count = 100 },  -- gsp
-			{ Id = 8472, Count = 100 },  -- gsp
-			{ Id = 18436, Count = 100 }, -- ammo
 			{ Id = 18436, Count = 100 }, -- ammo
 			{ Id = 18436, Count = 100 }, -- ammo
 			{ Id = 18436, Count = 100 }, -- ammo

@@ -27,7 +27,7 @@ local potions = {
 	[7618] = {health = {125, 175}, flask = 7636},
 	[7620] = {mana = {75, 125}, flask = 7636},
 	[8472] = {health = {250, 350}, mana = {100, 200}, vocations = {3, 7}, level = 80, flask = 7635, description = "Only paladins of level 80 or above may drink this fluid."},
-	[8473] = {health = {650, 850}, vocations = {4, 8}, level = 130, flask = 7635, description = "Only knights of level 130 or above may drink this fluid."},
+	[8473] = {health = {850, 950}, vocations = {4, 8}, level = 130, flask = 7635, description = "Only knights of level 130 or above may drink this fluid."},
 	[8474] = {antidote = true, flask = 7636},
 	[8704] = {health = {60, 90}, flask = 7636},
 	[26029] = {mana = {425, 575}, vocations = {1, 2, 5, 6}, level = 130, flask = 7635, description = "Only druids and sorcerers of level 130 or above may drink this fluid."},

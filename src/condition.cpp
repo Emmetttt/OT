@@ -1417,7 +1417,7 @@ bool ConditionSpeed::startCondition(Creature* creature)
 
 	if (speedDelta == 0) {
 		int32_t min, max;
-		getFormulaValues(creature->getBaseSpeed(), min, max);
+		getFormulaValues(creature->getSpeed(), min, max);
 		speedDelta = uniform_random(min, max);
 	}
 

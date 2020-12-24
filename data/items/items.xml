@@ -3778,6 +3778,9 @@
 		<attribute key="weight" value="8500" />
 		<attribute key="armor" value="20" />
 		<attribute key="slotType" value="body" />
+		<attribute key="skillSword" value="5" />
+		<attribute key="skillAxe" value="5" />
+		<attribute key="skillClub" value="5" />
 	</item>
 	<item id="2473" article="a" name="viking helmet">
 		<attribute key="weight" value="3900" />
@@ -4000,7 +4003,8 @@
 		<attribute key="weight" value="5700" />
 		<attribute key="defense" value="60" />
 		<attribute key="weaponType" value="shield" />
-		<attribute key="absorbPercentDeath" value="20" />
+		<attribute key="absorbPercentDeath" value="30" />
+		<attribute key="absorbPercentPhysical" value="30" />
 		<attribute key="showattributes" value="1" />
 	</item>
 	<item id="2515" article="a" name="guardian shield">
@@ -4421,9 +4425,9 @@
 		<attribute key="slotType" value="feet" />
 		<attribute key="decayTo" value="10021" />
 		<attribute key="duration" value="144000" />
-		<attribute key="healthGain" value="70" />
+		<attribute key="healthGain" value="50" />
 		<attribute key="healthTicks" value="1000" />
-		<attribute key="manaGain" value="70" />
+		<attribute key="manaGain" value="50" />
 		<attribute key="manaTicks" value="1000" />
 		<attribute key="showattributes" value="1" />
 		<attribute key="speed" value="60" />
@@ -15984,6 +15988,9 @@
 		<attribute key="armor" value="22" />
 		<attribute key="absorbPercentDeath" value="20" />
 		<attribute key="absorbPercentHoly" value="-50" />
+		<attribute key="skillSword" value="5" />
+		<attribute key="skillAxe" value="5" />
+		<attribute key="skillClub" value="5" />
 		<attribute key="slotType" value="body" />
 	</item>
 	<item id="8890" article="a" name="robe of the underworld">
@@ -16118,9 +16125,9 @@
 		<attribute key="magiclevelpoints" value="10" />
 		<attribute key="speed" value="60" />
 		<attribute key="defense" value="16" />
-		<attribute key="healthGain" value="100" />
+		<attribute key="healthGain" value="60" />
 		<attribute key="healthTicks" value="1000" />
-		<attribute key="manaGain" value="100" />
+		<attribute key="manaGain" value="60" />
 		<attribute key="manaTicks" value="1000" />
 		<attribute key="weaponType" value="shield" />
 	</item>

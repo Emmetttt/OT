@@ -38,7 +38,18 @@
 		</defense>
 	</defenses>
 	<loot>
-	    <item id="2164" chance="30000" /> <!-- Might ring -->
-	    <item id="8266" chance="30000" /> <!-- Kosheis ammy -->
+	    <item id="7590" countmax="50" chance="25000" /> <!-- GMP -->
+	    <item id="2268" countmax="50" chance="25000" /> <!-- SD -->
+	    <item id="2273" countmax="20" chance="25000" /> <!-- UH -->
+	    <item id="2293" countmax="50" chance="25000" /> <!-- MWALL -->
+	    <item id="2274" countmax="50" chance="25000" /> <!-- AVA -->
+	    <item id="2269" countmax="10" chance="25000" /> <!-- TREE WALL -->
+	    <item id="2278" countmax="30" chance="25000" /> <!-- PARA -->
+	    <item id="7589" countmax="50" chance="25000" /> <!-- SMP -->
+	    <item id="8472" countmax="50" chance="25000" /> <!-- GSP-->
+	    <item id="18436" countmax="50" chance="25000" /> <!-- AMMO-->
+	    <item id="2295" countmax="50" chance="25000" /> <!-- HOLY -->
+	    <item id="7620" countmax="50" chance="25000" /> <!-- mana -->
+	    <item id="8473" countmax="50" chance="25000" /> <!-- UHP -->
 	</loot>
 </monster>
