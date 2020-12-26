@@ -18,7 +18,6 @@ local vocationEquipment =
 			{ Id = 2268, Count = 100 }, -- SD
 			{ Id = 2268, Count = 100 }, -- SD
 			{ Id = 2273, Count = 100 },  -- uh
-			{ Id = 2262, Count = 20 }, -- ebomb
 			{ Id = 2293, Count = 50 }  -- mwall
 		}
 	},
@@ -39,7 +38,7 @@ local vocationEquipment =
 			{ Id = 7590, Count = 100 }, -- gmp
 			{ Id = 2274, Count = 100 }, -- ava
 			{ Id = 2273, Count = 100 },  -- uh
-			{ Id = 2262, Count = 20 }, -- ebomb
+			{ Id = 2316, Count = 100 }, -- healing wind
 			{ Id = 2293, Count = 50 }, -- mwall
 			{ Id = 2269, Count = 50 }, -- tree wall
 			{ Id = 2278, Count = 20 }  -- para
@@ -66,7 +65,6 @@ local vocationEquipment =
 			{ Id = 18436, Count = 100 }, -- ammo
 			{ Id = 2295, Count = 100 }, -- holy missile
 			{ Id = 2273, Count = 100 },  -- uh
-			{ Id = 2262, Count = 20 },   -- ebomb
 			{ Id = 2293, Count = 50 }    -- mwall
 		}
 	},
@@ -90,7 +88,6 @@ local vocationEquipment =
 			{ Id = 7620, Count = 100 }, -- mana potion
 			{ Id = 7620, Count = 100 }, -- mana potion
 			{ Id = 7620, Count = 100 }, -- mana potion
-			{ Id = 2262, Count = 20 }, -- ebomb
 			{ Id = 2293, Count = 50 }  -- mwall
 		}
 	},

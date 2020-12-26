@@ -249,17 +249,20 @@ CORPSES = {
 -- This array contains all destroyable field items
 FIELDS = {1487,1488,1489,1490,1491,1492,1493,1494,1495,1496,1500,1501,1502,1503,1504}
 
-function Player:addPartyCondition(combat, variant, condition, baseMana)
-	local party = self:getParty()
-	if not party then
+function Player:addPartyCondition(combat, variant, condition, baseMana, effect)
+	if effect == nil then
+		effect = CONST_ME_MAGIC_BLUE
+	end
+
+	local guild = self:getGuild()
+	if not guild then
 		self:sendCancelMessage(RETURNVALUE_NOPARTYMEMBERSINRANGE)
 		self:getPosition():sendMagicEffect(CONST_ME_POFF)
 		return false
 	end
 
 	local positions = combat:getPositions(self, variant)
-	local members = party:getMembers()
-	members[#members + 1] = party:getLeader()
+	local members = guild:getMembersOnline()
 
 	local affectedMembers = {}
 	for _, member in ipairs(members) do
@@ -277,22 +280,21 @@ function Player:addPartyCondition(combat, variant, condition, baseMana)
 		return false
 	end
 
-	local mana = math.ceil(#affectedMembers * math.pow(0.9, #affectedMembers - 1) * baseMana)
-	if self:getMana() < mana then
+	if self:getMana() < baseMana then
 		self:sendCancelMessage(RETURNVALUE_NOTENOUGHMANA)
 		self:getPosition():sendMagicEffect(CONST_ME_POFF)
 		return false
 	end
 
-	self:addMana(-mana)
-	self:addManaSpent(mana)
+	self:addMana(-baseMana)
+	self:addManaSpent(baseMana)
 
 	for _, member in ipairs(affectedMembers) do
 		member:addCondition(condition)
 	end
 
 	for _, position in ipairs(positions) do
-		position:sendMagicEffect(CONST_ME_MAGIC_BLUE)
+		position:sendMagicEffect(effect)
 	end
 	return true
 end

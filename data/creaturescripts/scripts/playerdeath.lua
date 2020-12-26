@@ -8,11 +8,11 @@ local vocationEquipment =
 		[5]	= { Id = 18390, Slot = CONST_SLOT_LEFT, Text = "Kill 5: New Wand! +10ML" }, -- Wand of Defiance
 		[6]	= { Id = 7899, Slot = CONST_SLOT_ARMOR, Text = "Kill 6: +5ML Armor" }, -- Magma coat
 		[7]	= { Id = 8905, Slot = CONST_SLOT_RIGHT, Text = "Kill 7: +Regeneration Shield" }, -- rainbow shield
-		[8]	= { Id = 5741, Slot = CONST_SLOT_HEAD, Text = "Kill 8: +8ML Helmet" }, -- Skull helmet
-		[9]	= { Id = 8890, Slot = CONST_SLOT_ARMOR, Text = "Kill 9: +8ML Armor" }, -- Robe of the underworld
-		[10]= { Id = 13760, Slot = CONST_SLOT_LEFT, Text = "Kill 10: New Wand! +20ML" }, -- Wand of Dimensions
-		[11]= { Id = 2504, Slot = CONST_SLOT_LEGS, Text = "Kill 11: +8ML Legs" }, -- Dwarven Legs
-		[12]= { Id = 2640, Slot = CONST_SLOT_FEET, Text = "Kill 12: +Regeneration +Speed Boots" }, -- soft boots
+		[9]	= { Id = 5741, Slot = CONST_SLOT_HEAD, Text = "Kill 9: +8ML Helmet" }, -- Skull helmet
+		[11]	= { Id = 8890, Slot = CONST_SLOT_ARMOR, Text = "Kill 11: +8ML Armor" }, -- Robe of the underworld
+		[13]= { Id = 13760, Slot = CONST_SLOT_LEFT, Text = "Kill 13: New Wand! +20ML" }, -- Wand of Dimensions
+		[15]= { Id = 2504, Slot = CONST_SLOT_LEGS, Text = "Kill 15: +8ML Legs" }, -- Dwarven Legs
+		[17]= { Id = 2640, Slot = CONST_SLOT_FEET, Text = "Kill 17: +Regeneration +Speed Boots" }, -- soft boots
 	},
 	[6] = { -- druid
 		[1]	= { Id = 18528, Slot = CONST_SLOT_RING, Text = "Kill 1: +100 Speed Ring" }, -- prismatic ring
@@ -25,25 +25,25 @@ local vocationEquipment =
 		[8]= { Id = 8918, Slot = CONST_SLOT_RIGHT, Text = "Kill 8: +Regeneration +Speed Spellbook" }, -- spellbook of dark mysteries
 		
 		[9]	= { Id = 7901, Slot = CONST_SLOT_HEAD, Text = "Kill 9: +10% Death/Physical Resistance Helmet" }, -- lighning headband
-		[10]= { Id = 7895, Slot = CONST_SLOT_LEGS, Text = "Kill 10: +10% Death/Physical Resistance Legs" }, -- lightning legs
-		[11]= { Id = 7898, Slot = CONST_SLOT_ARMOR, Text = "Kill 11: +10% Death/Physical Resistance Legs" }, -- lightning robe
-		[12]= { Id = 7893, Slot = CONST_SLOT_FEET, Text = "Kill 12: +10% Death/Physical Resistance Shoes" }, -- lightning shoes
+		[11]= { Id = 7895, Slot = CONST_SLOT_LEGS, Text = "Kill 11: +10% Death/Physical Resistance Legs" }, -- lightning legs
+		[13]= { Id = 7898, Slot = CONST_SLOT_ARMOR, Text = "Kill 13: +10% Death/Physical Resistance Legs" }, -- lightning robe
+		[15]= { Id = 7893, Slot = CONST_SLOT_FEET, Text = "Kill 15: +10% Death/Physical Resistance Shoes" }, -- lightning shoes
 	},
 	[7] = { -- paladin
 		[1]	= { Id = 2195, Slot = CONST_SLOT_FEET, Text = "Kill 1: Boh" }, -- BOH
 		[2]	= { Id = 21690, Slot = CONST_SLOT_LEFT, Text = "Kill 2: New Crossbow!"}, -- triple bolt crossbow
 		[3]	= { Id = 12645, Slot = CONST_SLOT_HEAD, Text = "Kill 3: +5 Distance Helmet" }, -- Draken helmet
 		[4]	= { Id = 9777, Slot = CONST_SLOT_LEGS, Text = "Kill 4: +5 Distance Legs" }, -- Yala legs
-		[5]	= { Id = 9776, Slot = CONST_SLOT_ARMOR, Text = "Kill 5: +10 Death Resistance Armor " }, -- Yala Armor
+		[5]	= { Id = 9776, Slot = CONST_SLOT_ARMOR, Text = "Kill 5: +5 Death Resistance Armor " }, -- Yala Armor
 
 		[6]	= { Id = 8850, Slot = CONST_SLOT_LEFT, Text = "Kill 6: New Crossbow!" }, -- Chain bolter
 		[7]	= { Id = 2206, Slot = CONST_SLOT_RING, Text = "Kill 7: 1hr Time Ring" }, -- Time Ring
-		[8]	= { Id = 18406, Slot = CONST_SLOT_FEET, Text = "Kill 8: Speed 60 +2arm Boots" }, -- primatic boots
+		[8]	= { Id = 18406, Slot = CONST_SLOT_FEET, Text = "Kill 8: Speed 30 +5arm Boots" }, -- primatic boots
 		[9]	= { Id = 18403, Slot = CONST_SLOT_HEAD, Text = "Kill 9: +10 Distance Helmet" }, -- primatic helmet
-		[10]= { Id = 18405, Slot = CONST_SLOT_LEGS, Text = "Kill 10: +10 Distance Legs" }, -- primatic legs
-		[11]= { Id = 18404, Slot = CONST_SLOT_ARMOR, Text = "Kill 11: +15% Death Resistance Armor" }, -- primatic Armor
+		[11]= { Id = 18405, Slot = CONST_SLOT_LEGS, Text = "Kill 11: +10 Distance Legs" }, -- primatic legs
+		[13]= { Id = 18404, Slot = CONST_SLOT_ARMOR, Text = "Kill 13: +10% Death Resistance Armor" }, -- primatic Armor
 		
-		[12]= { Id = 18453, Slot = CONST_SLOT_LEFT, Text = "Kill 12: New Crossbow!"}, -- Crystal Crossbow
+		[15]= { Id = 18453, Slot = CONST_SLOT_LEFT, Text = "Kill 15: New Crossbow!"}, -- Crystal Crossbow
 	},
 	[8] = { -- knight
 		[1]	= { Id = 2195, Slot = CONST_SLOT_FEET, Text = "Kill 1: BOH" }, -- BOH
@@ -56,9 +56,9 @@ local vocationEquipment =
 
 		[8]	= { Id = 21708, Slot = CONST_SLOT_FEET, Text = "Kill 8: +60 speed Boots (Arm: 4)"}, -- vampire slippers
 		[9]	= { Id = 8889, Slot = CONST_SLOT_ARMOR, Text = "Kill 9: +5 skill +20% Death Resistance -50% Holy Resistance (Arm: 22)"}, -- Skullcracker armor
-		[10]= { Id = 7453, Slot = CONST_SLOT_LEFT, Text = "Kill 10: New Weapon!"}, -- executioner
-		[11]= { Id = 24809, Slot = CONST_SLOT_HEAD, Text = "Kill 11: +10 skill Helmet (Arm: 13)"}, -- dark wizard's crown
-		[12]= { Id = 15409, Slot = CONST_SLOT_LEGS, Text = "Kill 12: +10 skill +5% Physical Resistance Legs (Arm: 12)"}, -- depth orcrae
+		[11]= { Id = 7453, Slot = CONST_SLOT_LEFT, Text = "Kill 11: New Weapon!"}, -- executioner
+		[13]= { Id = 24809, Slot = CONST_SLOT_HEAD, Text = "Kill 13: +10 skill Helmet (Arm: 13)"}, -- dark wizard's crown
+		[15]= { Id = 15409, Slot = CONST_SLOT_LEGS, Text = "Kill 15: +10 skill +5% Physical Resistance Legs (Arm: 12)"}, -- depth orcrae
 	},
 }
 local slots = {CONST_SLOT_FIRST, CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_BACKPACK, CONST_SLOT_ARMOR, CONST_SLOT_RIGHT, CONST_SLOT_LEFT, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO}

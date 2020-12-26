@@ -348,7 +348,7 @@ void Game::declareLeaderboard()
 	if (highestPlayer != "")
 	{
 		it = players.begin();
-		std::string message = highestPlayer + " is leading with " + std::to_string(highestStreak) + " kills. Kill them to win a chance to win something rare!";
+		std::string message = highestPlayer + " is leading with " + std::to_string(highestStreak) + " kills. Kill them to win a chance to get multiplied EXP!";
 		while (it != players.end()) {
 			Player* player = it->second;
 			player->sendTextMessage(
@@ -363,12 +363,20 @@ void Game::declareLeaderboard()
 
 void Game::rotateChokePoints()
 {
-	Position nextChokePoint = getNextChokePoint();
-	std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
-	map.produceMap(nextChokePoint, forbiddenSquares);
-	int32_t sleepSeconds = uniform_random(60, 90);
-	std::cout << "sleep for" << sleepSeconds << std::endl;
-	g_scheduler.addEvent(createSchedulerTask(sleepSeconds * 1000, std::bind(&Game::rotateChokePoints, this)));
+	try
+	{
+		Position nextChokePoint = getNextChokePoint();
+		std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
+		map.produceMap(nextChokePoint, forbiddenSquares);
+		int32_t sleepSeconds = uniform_random(60, 90);
+		std::cout << "sleep for " << sleepSeconds << std::endl;
+		g_scheduler.addEvent(createSchedulerTask(sleepSeconds * 1000, std::bind(&Game::rotateChokePoints, this)));
+	}
+	catch (const std::exception &exc)
+	{
+		// catch anything thrown within try block that derives from std::exception
+		std::cerr << exc.what();
+	}
 }
 
 Position Game::getNextChokePoint() {

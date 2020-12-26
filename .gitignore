@@ -116,6 +116,8 @@ csx
 AppPackages/
 
 # Others
+config.lua
+config.lua.dist
 key.pem
 deployment/
 sql/

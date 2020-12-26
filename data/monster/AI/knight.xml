@@ -50,5 +50,6 @@
 	    <item id="2295" countmax="50" chance="25000" /> <!-- HOLY -->
 	    <item id="7620" countmax="50" chance="25000" /> <!-- mana -->
 	    <item id="8473" countmax="50" chance="25000" /> <!-- UHP -->
+	    <item id="2316" countmax="50" chance="25000" /> <!-- Healing Wind -->
 	</loot>
 </monster>
