@@ -1,5 +1,5 @@
-create user 'tfsUser'@'localhost' identified by 'password';
-grant all privileges on forgottenserver . * to 'tfsUser'@'localhost';
+create user 'tfsUser'@'172.20.0.3' identified WITH mysql_native_password by 'password';
+grant all privileges on forgottenserver.* to 'tfsUser'@'172.20.0.3' WITH GRANT OPTION;
 
 CREATE TABLE IF NOT EXISTS `accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -8,6 +8,7 @@ condition:setParameter(CONDITION_PARAM_SKILL_CLUB, 50)
 condition:setParameter(CONDITION_PARAM_SKILL_SWORD, 50)
 condition:setParameter(CONDITION_PARAM_SKILL_AXE, 50)
 condition:setParameter(CONDITION_PARAM_SKILL_DISTANCE, 50)
+condition:setParameter(CONDITION_PARAM_STAT_MAGICPOINTS, 50)
 condition:setParameter(CONDITION_PARAM_BUFF_SPELL, true)
 
 function onCastSpell(creature, variant)

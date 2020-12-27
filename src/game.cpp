@@ -188,7 +188,7 @@ void Game::setGameState(GameState_t newState)
 }
 
 void Game::initialiseGameMode(){
-	int32_t randMap = uniform_random(0, 3);
+	int32_t randMap = uniform_random(4, 4);
 	switch (randMap){
 		case 0:
 			std::cout << "THAIS" << std::endl;
@@ -205,6 +205,10 @@ void Game::initialiseGameMode(){
 		case 3:
 			std::cout << "FIBULA" << std::endl;
 			setCurrentMap(CURRENT_MAP_FIBULA);
+			break;
+		case 4:
+			std::cout << "ANK" << std::endl;
+			setCurrentMap(CURRENT_MAP_ANK);
 			break;
 	}
 
@@ -251,6 +255,9 @@ void Game::initialiseGameMode(){
 			break;
 		case CURRENT_MAP_FIBULA:
 			chokePoint = map.towns.getTown("FibulaChokePoint1")->getTemplePosition();
+			break;
+		case CURRENT_MAP_ANK:
+			chokePoint = map.towns.getTown("AnkChokePoint1")->getTemplePosition();
 			break;
 	}
 	std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
@@ -316,6 +323,9 @@ Town* Game::getCurrentTown(uint32_t guildId) {
 			break;
 		case CURRENT_MAP_FIBULA:
 			ss << "Fibula";
+			break;
+		case CURRENT_MAP_ANK:
+			ss << "Ank";
 			break;
 		default:
 			ss << "Edron";
@@ -394,6 +404,9 @@ Position Game::getNextChokePoint() {
 			break;
 		case CURRENT_MAP_FIBULA:
 			ss << "FibulaChokePoint" << randMap;
+			break;
+		case CURRENT_MAP_ANK:
+			ss << "AnkChokePoint" << randMap;
 			break;
 	}
 	return map.towns.getTown(ss.str())->getTemplePosition();
