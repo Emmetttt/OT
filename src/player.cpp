@@ -159,7 +159,7 @@ std::string Player::getDescription(int32_t lookDistance) const
 		}
 	}
 
-	if (!guild || !guildRank) {
+	if (!guild) {
 		return s.str();
 	}
 
@@ -1166,9 +1166,6 @@ void Player::onRemoveCreature(Creature* creature, bool isLogout)
 				std::cout << "Error while saving player: " << getName() << std::endl;
 			}
 		}
-		else {
-			std::cout << "Not saving player: " << getName() << std::endl; 
-		}
 	}
 }
 
@@ -1904,8 +1901,31 @@ void Player::sendToGameTypeDefaultLocation()
 		g_game.internalTeleport(this, g_game.getCurrentTown(1)->getTemplePosition(), true);
 	}
 
+	streak = 0;
+	setSkull(SKULL_NONE);
+
+	switch (getVocationId()){
+		case 5:
+		case 6:
+			healthMax = 1145;
+			manaMax = 5850;
+			break;
+		case 7:
+			healthMax = 2105;
+			manaMax = 2970;
+			break;
+		case 8:
+			healthMax = 3000;
+			manaMax = 1050;
+			break;
+		default:
+			break;
+	}
+	
 	health = healthMax;
 	mana = manaMax;
+	level = 200;
+	experience = 129389800;
 
 	g_game.addCreatureHealth(this);
 	onThink(EVENT_CREATURE_THINK_INTERVAL);

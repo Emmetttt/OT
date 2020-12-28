@@ -92,6 +92,7 @@ local vocationEquipment =
 		}
 	},
 }
+local slots = {CONST_SLOT_FIRST, CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_BACKPACK, CONST_SLOT_ARMOR, CONST_SLOT_RIGHT, CONST_SLOT_LEFT, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO}
 
 function onLogin(player)
 	-- Stamina
@@ -106,6 +107,13 @@ function onLogin(player)
 end
 
 function equipStarterEquipment(player)
+	for i = 1, #slots do
+		local item = player:getSlotItem(slots[i])
+		if item then
+			item:remove(1)
+		end
+	end
+
 	local vocation = player:getVocation():getId()
 	equip(player, vocationEquipment[vocation].Head, CONST_SLOT_HEAD, 1)
 	equip(player, vocationEquipment[vocation].Necklace, CONST_SLOT_NECKLACE, 1)

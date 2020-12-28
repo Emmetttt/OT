@@ -61,7 +61,6 @@ local vocationEquipment =
 		[15]= { Id = 15409, Slot = CONST_SLOT_LEGS, Text = "Kill 15: +10 skill +5% Physical Resistance Legs (Arm: 12)"}, -- depth orcrae
 	},
 }
-local slots = {CONST_SLOT_FIRST, CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_BACKPACK, CONST_SLOT_ARMOR, CONST_SLOT_RIGHT, CONST_SLOT_LEFT, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO}
 local baseExpGain = 15000000
 
 function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, mostDamageUnjustified)
@@ -75,20 +74,12 @@ function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, m
 
 	if (player:isPlayer()) then
 		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You are dead.")
-
-		for i = 1, #slots do
-			local item = player:getSlotItem(slots[i])
-			if item then
-				item:remove(1)
-			end
-		end
-
 		equipStarterEquipment(player)
 	end
 end
 
 function addExp(killer, player)
-	if (killer == nil or player == nil or not player:isPlayer() or not killer:isPlayer()) then
+	if (killer == nil or player == nil or not killer:isPlayer()) then
 		return true
 	end
 	killer:addExperience(baseExpGain * player:getStreak() * math.random(0.5, 1.5))

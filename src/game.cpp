@@ -188,7 +188,7 @@ void Game::setGameState(GameState_t newState)
 }
 
 void Game::initialiseGameMode(){
-	int32_t randMap = uniform_random(4, 4);
+	int32_t randMap = uniform_random(0, 4);
 	switch (randMap){
 		case 0:
 			std::cout << "THAIS" << std::endl;
@@ -303,10 +303,12 @@ void Game::endGameMode(){
 				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!"
 			);
 		}
+		player->sendToGameTypeDefaultLocation();
 		++it;
 	}
 
 	map.clean();
+	saveGameState();
 }
 
 Town* Game::getCurrentTown(uint32_t guildId) {

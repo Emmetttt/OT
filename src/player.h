@@ -418,6 +418,39 @@ class Player final : public Creature, public Cylinder
 			this->town = town;
 		}
 
+		/* stats */
+		uint16_t getKills() const {
+			return kills;
+		}
+		void incrementKills() {
+			kills++;
+		}
+		void resetKills() {
+			kills = 0;
+		}
+		
+		uint16_t getDeaths() const {
+			return deaths;
+		}
+		void incrementDeaths() {
+			deaths++;
+		}
+		void resetDeaths() {
+			deaths = 0;
+		}
+		
+		uint16_t getLongestStreak() const {
+			return longestStreak;
+		}
+		void setLongestStreak(uint16_t streak) {
+			if (streak > longestStreak){
+				longestStreak = streak;
+			}
+		}
+		void resetLongestStreak() {
+			longestStreak = 0;
+		}
+
 		void clearModalWindows();
 		bool hasModalWindowOpen(uint32_t modalWindowId) const;
 		void onModalWindowHandled(uint32_t modalWindowId);
@@ -1252,6 +1285,11 @@ class Player final : public Creature, public Cylinder
 		uint8_t blessings = 0;
 		uint8_t levelPercent = 0;
 		uint8_t magLevelPercent = 0;
+
+		/* stats */
+		uint16_t kills = 0;
+		uint16_t deaths = 0;
+		uint16_t longestStreak = 0;
 
 		PlayerSex_t sex = PLAYERSEX_FEMALE;
 		OperatingSystem_t operatingSystem = CLIENTOS_NONE;

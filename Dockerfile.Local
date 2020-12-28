@@ -38,18 +38,6 @@ COPY --from=build /usr/src/forgottenserver/build/tfs /srv/tfs
 COPY data /srv/data/
 COPY LICENSE README.md *.dist *.sql key.pem /srv/
 
-# Get the AWS CLI
-# RUN apk add --no-cache \
-#         python3 \
-#         py3-pip \
-#     && pip3 install --upgrade pip \
-#     && pip3 install \
-#         awscli \
-#     && rm -rf /var/cache/apk/*
-
-# RUN zip -r srv.zip /srv
-# RUN aws s3 cp srv.zip s3://ot-server
-
 EXPOSE 7171 7172
 WORKDIR /srv
 VOLUME /srv

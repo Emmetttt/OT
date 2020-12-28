@@ -698,10 +698,6 @@ void Creature::onDeath()
 	if (killerGuild && guild && guild->getId() != killerGuild->getId()){
 		killerGuild->addKill();
 		guild->addDeath();
-	}
-
-	if (lastHitCreature->getPlayer() || (lastHitCreature->getMonster() && lastHitCreature->getMonster()->isAi()))
-	{
 		lastHitCreature->addStreak();
 	}
 
