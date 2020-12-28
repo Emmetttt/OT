@@ -1909,7 +1909,7 @@ void Player::sendToGameTypeDefaultLocation()
 	setSkull(SKULL_NONE);
 	health = healthMax;
 	mana = manaMax;
-	baseSpeed = 310;
+	baseSpeed = 620;
 
 	g_game.addCreatureHealth(this);
 	onThink(EVENT_CREATURE_THINK_INTERVAL);
@@ -3294,14 +3294,14 @@ void Player::onIdleStatus()
 void Player::onPlacedCreature()
 {
 	std::ostringstream ss1;
-	ss1 << "Current Game Mode: " << static_cast<std::underlying_type<GameMode_t>::type>(g_game.getGameMode()) << ".";
-	sendTextMessage(MESSAGE_STATUS_CONSOLE_RED, ss1.str());
+	ss1 << "Current Game Mode: Team Death Match.";
+	sendTextMessage(MESSAGE_EVENT_ADVANCE, ss1.str());
 
 	Guild* guild = getGuild();
 	if (guild){
 		std::ostringstream ss2;
 		ss2 << "Current Score: " << guild->getKills() << ":" << guild->getDeaths() << " (Target: " << std::to_string(g_config.getNumber(ConfigManager::TDM_KILLS_TO_WIN)) << ").";
-		sendTextMessage(MESSAGE_STATUS_CONSOLE_RED, ss2.str());
+		sendTextMessage(MESSAGE_EVENT_ADVANCE, ss2.str());
 	}
 
 	//scripting event - onLogin
