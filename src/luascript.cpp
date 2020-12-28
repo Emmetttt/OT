@@ -2230,6 +2230,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Creature", "getMaxHealth", LuaScriptInterface::luaCreatureGetMaxHealth);
 	registerMethod("Creature", "setMaxHealth", LuaScriptInterface::luaCreatureSetMaxHealth);
 	registerMethod("Creature", "setHiddenHealth", LuaScriptInterface::luaCreatureSetHiddenHealth);
+	registerMethod("Creature", "getStreak", LuaScriptInterface::luaCreatureGetStreak);
 
 	registerMethod("Creature", "getSkull", LuaScriptInterface::luaCreatureGetSkull);
 	registerMethod("Creature", "setSkull", LuaScriptInterface::luaCreatureSetSkull);
@@ -2322,8 +2323,10 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "getItemById", LuaScriptInterface::luaPlayerGetItemById);
 
 	registerMethod("Player", "getVocation", LuaScriptInterface::luaPlayerGetVocation);
-	registerMethod("Player", "getStreak", LuaScriptInterface::luaPlayerGetStreak);
 	registerMethod("Player", "setVocation", LuaScriptInterface::luaPlayerSetVocation);
+
+	registerMethod("Player", "addKill", LuaScriptInterface::luaPlayerAddKill);
+	registerMethod("Player", "addDeath", LuaScriptInterface::luaPlayerAddDeath);
 
 	registerMethod("Player", "getSex", LuaScriptInterface::luaPlayerGetSex);
 	registerMethod("Player", "setSex", LuaScriptInterface::luaPlayerSetSex);
@@ -8376,6 +8379,28 @@ int LuaScriptInterface::luaPlayerGetItemById(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaPlayerAddKill(lua_State* L)
+{
+	// player:addKill()
+	Player* player = getUserdata<Player>(L, 1);
+	if (player){
+		player->incrementKills();
+	}
+
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerAddDeath(lua_State* L)
+{
+	// player:addDeath()
+	Player* player = getUserdata<Player>(L, 1);
+	if (player){
+		player->incrementDeaths();
+	}
+
+	return 1;
+}
+
 int LuaScriptInterface::luaPlayerGetVocation(lua_State* L)
 {
 	// player:getVocation()
@@ -8389,12 +8414,12 @@ int LuaScriptInterface::luaPlayerGetVocation(lua_State* L)
 	return 1;
 }
 
-int LuaScriptInterface::luaPlayerGetStreak(lua_State* L)
+int LuaScriptInterface::luaCreatureGetStreak(lua_State* L)
 {
-	// player:getStreak()
-	Player* player = getUserdata<Player>(L, 1);
-	if (player) {
-		lua_pushnumber(L, player->getStreak());
+	// creature:getStreak()
+	Creature* creature = getUserdata<Creature>(L, 1);
+	if (creature) {
+		lua_pushnumber(L, creature->getStreak());
 	} else {
 		lua_pushnil(L);
 	}

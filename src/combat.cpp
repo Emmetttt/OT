@@ -212,13 +212,16 @@ ReturnValue Combat::canTargetCreature(Player* attacker, Creature* target)
 		}
 	}
 
-	if (target->getPlayer()) {
+	if (target->getPlayer()){
 		if (isProtected(attacker, target->getPlayer())) {
 			return RETURNVALUE_YOUMAYNOTATTACKTHISPLAYER;
 		}
+	}
 
-		if (attacker->hasSecureMode() && !Combat::isInPvpZone(attacker, target) && attacker->getSkullClient(target->getPlayer()) == SKULL_NONE) {
-			return RETURNVALUE_TURNSECUREMODETOATTACKUNMARKEDPLAYERS;
+	if (target->getPlayer() || (target->getMonster() && target->getMonster()->isAi())) {
+
+		if (attacker->getGuild() && target->getGuild() && attacker->getGuild()->getId() == target->getGuild()->getId()){
+			return RETURNVALUE_YOUMAYNOTATTACKTHISPLAYER;
 		}
 	}
 

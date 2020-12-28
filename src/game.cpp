@@ -188,29 +188,11 @@ void Game::setGameState(GameState_t newState)
 }
 
 void Game::initialiseGameMode(){
-	int32_t randMap = uniform_random(0, 4);
-	switch (randMap){
-		case 0:
-			std::cout << "THAIS" << std::endl;
-			setCurrentMap(CURRENT_MAP_THAIS);
-			break;
-		case 1:
-			std::cout << "EDRON" << std::endl;
-			setCurrentMap(CURRENT_MAP_EDRON);
-			break;
-		case 2:
-			std::cout << "VENORE" << std::endl;
-			setCurrentMap(CURRENT_MAP_VENORE);
-			break;
-		case 3:
-			std::cout << "FIBULA" << std::endl;
-			setCurrentMap(CURRENT_MAP_FIBULA);
-			break;
-		case 4:
-			std::cout << "ANK" << std::endl;
-			setCurrentMap(CURRENT_MAP_ANK);
-			break;
+	CurrentMap_t randMap = static_cast<CurrentMap_t>(uniform_random(0, 4));
+	while (randMap == getCurrentMap()){
+		randMap = static_cast<CurrentMap_t>(uniform_random(0, 4));
 	}
+	setCurrentMap(randMap);
 
 	auto it = players.begin();
 	while (it != players.end()) {

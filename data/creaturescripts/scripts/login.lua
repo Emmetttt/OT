@@ -98,12 +98,45 @@ function onLogin(player)
 	-- Stamina
 	nextUseStaminaTime[player.uid] = 0
 	equipStarterEquipment(player)
+	resetToDefaultLevel(player)
 
 	-- Events
 	player:registerEvent("PlayerDeath")
 	player:registerEvent("DropLoot")
 
 	return true
+end
+
+function resetToDefaultLevel(player)
+	local mageDefaultHealth = 1145
+	local paladinDefaultHealth = 2105
+	local knightDefaultHealth = 3000
+	local mageDefaultMana = 5850
+	local paladinDefaultMana = 2970
+	local knightDefaultMana = 1050
+
+	local vocation =  player:getVocation():getId()
+	-- set stats back to default
+	if vocation == 8 then -- knight
+		player:setMaxHealth(knightDefaultHealth)
+		player:setMaxMana(knightDefaultMana)
+		player:addHealth(knightDefaultHealth)
+		player:addMana(knightDefaultMana)
+	elseif vocation == 5 or vocation == 6 then -- mage
+		player:setMaxHealth(mageDefaultHealth)
+		player:setMaxMana(mageDefaultMana)
+		player:addHealth(mageDefaultHealth)
+		player:addMana(mageDefaultMana)
+	elseif vocation == 7 then -- paladin
+		player:setMaxHealth(paladinDefaultHealth)
+		player:setMaxMana(paladinDefaultMana)
+		player:addHealth(paladinDefaultHealth)
+		player:addMana(paladinDefaultMana)
+	else
+		player:setMaxHealth(2)
+	end
+
+	player:setLevel(200)
 end
 
 function equipStarterEquipment(player)

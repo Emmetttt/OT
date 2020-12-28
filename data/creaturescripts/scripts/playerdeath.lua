@@ -61,7 +61,7 @@ local vocationEquipment =
 		[15]= { Id = 15409, Slot = CONST_SLOT_LEGS, Text = "Kill 15: +10 skill +5% Physical Resistance Legs (Arm: 12)"}, -- depth orcrae
 	},
 }
-local baseExpGain = 15000000
+local baseExpGain = 5000000
 
 function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, mostDamageUnjustified)
 	incrementSet(killer)
@@ -73,16 +73,17 @@ function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, m
 	end
 
 	if (player:isPlayer()) then
+		player:addDeath()
 		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You are dead.")
 		equipStarterEquipment(player)
 	end
 end
 
-function addExp(killer, player)
-	if (killer == nil or player == nil or not killer:isPlayer()) then
+function addExp(killer, creature)
+	if (killer == nil or creature == nil or not killer:isPlayer()) then
 		return true
 	end
-	killer:addExperience(baseExpGain * player:getStreak() * math.random(0.5, 1.5))
+	killer:addExperience(baseExpGain * creature:getStreak() * math.random(0.5, 1.5))
 
 	return true
 end
@@ -91,6 +92,8 @@ function incrementSet(player)
 	if (player == nil or not player:isPlayer()) then
 		return true
 	end
+
+	player:addKill()
 	
 	local vocation = player:getVocation():getId()
 	local config = vocationEquipment[vocation][player:getStreak()]

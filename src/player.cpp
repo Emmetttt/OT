@@ -1880,6 +1880,9 @@ void Player::death(Creature* lastHitCreature)
 
 void Player::sendToGameTypeDefaultLocation()
 {
+	// reset character via scripting event to default level 200 eq/stats
+	g_creatureEvents->playerLogin(this);
+	
 	auto it = conditions.begin(), end = conditions.end();
 	while (it != end) {
 		Condition* condition = *it;
@@ -1901,31 +1904,12 @@ void Player::sendToGameTypeDefaultLocation()
 		g_game.internalTeleport(this, g_game.getCurrentTown(1)->getTemplePosition(), true);
 	}
 
+	setLongestStreak(streak);
 	streak = 0;
 	setSkull(SKULL_NONE);
-
-	switch (getVocationId()){
-		case 5:
-		case 6:
-			healthMax = 1145;
-			manaMax = 5850;
-			break;
-		case 7:
-			healthMax = 2105;
-			manaMax = 2970;
-			break;
-		case 8:
-			healthMax = 3000;
-			manaMax = 1050;
-			break;
-		default:
-			break;
-	}
-	
 	health = healthMax;
 	mana = manaMax;
-	level = 200;
-	experience = 129389800;
+	baseSpeed = 310;
 
 	g_game.addCreatureHealth(this);
 	onThink(EVENT_CREATURE_THINK_INTERVAL);
