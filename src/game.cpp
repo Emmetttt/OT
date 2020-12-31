@@ -246,7 +246,7 @@ void Game::initialiseGameMode(){
 	map.produceMap(chokePoint, forbiddenSquares);
 
 	// Set rotation of choke points
-	g_scheduler.addEvent(createSchedulerTask(120000, std::bind(&Game::declareLeaderboard, this)));
+	g_scheduler.addEvent(createSchedulerTask(300000, std::bind(&Game::declareLeaderboard, this)));
 	g_scheduler.addEvent(createSchedulerTask(180000, std::bind(&Game::rotateChokePoints, this)));
 	// When we have more game modes, switch on GetGameMode
 }
@@ -352,25 +352,17 @@ void Game::declareLeaderboard()
 			++it;
 		}
 	}
-	g_scheduler.addEvent(createSchedulerTask(120000, std::bind(&Game::declareLeaderboard, this)));
+	g_scheduler.addEvent(createSchedulerTask(300000, std::bind(&Game::declareLeaderboard, this)));
 }
 
 void Game::rotateChokePoints()
 {
-	try
-	{
-		Position nextChokePoint = getNextChokePoint();
-		std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
-		map.produceMap(nextChokePoint, forbiddenSquares);
-		int32_t sleepSeconds = uniform_random(60, 90);
-		std::cout << "sleep for " << sleepSeconds << std::endl;
-		g_scheduler.addEvent(createSchedulerTask(sleepSeconds * 1000, std::bind(&Game::rotateChokePoints, this)));
-	}
-	catch (const std::exception &exc)
-	{
-		// catch anything thrown within try block that derives from std::exception
-		std::cerr << exc.what();
-	}
+	Position nextChokePoint = getNextChokePoint();
+	std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
+	map.produceMap(nextChokePoint, forbiddenSquares);
+	int32_t sleepSeconds = uniform_random(60, 90);
+	std::cout << "sleep for " << sleepSeconds << std::endl;
+	g_scheduler.addEvent(createSchedulerTask(sleepSeconds * 1000, std::bind(&Game::rotateChokePoints, this)));
 }
 
 Position Game::getNextChokePoint() {

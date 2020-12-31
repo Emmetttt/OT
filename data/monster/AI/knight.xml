@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<monster name="BOT Knight" nameDescription="a Knight" race="blood" experience="12938980" speed="309">
-	<health now="3000" max="3000" />
+<monster name="BOT Knight" nameDescription="a Knight" race="blood" experience="12938980" speed="339">
+	<health now="3440" max="3440" />
 	<mana now="1050" max="1050" />
 	<look type="268" head="113" body="120" legs="95" feet="115" addons="3" corpse="3058" />
 	<targetchange interval="4000" chance="10" />
@@ -22,14 +22,14 @@
 		<flag isAi="1" />
 	</flags>
 	<attacks>
-		<attack name="melee" interval="2000" min="-20" max="-456" />
+		<attack name="melee" interval="2000" min="-170" max="-456" />
 		<attack name="fierce berserk" interval="2000" chance="50" range="1" />
 		<attack name="magicwall" chance="5">
 			<attribute key="shootEffect" value="energyball" />
 		</attack>
 	</attacks>
 	<defenses armor="39" defense="0">
-		<defense name="healing" interval="1200" min="650" max="850" healthPercent="80">
+		<defense name="healing" interval="1200" min="750" max="850" healthPercent="80">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 		<defense name="speed" interval="2000" speedchange="800" duration="5000">

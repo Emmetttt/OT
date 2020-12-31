@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<monster name="BOT Paladin" nameDescription="a Paladin" race="blood" experience="12938980" speed="309">
-	<health now="2105" max="2105" />
+<monster name="BOT Paladin" nameDescription="a Paladin" race="blood" experience="12938980" speed="339">
+	<health now="2355" max="2355" />
 	<mana now="2970" max="2970" />
 	<look type="137" head="113" body="120" legs="95" feet="115" addons="3" corpse="3058" />
 	<targetchange interval="4000" chance="10" />
@@ -22,18 +22,18 @@
 		<flag isAi="1" />
 	</flags>
 	<attacks>
-		<attack name="physical" interval="2000" chance="100" range="5" target="1" min="0" max="-700">
+		<attack name="physical" interval="2000" chance="100" range="5" target="1" min="-150" max="-550">
 			<attribute key="shootEffect" value="bolt" />
 		</attack>
-		<attack name="magicwall" chance="5">
+		<attack name="magicwall" chance="10">
 			<attribute key="shootEffect" value="energyball" />
 		</attack>
 	</attacks>
 	<defenses armor="31" defense="0">
-		<defense name="healing" interval="1200" min="475" max="765" healthPercent="80">
+		<defense name="healing" interval="1200" min="550" max="800" healthPercent="80">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
-		<defense name="speed" interval="2000" speedchange="200" duration="30000">
+		<defense name="speed" interval="2000" chance="50" speedchange="200" duration="30000">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 	</defenses>
