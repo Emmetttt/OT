@@ -265,32 +265,70 @@ void Game::setGuildWarStatsToZero(uint32_t id){
 }
 
 void Game::endGameMode(){
-	// TODO: persist highest kill streak, person with most kills, all on winning team
-	// Mass kill everyone
 	auto it = players.begin();
+	Player* highestStreak = nullptr;
+	Player* mostKills = nullptr;
+
+	// Loop 1: give reward for wins, determine individual awards
 	while (it != players.end()) {
 		Player* player = it->second;
 		Guild* guild = player->getGuild();
 		if (guild){
 			std::string result = "You ";
 			if (guild->getKills() > guild->getDeaths()){
-				result += "won";	
+				result += "won!";
+				player->rewardWin();
 			}
 			else{
 				result += "lost";
 			}
 
+			if ((highestStreak != nullptr && player->getLongestStreak() > highestStreak->getLongestStreak()) || (mostKills == nullptr && player->getLongestStreak() > 0)) {
+				highestStreak = player;
+			}
+
+			if ((mostKills != nullptr && player->getKills() > mostKills->getKills()) || (mostKills == nullptr && player->getKills() > 0)) {
+				mostKills = player;
+			}
+
 			player->sendTextMessage(
 				MESSAGE_EVENT_ADVANCE,
-				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!"
+				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "! You have been rewarded with a Gold Token."
 			);
 		}
 		player->sendToGameTypeDefaultLocation();
 		++it;
 	}
 
+	if (highestStreak) {
+		highestStreak->rewardHighestStreak();
+		broadcastMessage(
+			highestStreak->getName() + " had the highest streak of " + std::to_string(highestStreak->getLongestStreak()) + " and has been rewarded with a Titanium Token.",
+			MESSAGE_EVENT_ADVANCE
+		);
+	}
+
+	if (mostKills) {
+		mostKills->rewardMostKills();
+		broadcastMessage(
+			mostKills->getName() + " had the most kills with " + std::to_string(mostKills->getKills()) + " and has been rewarded with a Platinum Token.",
+			MESSAGE_EVENT_ADVANCE
+		);
+	}
+
 	map.clean();
 	saveGameState();
+
+	while (it != players.end()) {
+		Player* player = it->second;
+		player->resetKills();
+		player->resetBotKills();
+		player->resetDeaths();
+		player->resetPlayerKills();
+		player->resetLongestStreak();
+		player->resetWinner();
+		++it;
+	}
 }
 
 Town* Game::getCurrentTown(uint32_t guildId) {
@@ -557,6 +595,10 @@ Thing* Game::internalGetThing(Player* player, const Position& pos, int32_t index
 
 	//inventory
 	slots_t slot = static_cast<slots_t>(pos.y);
+	if (slot == CONST_SLOT_STORE_INBOX) {
+		return player->getStoreInbox();
+	}
+
 	return player->getInventoryItem(slot);
 }
 

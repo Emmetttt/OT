@@ -2327,6 +2327,8 @@ void LuaScriptInterface::registerFunctions()
 
 	registerMethod("Player", "addKill", LuaScriptInterface::luaPlayerAddKill);
 	registerMethod("Player", "addDeath", LuaScriptInterface::luaPlayerAddDeath);
+	registerMethod("Player", "addBotKill", LuaScriptInterface::luaPlayerAddBotKill);
+	registerMethod("Player", "addPlayerKill", LuaScriptInterface::luaPlayerAddPlayerKill);
 
 	registerMethod("Player", "getSex", LuaScriptInterface::luaPlayerGetSex);
 	registerMethod("Player", "setSex", LuaScriptInterface::luaPlayerSetSex);
@@ -8396,6 +8398,28 @@ int LuaScriptInterface::luaPlayerAddDeath(lua_State* L)
 	Player* player = getUserdata<Player>(L, 1);
 	if (player){
 		player->incrementDeaths();
+	}
+
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerAddBotKill(lua_State* L)
+{
+	// player:addKill()
+	Player* player = getUserdata<Player>(L, 1);
+	if (player){
+		player->incrementBotKills();
+	}
+
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerAddPlayerKill(lua_State* L)
+{
+	// player:addKill()
+	Player* player = getUserdata<Player>(L, 1);
+	if (player){
+		player->incrementPlayerKills();
 	}
 
 	return 1;

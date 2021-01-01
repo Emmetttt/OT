@@ -882,6 +882,8 @@ class LuaScriptInterface
 		static int luaCreatureGetStreak(lua_State* L);
 		static int luaPlayerAddKill(lua_State* L);
 		static int luaPlayerAddDeath(lua_State* L);
+		static int luaPlayerAddBotKill(lua_State* L);
+		static int luaPlayerAddPlayerKill(lua_State* L);
 
 		static int luaPlayerGetSex(lua_State* L);
 		static int luaPlayerSetSex(lua_State* L);

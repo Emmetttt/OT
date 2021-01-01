@@ -28,6 +28,7 @@
 class Container;
 class DepotChest;
 class DepotLocker;
+class StoreInbox;
 
 class ContainerIterator
 {
@@ -74,6 +75,13 @@ class Container : public Item, public Cylinder
 			return nullptr;
 		}
 
+		virtual StoreInbox* getStoreInbox() {
+			return nullptr;
+		}
+		virtual const StoreInbox* getStoreInbox() const {
+			return nullptr;
+		}
+		
 		Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream) override;
 		bool unserializeItemNode(OTB::Loader& loader, const OTB::Node& node, PropStream& propStream) override;
 		std::string getContentDescription() const;

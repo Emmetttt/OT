@@ -35,6 +35,7 @@
 #include "town.h"
 #include "mounts.h"
 #include "string"
+#include "storeinbox.h"
 
 class House;
 class NetworkMessage;
@@ -418,6 +419,10 @@ class Player final : public Creature, public Cylinder
 			this->town = town;
 		}
 
+		StoreInbox* getStoreInbox() const {
+			return storeInbox;
+		}
+
 		/* stats */
 		uint16_t getKills() const {
 			return kills;
@@ -429,6 +434,26 @@ class Player final : public Creature, public Cylinder
 			kills = 0;
 		}
 		
+		uint16_t getBotKills() const {
+			return botKills;
+		}
+		void incrementBotKills() {
+			botKills++;
+		}
+		void resetBotKills() {
+			botKills = 0;
+		}
+		
+		uint16_t getPlayerKills() const {
+			return playerKills;
+		}
+		void incrementPlayerKills() {
+			playerKills++;
+		}
+		void resetPlayerKills() {
+			playerKills = 0;
+		}
+		
 		uint16_t getDeaths() const {
 			return deaths;
 		}
@@ -438,6 +463,18 @@ class Player final : public Creature, public Cylinder
 		void resetDeaths() {
 			deaths = 0;
 		}
+
+		bool isWinner() {
+			return winner;
+		}
+
+		void resetWinner() {
+			winner = false;
+		}
+
+		void rewardWin();
+		void rewardMostKills();
+		void rewardHighestStreak();
 		
 		uint16_t getLongestStreak() const {
 			return longestStreak;
@@ -1246,6 +1283,7 @@ class Player final : public Creature, public Cylinder
 		SchedulerTask* walkTask = nullptr;
 		Town* town = nullptr;
 		Vocation* vocation = nullptr;
+		StoreInbox* storeInbox = nullptr;
 
 		uint32_t inventoryWeight = 0;
 		uint32_t capacity = 40000;
@@ -1288,8 +1326,11 @@ class Player final : public Creature, public Cylinder
 
 		/* stats */
 		uint16_t kills = 0;
+		uint16_t botKills = 0;
+		uint16_t playerKills = 0;
 		uint16_t deaths = 0;
 		uint16_t longestStreak = 0;
+		bool winner = false;
 
 		PlayerSex_t sex = PLAYERSEX_FEMALE;
 		OperatingSystem_t operatingSystem = CLIENTOS_NONE;

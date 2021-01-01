@@ -66,10 +66,12 @@ local baseExpGain = 5000000
 function onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, mostDamageUnjustified)
 	incrementSet(killer)
 	addExp(killer, player)
+	addKill(killer, player)
 
-	if ( (killer:isPlayer() and mostDamageKiller:isPlayer() and killer:getGuid() ~= mostDamageKiller:getGuid()) or (mostDamageKiller:isPlayer() and not mostDamageKiller:isPlayer())) then
+	if ( (killer:isPlayer() and mostDamageKiller:isPlayer() and killer:getGuid() ~= mostDamageKiller:getGuid()) or (mostDamageKiller:isPlayer() and not killer:isPlayer())) then
 		incrementSet(mostDamageKiller)
 		addExp(mostDamageKiller, player)
+		addKill(mostDamageKiller, player)
 	end
 
 	if (player:isPlayer()) then
@@ -88,12 +90,23 @@ function addExp(killer, creature)
 	return true
 end
 
+function addKill(killer, creature)
+	if (killer == nil or creature == nil or not killer:isPlayer()) then
+		return true
+	end
+	killer:addKill()
+
+	if (creature:isPlayer()) then
+		killer:addPlayerKill()
+	else
+		killer:addBotKill()
+	end
+end
+
 function incrementSet(player)
 	if (player == nil or not player:isPlayer()) then
 		return true
 	end
-
-	player:addKill()
 	
 	local vocation = player:getVocation():getId()
 	local config = vocationEquipment[vocation][player:getStreak()]

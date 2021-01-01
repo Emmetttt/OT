@@ -34719,18 +34719,23 @@
 	<item fromid="25372" toid="25375" article="a" name="stone tile" />
 	<item id="25376" article="an" name="iron token">
 		<attribute key="weight" value="200" />
+		<attribute key="storeitem" value="true" />
 	</item>
 	<item id="25377" article="a" name="gold token">
 		<attribute key="weight" value="200" />
+		<attribute key="storeitem" value="true" />
 	</item>
 	<item id="25378" article="a" name="copper token">
 		<attribute key="weight" value="200" />
+		<attribute key="storeitem" value="true" />
 	</item>
 	<item id="25379" article="a" name="platinum token">
 		<attribute key="weight" value="200" />
+		<attribute key="storeitem" value="true" />
 	</item>
 	<item id="25380" article="a" name="titanium token">
 		<attribute key="weight" value="200" />
+		<attribute key="storeitem" value="true" />
 	</item>
 	<item id="25381" article="a" name="rift lamp">
 		<attribute key="weight" value="200" />

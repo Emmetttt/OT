@@ -48,9 +48,11 @@ MuteCountMap Player::muteCountMap;
 uint32_t Player::playerAutoID = 0x10000000;
 
 Player::Player(ProtocolGame_ptr p) :
-	Creature(), lastPing(OTSYS_TIME()), lastPong(lastPing), inbox(new Inbox(ITEM_INBOX)), client(std::move(p))
+	Creature(), lastPing(OTSYS_TIME()), lastPong(lastPing), inbox(new Inbox(ITEM_INBOX)), storeInbox(new StoreInbox(ITEM_STORE_INBOX)), client(std::move(p))
 {
 	inbox->incrementReferenceCounter();
+	storeInbox->setParent(this);
+	storeInbox->incrementReferenceCounter();
 }
 
 Player::~Player()
@@ -68,6 +70,9 @@ Player::~Player()
 	}
 
 	inbox->decrementReferenceCounter();
+
+	storeInbox->setParent(nullptr);
+	storeInbox->decrementReferenceCounter();
 
 	setWriteItem(nullptr);
 	setEditHouse(nullptr);
@@ -2115,6 +2120,10 @@ ReturnValue Player::queryAdd(int32_t index, const Thing& thing, uint32_t count, 
 
 	if (!item->isPickupable()) {
 		return RETURNVALUE_CANNOTPICKUP;
+	}
+
+	if (item->isStoreItem()) {
+		return RETURNVALUE_ITEMCANNOTBEMOVEDTHERE;
 	}
 
 	ReturnValue ret = RETURNVALUE_NOERROR;
@@ -4247,3 +4256,20 @@ std::forward_list<Condition*> Player::getMuteConditions() const
 	return muteConditions;
 }
 
+
+
+void Player::rewardWin() {
+	Item* item = Item::CreateItem(25377, 1); // gold token
+	winner = true;
+	g_game.internalAddItem(getStoreInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+}
+
+void Player::rewardMostKills() {
+	Item* item = Item::CreateItem(25379, 1); // platinum token
+	g_game.internalAddItem(getStoreInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+}
+
+void Player::rewardHighestStreak() {
+	Item* item = Item::CreateItem(25380, 1); // titanium token
+	g_game.internalAddItem(getStoreInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+}
