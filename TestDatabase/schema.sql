@@ -368,7 +368,7 @@ insert into accounts
 values
 (1, 'test', SHA1('test'), 'test', 5, 100, 14, 'test@test.com', 100),
 (2, 'test2', SHA1('test2'), 'test2', 5, 100, 14, 'test@test.com', 100),
-(3, '1', SHA1('1'), '1', 1, 100, 14, 'test@test.com', 100);
+(3, '1', SHA1('1'), '1', 1, 0, 0, 'test@test.com', 100);
 
 -- CREATE PLAYERS
 insert into players

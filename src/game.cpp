@@ -3545,6 +3545,10 @@ void Game::playerRequestOutfit(uint32_t playerId)
 		return;
 	}
 
+	if (!player->isPremium()){
+		return;
+	}
+
 	player->sendOutfitWindow();
 }
 

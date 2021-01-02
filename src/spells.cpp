@@ -669,12 +669,6 @@ bool Spell::playerSpellCheck(Player* player) const
 		}
 	}
 
-	if (isPremium() && !player->isPremium()) {
-		player->sendCancelMessage(RETURNVALUE_YOUNEEDPREMIUMACCOUNT);
-		g_game.addMagicEffect(player->getPosition(), CONST_ME_POFF);
-		return false;
-	}
-
 	return true;
 }
 

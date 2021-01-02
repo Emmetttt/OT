@@ -138,7 +138,8 @@ class Player final : public Creature, public Cylinder
 
 		bool isDefaultCharacter()
 		{
-			return getName().compare("Knight") || getName().compare("Sorcerer") || getName().compare("Druid") || getName().compare("Paladin");
+			// 0 : if both strings are equal.
+			return getName().compare("Knight") == 0 || getName().compare("Sorcerer") == 0 || getName().compare("Druid") == 0 || getName().compare("Paladin") == 0;
 			// return getAccount() == 1;  
 		}
 
