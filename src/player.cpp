@@ -1267,6 +1267,19 @@ void Player::onCreatureMove(Creature* creature, const Tile* newTile, const Posit
 	}
 }
 
+//store
+void Player::sendStoreError(StoreError_t errorType, const std::string& message) {
+	if (client) {
+		client->sendStoreError(errorType, message);
+	}
+}
+
+void Player::sendStorePurchaseCompleted(const std::string& message) {
+	if (client) {
+		client->sendStorePurchaseCompleted(message);
+	}
+}
+
 //container
 void Player::onAddContainerItem(const Item* item)
 {

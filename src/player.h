@@ -36,6 +36,7 @@
 #include "mounts.h"
 #include "string"
 #include "storeinbox.h"
+#include "store.h"
 
 class House;
 class NetworkMessage;
@@ -794,6 +795,11 @@ class Player final : public Creature, public Cylinder
 				}
 			}
 		}
+
+		//store
+		void sendStoreError(StoreError_t errorType, const std::string& message);
+		void sendStorePurchaseCompleted(const std::string& message);
+
 		void sendCreatureSay(const Creature* creature, SpeakClasses type, const std::string& text, const Position* pos = nullptr) {
 			if (client) {
 				client->sendCreatureSay(creature, type, text, pos);
@@ -1314,6 +1320,7 @@ class Player final : public Creature, public Cylinder
 		int32_t offlineTrainingSkill = -1;
 		int32_t offlineTrainingTime = 0;
 		int32_t idleTime = 0;
+		uint32_t coinBalance = 0;
 
 		uint16_t lastStatsTrainingTime = 0;
 		uint16_t staminaMinutes = 2520;

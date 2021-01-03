@@ -879,6 +879,11 @@ class LuaScriptInterface
 		static int luaPlayerGetVocation(lua_State* L);
 		static int luaPlayerSetVocation(lua_State* L);
 
+		static int luaPlayerSendStoreError(lua_State* L);
+		static int luaStoreOfferCreate(lua_State* L);
+		static int luaStoreOfferGetName(lua_State* L);
+		static int luaStoreOfferGetId(lua_State* L);
+
 		static int luaCreatureGetStreak(lua_State* L);
 		static int luaPlayerAddKill(lua_State* L);
 		static int luaPlayerAddDeath(lua_State* L);

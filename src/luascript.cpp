@@ -40,6 +40,8 @@
 #include "globalevent.h"
 #include "script.h"
 #include "weapons.h"
+#include "scriptmanager.h"
+#include "store.h"
 
 extern Chat* g_chat;
 extern Game g_game;
@@ -55,6 +57,7 @@ extern MoveEvents* g_moveEvents;
 extern GlobalEvents* g_globalEvents;
 extern Scripts* g_scripts;
 extern Weapons* g_weapons;
+extern Store* g_store;
 
 ScriptEnvironment::DBResultMap ScriptEnvironment::tempResults;
 uint32_t ScriptEnvironment::lastResultId = 0;
@@ -1072,6 +1075,12 @@ void LuaScriptInterface::registerFunctions()
 	//registerEnumIn(tableName, value)
 
 	// Enums
+	registerEnum(STORE_ERROR_PURCHASE)
+	registerEnum(STORE_ERROR_NETWORK)
+	registerEnum(STORE_ERROR_HISTORY)
+	registerEnum(STORE_ERROR_TRANSFER)
+	registerEnum(STORE_ERROR_INFORMATION)
+
 	registerEnum(ACCOUNT_TYPE_NORMAL)
 	registerEnum(ACCOUNT_TYPE_TUTOR)
 	registerEnum(ACCOUNT_TYPE_SENIORTUTOR)
@@ -1493,6 +1502,7 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(ITEM_PLATINUM_COIN)
 	registerEnum(ITEM_CRYSTAL_COIN)
 	registerEnum(ITEM_AMULETOFLOSS)
+	registerEnum(ITEM_STORE_COIN)
 	registerEnum(ITEM_PARCEL)
 	registerEnum(ITEM_LABEL)
 	registerEnum(ITEM_FIREFIELD_PVP_FULL)
@@ -1514,6 +1524,7 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(ITEM_WILDGROWTH)
 	registerEnum(ITEM_WILDGROWTH_PERSISTENT)
 	registerEnum(ITEM_WILDGROWTH_SAFE)
+	registerEnum(ITEM_STORE_INBOX)
 
 	registerEnum(PlayerFlag_CannotUseCombat)
 	registerEnum(PlayerFlag_CannotAttackPlayer)
@@ -2425,6 +2436,13 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "getContainerById", LuaScriptInterface::luaPlayerGetContainerById);
 	registerMethod("Player", "getContainerIndex", LuaScriptInterface::luaPlayerGetContainerIndex);
 
+	registerMethod("Player", "sendStoreError", LuaScriptInterface::luaPlayerSendStoreError);
+	registerClass("StoreOffer", "", LuaScriptInterface::luaStoreOfferCreate);
+	registerMetaMethod("StoreOffer", "__eq", LuaScriptInterface::luaUserdataCompare);
+
+	registerMethod("StoreOffer", "getId", LuaScriptInterface::luaStoreOfferGetId);
+	registerMethod("StoreOffer", "getName", LuaScriptInterface::luaStoreOfferGetName);
+	
 	registerMethod("Player", "getInstantSpells", LuaScriptInterface::luaPlayerGetInstantSpells);
 	registerMethod("Player", "canCast", LuaScriptInterface::luaPlayerCanCast);
 
@@ -9370,6 +9388,22 @@ int LuaScriptInterface::luaPlayerAddPremiumDays(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaPlayerSendStoreError(lua_State* L) {
+	// player::sendStoreError(errorType, message)
+	Player* player = getUserdata<Player>(L, 1);
+	if (player) {
+		StoreError_t errorType = static_cast<StoreError_t>(getNumber<uint8_t>(L, 2));
+		if (isString(L, 3)) {
+			player->sendStoreError(errorType, getString(L, 3));
+			pushBoolean(L, true);
+			return 1;
+		}
+	}
+
+	lua_pushnil(L);
+	return 1;
+}
+
 int LuaScriptInterface::luaPlayerRemovePremiumDays(lua_State* L)
 {
 	// player:removePremiumDays(days)
@@ -12435,6 +12469,42 @@ int LuaScriptInterface::luaMonsterTypeSkull(lua_State* L)
 			}
 			pushBoolean(L, true);
 		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaStoreOfferCreate(lua_State* L) {
+	// StoreOffer(id)
+	if (isNumber(L, 2)) {
+		auto offer = g_store->getOfferById(getNumber<uint32_t>(L, 2));
+		if (offer) {
+			pushUserdata<StoreOffer>(L, &(*offer));
+			setMetatable(L, -1, "StoreOffer");
+			return 1;
+		}
+	}
+
+	lua_pushnil(L);
+	return 1;
+}
+
+int LuaScriptInterface::luaStoreOfferGetId(lua_State* L) {
+	StoreOffer* offer = getUserdata<StoreOffer>(L, 1);
+	if (offer) {
+		lua_pushnumber(L, offer->id);
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaStoreOfferGetName(lua_State* L) {
+	// storeOffer:getName()
+	StoreOffer* offer = getUserdata<StoreOffer>(L, 1);
+	if (offer) {
+		pushString(L, offer->name);
 	} else {
 		lua_pushnil(L);
 	}

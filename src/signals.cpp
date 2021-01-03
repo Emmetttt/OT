@@ -56,6 +56,7 @@ extern GlobalEvents* g_globalEvents;
 extern Events* g_events;
 extern Chat* g_chat;
 extern LuaEnvironment g_luaEnvironment;
+extern Store* g_store;
 
 using ErrorCode = boost::system::error_code;
 
@@ -176,6 +177,9 @@ void Signals::sighupHandler()
 	g_talkActions->reload();
 	std::cout << "Reloaded talk actions." << std::endl;
 
+	g_store->reload();
+	std::cout << "Reloaded store." << std::endl;
+	
 	Item::items.reload();
 	std::cout << "Reloaded items." << std::endl;
 
