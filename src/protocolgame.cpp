@@ -2668,7 +2668,7 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 	msg.addByte(0x00); // expert mode button enabled
 
 	msg.addString("http://empira.io/images/store/"); // URL (string) to ingame store images
-	msg.add<uint16_t>(25); // premium coin package size
+	msg.add<uint16_t>(1); // premium coin package size
 
 	writeToOutputBuffer(msg);
 

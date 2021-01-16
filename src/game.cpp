@@ -278,13 +278,18 @@ void Game::endGameMode(){
 		if (guild){
 			std::string result = "You ";
 			if (guild->getKills() > guild->getDeaths()){
-				result += "won!";
+				result += "won " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "! You have been rewarded with 1 Coin which you can use in the store to purchase mounts and outfits.";
 				player->rewardWin();
 			}
 			else{
-				result += "lost";
+				result += "lost " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "!";
 			}
+			player->sendTextMessage(
+				MESSAGE_EVENT_ADVANCE,
+				result
+			);
 
+			player->setLongestStreak(player->getStreak());
 			if ((highestStreak != nullptr && player->getLongestStreak() > highestStreak->getLongestStreak()) || (mostKills == nullptr && player->getLongestStreak() > 0)) {
 				highestStreak = player;
 			}
@@ -292,11 +297,6 @@ void Game::endGameMode(){
 			if ((mostKills != nullptr && player->getKills() > mostKills->getKills()) || (mostKills == nullptr && player->getKills() > 0)) {
 				mostKills = player;
 			}
-
-			player->sendTextMessage(
-				MESSAGE_EVENT_ADVANCE,
-				result + " " + std::to_string(guild->getKills()) + ":" + std::to_string(guild->getDeaths()) + "! You have been rewarded with a Gold Token."
-			);
 		}
 		player->sendToGameTypeDefaultLocation();
 		++it;
@@ -305,7 +305,7 @@ void Game::endGameMode(){
 	if (highestStreak) {
 		highestStreak->rewardHighestStreak();
 		broadcastMessage(
-			highestStreak->getName() + " had the highest streak of " + std::to_string(highestStreak->getLongestStreak()) + " and has been rewarded with a Titanium Token.",
+			highestStreak->getName() + " had the highest streak of " + std::to_string(highestStreak->getLongestStreak()) + " and has been rewarded with 1 Coin.",
 			MESSAGE_EVENT_ADVANCE
 		);
 	}
@@ -313,7 +313,7 @@ void Game::endGameMode(){
 	if (mostKills) {
 		mostKills->rewardMostKills();
 		broadcastMessage(
-			mostKills->getName() + " had the most kills with " + std::to_string(mostKills->getKills()) + " and has been rewarded with a Platinum Token.",
+			mostKills->getName() + " had the most kills with " + std::to_string(mostKills->getKills()) + " and has been rewarded with 1 Coin.",
 			MESSAGE_EVENT_ADVANCE
 		);
 	}
@@ -6275,7 +6275,7 @@ void Game::playerTransferCoins(uint32_t playerId, const std::string& recipient, 
 		return player->sendStoreError(STORE_ERROR_TRANSFER, "You don't have enough coins to transfer.");
 	}
 
-	if (amount % 25 != 0) {
+	if (amount % 1 != 0) {
 		return player->sendStoreError(STORE_ERROR_TRANSFER, "You can't transfer this amount of coins.");
 	}
 

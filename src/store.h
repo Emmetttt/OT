@@ -158,6 +158,9 @@ class StoreOffer : public StoreEntry {
 		uint32_t getPrice() const {
 			return price;
 		}
+		// StorePrice getPrice() const {
+		// 	return price;
+		// }
 
 		std::vector<SubOffer>& getSubOffers() {
 			return subOffers;
@@ -170,6 +173,7 @@ class StoreOffer : public StoreEntry {
 	protected:
 		uint32_t id;
 		StoreOfferState_t offerState;
+		// StorePrice price;
 		uint32_t price;
 		std::string message; //on purchase message
 
@@ -182,6 +186,16 @@ class StoreOffer : public StoreEntry {
 
 		friend class Store;
 		friend class LuaScriptInterface;
+};
+
+struct StorePrice {
+	StorePrice(uint32_t coins, uint32_t goldTokens, uint32_t platinumTokens, uint32_t titaniumTokens) :
+		coins(coins), goldTokens(goldTokens), platinumTokens(platinumTokens), titaniumTokens(titaniumTokens) {}
+
+	uint32_t coins;
+	uint32_t goldTokens;
+	uint32_t platinumTokens;
+	uint32_t titaniumTokens;
 };
 
 #endif

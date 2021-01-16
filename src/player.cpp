@@ -4269,20 +4269,14 @@ std::forward_list<Condition*> Player::getMuteConditions() const
 	return muteConditions;
 }
 
-
-
 void Player::rewardWin() {
-	Item* item = Item::CreateItem(25377, 1); // gold token
-	winner = true;
-	g_game.internalAddItem(getStoreInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+	IOAccount::addCoins(getAccount(), 1);
 }
 
 void Player::rewardMostKills() {
-	Item* item = Item::CreateItem(25379, 1); // platinum token
-	g_game.internalAddItem(getStoreInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+	IOAccount::addCoins(getAccount(), 1);
 }
 
 void Player::rewardHighestStreak() {
-	Item* item = Item::CreateItem(25380, 1); // titanium token
-	g_game.internalAddItem(getStoreInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+	IOAccount::addCoins(getAccount(), 1);
 }

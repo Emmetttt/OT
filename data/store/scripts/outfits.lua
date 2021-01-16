@@ -8,7 +8,7 @@ for line in io.lines('data/XML/outfits.xml') do
     local enabled = line:match('enabled.-=[\'"](.-)[\'"]') == 'yes'
     local unlocked = line:match('unlocked.-=[\'"](.-)[\'"]') == 'yes'
 
-	if enabled then
+	if enabled and sex == 1 then
 		local outfit = outfits[name:lower()]
 		if not outfit then
 			outfit = {}
@@ -37,7 +37,7 @@ function onRender(player, offer)
     local lookTypes, addons = getAffectedOutfit(offer:getName():lower())
 
     if not lookTypes then
-        return false, 'Outfit "' .. offer:getName() .. '" was not found. Please contact the administrator.'
+        return false, '"' .. offer:getName() .. '" was not found. Please contact the administrator.'
     end
 
     for _, lookType in ipairs(lookTypes) do
