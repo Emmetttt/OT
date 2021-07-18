@@ -961,10 +961,11 @@ void Monster::onThinkDefense(uint32_t interval)
 			}
 
 			float currentHealthPercent = ((float)getHealth() / (float)getMaxHealth()) * 100;
-			if (spellBlock.isHealing && spellBlock.healthPercent >= currentHealthPercent) {
+			if (spellBlock.isHealing && spellBlock.healthPercent >= currentHealthPercent && healCount > 0) {
 				minCombatValue = spellBlock.minCombatValue;
 				maxCombatValue = spellBlock.maxCombatValue;
 				spellBlock.spell->castSpell(this, this);
+				healCount--;
 			}
 			else if (spellBlock.isManaShield && getCondition(CONDITION_MANASHIELD) == nullptr)
 			{

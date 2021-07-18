@@ -203,6 +203,7 @@ class Monster final : public Creature
 		uint32_t targetTicks = 0;
 		uint32_t targetChangeTicks = 0;
 		uint32_t defenseTicks = 0;
+		uint32_t healCount = 100;
 		uint32_t yellTicks = 0;
 		int32_t minCombatValue = 0;
 		int32_t maxCombatValue = 0;
