@@ -3,7 +3,7 @@
 	<health now="3440" max="3440" />
 	<mana now="1050" max="1050" />
 	<look type="268" head="113" body="120" legs="95" feet="115" addons="3" corpse="3058" />
-	<targetchange interval="4000" chance="10" />
+	<targetchange interval="2000" chance="100" />
 	<flags>
 		<flag summonable="0" />
 		<flag attackable="1" />

@@ -571,6 +571,7 @@ const Tile* Map::canWalkTo(const Creature& creature, const Position& pos) const
 // static int_fast32_t map[512][512]
 bool Map::produceMap(Position pos, std::list<Position>& forbiddenTiles)
 {
+	std::cout << "Produces AI map for pos" << pos.getX() << ":" << pos.getY() << std::endl;
 	// Zero the map
 	for (int_fast32_t i = 0; i < 512; i++)
 	{

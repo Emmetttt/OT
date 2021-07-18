@@ -35,6 +35,7 @@ enum TargetSearchType_t {
 	TARGETSEARCH_RANDOM,
 	TARGETSEARCH_ATTACKRANGE,
 	TARGETSEARCH_NEAREST,
+	TARGETSEARCH_AI,
 };
 
 class Monster final : public Creature

@@ -401,7 +401,6 @@ void Game::rotateChokePoints()
 	std::list<Position>& forbiddenSquares = map.towns.getForbiddenSquares();
 	map.produceMap(nextChokePoint, forbiddenSquares);
 	int32_t sleepSeconds = uniform_random(60, 90);
-	std::cout << "sleep for " << sleepSeconds << std::endl;
 	g_scheduler.addEvent(createSchedulerTask(sleepSeconds * 1000, std::bind(&Game::rotateChokePoints, this)));
 }
 

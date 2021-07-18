@@ -506,6 +506,9 @@ void Monster::onCreatureLeave(Creature* creature)
 
 bool Monster::searchTarget(TargetSearchType_t searchType /*= TARGETSEARCH_DEFAULT*/)
 {
+	if (isAi()){
+		searchType = TARGETSEARCH_AI;
+	}
 	std::list<Creature*> resultList;
 	const Position& myPos = getPosition();
 
@@ -556,6 +559,50 @@ bool Monster::searchTarget(TargetSearchType_t searchType /*= TARGETSEARCH_DEFAUL
 			if (target && selectTarget(target)) {
 				return true;
 			}
+			break;
+		}
+
+		case TARGETSEARCH_AI:{
+			Creature* target = nullptr;
+			if (!resultList.empty()) {
+				auto it = resultList.begin();
+				target = *it;
+
+				if (++it != resultList.end()) {
+					// ORDER OF PRECEDENCE
+					// 1. Highest streak
+					// 2. Lowest health percentage 
+					// 3. Prefer to attack closest creature
+					const Position& targetPosition = target->getPosition();
+					int32_t minRange = Position::getDistanceX(myPos, targetPosition) + Position::getDistanceY(myPos, targetPosition);
+					int32_t maxTargetStreak = target->getStreak();
+					int32_t minHealthPercentage = target->getHealth() / target->getMaxHealth();
+
+					do {
+						const Position& pos = (*it)->getPosition();
+
+						int32_t distance = Position::getDistanceX(myPos, pos) + Position::getDistanceY(myPos, pos);
+						const int32_t targetStreak = target->getStreak();
+						const int32_t healthPercentage = target->getHealth() / target->getMaxHealth();
+
+
+						if (targetStreak > maxTargetStreak 
+							|| targetStreak == maxTargetStreak && healthPercentage < minHealthPercentage
+							|| targetStreak == maxTargetStreak && healthPercentage == minHealthPercentage && distance < minRange
+						) {
+							target = *it;
+							maxTargetStreak = targetStreak;
+							minHealthPercentage = healthPercentage;
+							minRange = distance;
+						}
+					} while (++it != resultList.end());
+				}
+			}
+
+			if (target && selectTarget(target)) {
+				return true;
+			}
+
 			break;
 		}
 
